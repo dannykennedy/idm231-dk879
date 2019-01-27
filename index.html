@@ -65,6 +65,21 @@
             animation-fill-mode: forwards;
         }
         
+        .rotate-ninety {
+            animation-duration: 3s;
+            animation-name: rotateNinetyClockwise;
+            animation-fill-mode: forwards;
+        }
+        
+        .not-rotated {
+            -ms-transform: rotate(0deg);
+            /* IE 9 */
+            -webkit-transform: rotate(0deg);
+            /* Safari */
+            transform: rotate(0deg);
+            /* Standard syntax */
+        }
+        
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -93,6 +108,18 @@
                 top: var(--top-final);
             }
         }
+        
+        @keyframes rotateNinetyClockwise {
+            from {}
+            to {
+                -ms-transform: rotate(-90deg);
+                /* IE 9 */
+                -webkit-transform: rotate(-90deg);
+                /* Safari */
+                transform: rotate(-90deg);
+                /* Standard syntax */
+            }
+        }
 
     </style>
 
@@ -109,7 +136,7 @@
 
 
 
-        <div class="circle" onclick="gemini(this)"></div>
+        <div class="circle" onclick="pisces(this)"></div>
 
 
     </div>
@@ -140,6 +167,48 @@
             }, 3000);
         }
 
+        function pisces(elem) {
+
+            var gap = 30;
+
+            var invisibleBox = document.getElementById("box");
+
+            emptyCircle(elem);
+            var topCircle = splitNode(elem, "up", gap);
+
+            setTimeout(function() {
+                halfCircle(topCircle, "top");
+            }, 3000);
+
+            setTimeout(function() {
+                halfCircle(elem, 'bottom');
+            }, 3000);
+
+            var crossBar = document.createElement("div");
+            crossBar.style.position = "absolute";
+            crossBar.style.width = "8px"
+            crossBar.style.height = getWidth(elem) + gap + "px";
+            crossBar.style.backgroundColor = "black";
+            crossBar.style.left = getLeftDistance(elem) + getWidth(elem)/2 - 4 + "px";
+            crossBar.style.top = getTopDistance(elem) - getWidth(elem)/2 - gap + "px";
+
+            invisibleBox.appendChild(crossBar);
+
+
+            setTimeout(function() {
+                rotateElem(invisibleBox);
+                console.log("rotating this thing");
+            }, 6000);
+        }
+
+
+        function rotateElem(elem) {
+
+            elem.classList.add("rotate-ninety");
+
+
+        }
+
 
 
 
@@ -168,10 +237,10 @@
             var style = window.getComputedStyle(element, null);
 
             //Get style values of the element (minus 'px');
-            var elemWidth = parseInt(style.width.slice(0, -2));
+            var elemWidth = getWidth(element);
             var elemHeight = parseInt(style.height.slice(0, -2));
-            var elemLeftValue = parseInt(style.left.slice(0, -2));
-            var elemTopValue = parseInt(style.top.slice(0, -2));
+            var elemLeftValue = getLeftDistance(element);
+            var elemTopValue = getTopDistance(element);
 
             console.log("elemtop" + elemTopValue);
 
@@ -260,6 +329,25 @@
             document.getElementById('box').appendChild(dupNode);
 
             return dupNode;
+        }
+
+
+        function getWidth(elem) {
+            var style = window.getComputedStyle(elem, null);
+            // Return pixel width of element as an integer, removing "px"
+            return parseInt(style.width.slice(0, -2));
+        }
+
+        function getLeftDistance(elem) {
+            var style = window.getComputedStyle(elem, null);
+            // Return left value of element as an integer, removing "px"
+            return parseInt(style.left.slice(0, -2));
+        }
+
+        function getTopDistance(elem) {
+            var style = window.getComputedStyle(elem, null);
+            // Return top Value of element as an integer, removing "px"
+            return parseInt(style.top.slice(0, -2));
         }
 
     </script>
