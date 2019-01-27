@@ -7,6 +7,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <style>
+        :root {
+            --top-initial: 100px;
+            --top-final: 28px;
+        }
+        
         body {
             background-color: white;
         }
@@ -16,14 +21,14 @@
             margin: auto;
             display: block;
             background: white;
-            width: 200px;
-            height: 200px;
+            width: 250px;
+            height: 250px;
             border: 1px solid black;
         }
         
         .circle {
             position: absolute;
-            top: 100px;
+            top: 150px;
             left: 20px;
             width: 80px;
             height: 80px;
@@ -47,10 +52,26 @@
             animation-fill-mode: forwards;
         }
         
+        .half-circle {
+            position: absolute;
+            animation-duration: 3s;
+            animation-name: fadeIn;
+            animation-fill-mode: forwards;
+        }
+        
         .slide-vertical {
             animation-duration: 3s;
             animation-name: slideShapeVertical;
             animation-fill-mode: forwards;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
         
         @keyframes growInnerCircle {
@@ -66,13 +87,12 @@
         
         @keyframes slideShapeVertical {
             from {
-                top: var(--top-initial, 100px);
+                top: var(--top-initial);
             }
             to {
-                top: var(--top-final, 28px);
+                top: var(--top-final);
             }
         }
-
 
     </style>
 
@@ -89,7 +109,7 @@
 
 
 
-        <div class="circle" onclick="taurus(this)"></div>
+        <div class="circle" onclick="gemini(this)"></div>
 
 
     </div>
@@ -100,9 +120,27 @@
     <script type="application/javascript">
         function taurus(elem) {
             emptyCircle(elem);
-            splitNode(elem, "up", 10);
-            
+            var topCircle = splitNode(elem, "up", -8);
+            setTimeout(function() {
+                halfCircle(topCircle);
+            }, 3000);
         }
+
+        function gemini(elem) {
+
+            emptyCircle(elem);
+            var topCircle = splitNode(elem, "up", 30);
+
+            setTimeout(function() {
+                halfCircle(topCircle, "top");
+            }, 3000);
+
+            setTimeout(function() {
+                halfCircle(elem, 'bottom');
+            }, 3000);
+        }
+
+
 
 
 
@@ -115,21 +153,71 @@
             var elemWidth = parseInt(style.width.slice(0, -2));
             var elemHeight = parseInt(style.height.slice(0, -2));
 
+
             //Create new circle, add to parent
             var innerCircle = document.createElement('div');
             innerCircle.setAttribute("class", "inner-circle");
             elem.appendChild(innerCircle);
         }
-        
 
-        function halfCircle(element){
-            
-            
-            
+
+        function halfCircle(element, side) {
+
+
+
+            var style = window.getComputedStyle(element, null);
+
+            //Get style values of the element (minus 'px');
+            var elemWidth = parseInt(style.width.slice(0, -2));
+            var elemHeight = parseInt(style.height.slice(0, -2));
+            var elemLeftValue = parseInt(style.left.slice(0, -2));
+            var elemTopValue = parseInt(style.top.slice(0, -2));
+
+            console.log("elemtop" + elemTopValue);
+
+            var halfCircle = document.createElement('div');
+
+
+            switch (side) {
+                case ("top"):
+                    halfCircle.style.width = elemWidth + "px";
+                    halfCircle.style.top = elemTopValue + "px";
+                    halfCircle.style.left = elemLeftValue + "px";
+                    halfCircle.style.height = elemHeight / 2 + "px";
+                    break;
+                case ("bottom"):
+                    halfCircle.style.width = elemWidth + "px";
+                    halfCircle.style.top = elemTopValue + (elemHeight / 2) + "px";
+                    halfCircle.style.left = elemLeftValue + "px";
+                    halfCircle.style.height = elemHeight / 2 + "px";
+                    break;
+
+                default:
+                    console.log("Please enter top, bottom, left or right");
+
+            }
+
+            halfCircle.style.backgroundColor = "white";
+
+
+            halfCircle.style.borderTopLeftRadius = elemHeight;
+            halfCircle.style.borderTopRightRadius = elemHeight;
+
+            halfCircle.setAttribute("class", "half-circle");
+
+            //            
+            //            
+            //                      border-top-left-radius: $size * 2;
+            //          border-top-right-radius: $size * 2;
+
+            element.parentElement.appendChild(halfCircle);
+
+
+
         }
-        
 
-        function splitNode(element, direction, distance) {
+
+        function splitNode(element, direction, gap) {
 
             console.log('splitting node');
 
@@ -144,22 +232,18 @@
             var elemWidth = parseInt(style.width.slice(0, -2));
             var elemHeight = parseInt(style.height.slice(0, -2));
 
+
+            dupNode.classList.add("slide-vertical");
+            let root = document.documentElement;
+
             switch (direction) {
                 case "up":
-                    dupNode.classList.add("slide-vertical");
-                    
-//                    var slide = document.getElementsByClassName('slide-vertical')[0];
-//                    slide.style.cssText = "--main-background-color: red";
-//                    
-////                    let root = document.documentElement;
-////
-////                    document.querySelector('.slide-vertical').style.setProperty('--top-initial', '0%');
-////                    document.querySelector('.slide-vertical').style.setProperty('--top-final', '100%');
-
-
+                    root.style.setProperty('--top-initial', elemTopValue + "px");
+                    root.style.setProperty('--top-final', elemTopValue - elemWidth - gap + "px");
                     break;
                 case "down":
-                    dupNode.classList.add("slide-vertical");
+                    root.style.setProperty('--top-initial', elemTopValue + "px");
+                    root.style.setProperty('--top-final', elemTopValue + elemWidth + gap + "px");
                     break;
                 case "left":
                     dupNode.style.left = elemLeftValue + elemWidth + "px";
@@ -174,6 +258,8 @@
             //            dupNode.onclick = splitNode;
 
             document.getElementById('box').appendChild(dupNode);
+
+            return dupNode;
         }
 
     </script>
