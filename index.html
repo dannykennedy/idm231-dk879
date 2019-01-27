@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Zodiac builder</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style>
+        body {
+            background-color: white;
+        }
+        
+        #box {
+            position: relative;
+            margin: auto;
+            display: block;
+            background: white;
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+        }
+        
+        .circle {
+            position: absolute;
+            top: 100px;
+            left: 20px;
+            width: 80px;
+            height: 80px;
+            /*   height: 80px; */
+            /*   width: 80px; */
+            background-color: black;
+            -webkit-clip-path: circle(50% at 50% 50%);
+            clip-path: circle(50% at 50% 50%);
+            padding-top: 0%;
+            display: grid;
+        }
+        
+        .inner-circle {
+            background-color: white;
+            margin: auto;
+            display: block;
+            -webkit-clip-path: circle(50% at 50% 50%);
+            clip-path: circle(50% at 50% 50%);
+            animation-duration: 3s;
+            animation-name: growInnerCircle;
+            animation-fill-mode: forwards;
+        }
+        
+        .slide-vertical {
+            animation-duration: 3s;
+            animation-name: slideShapeVertical;
+            animation-fill-mode: forwards;
+        }
+        
+        @keyframes growInnerCircle {
+            from {
+                width: 0%;
+                height: 0%
+            }
+            to {
+                width: 80%;
+                height: 80%;
+            }
+        }
+        
+        @keyframes slideShapeVertical {
+            from {
+                top: var(--top-initial, 100px);
+            }
+            to {
+                top: var(--top-final, 28px);
+            }
+        }
+
+
+    </style>
+
+
+
+
+
+</head>
+
+<body>
+
+    <!-- invisible box -->
+    <div id=box>
+
+
+
+        <div class="circle" onclick="taurus(this)"></div>
+
+
+    </div>
+    <!-- end invisible box -->
+
+
+
+    <script type="application/javascript">
+        function taurus(elem) {
+            emptyCircle(elem);
+            splitNode(elem, "up", 10);
+            
+        }
+
+
+
+        function emptyCircle(element) {
+
+            var elem = element;
+            var style = window.getComputedStyle(elem, null);
+
+            //Get style values of the element (minus 'px');
+            var elemWidth = parseInt(style.width.slice(0, -2));
+            var elemHeight = parseInt(style.height.slice(0, -2));
+
+            //Create new circle, add to parent
+            var innerCircle = document.createElement('div');
+            innerCircle.setAttribute("class", "inner-circle");
+            elem.appendChild(innerCircle);
+        }
+        
+
+        function halfCircle(element){
+            
+            
+            
+        }
+        
+
+        function splitNode(element, direction, distance) {
+
+            console.log('splitting node');
+
+            var elem = element; //document.getElementsByClassName("circle")[0];
+            var style = window.getComputedStyle(elem, null);
+            //            var style = node.getComputedStyle();
+            var dupNode = elem.cloneNode(true);
+
+            //Get style values of the element (minus 'px');
+            var elemLeftValue = parseInt(style.left.slice(0, -2));
+            var elemTopValue = parseInt(style.top.slice(0, -2));
+            var elemWidth = parseInt(style.width.slice(0, -2));
+            var elemHeight = parseInt(style.height.slice(0, -2));
+
+            switch (direction) {
+                case "up":
+                    dupNode.classList.add("slide-vertical");
+                    
+//                    var slide = document.getElementsByClassName('slide-vertical')[0];
+//                    slide.style.cssText = "--main-background-color: red";
+//                    
+////                    let root = document.documentElement;
+////
+////                    document.querySelector('.slide-vertical').style.setProperty('--top-initial', '0%');
+////                    document.querySelector('.slide-vertical').style.setProperty('--top-final', '100%');
+
+
+                    break;
+                case "down":
+                    dupNode.classList.add("slide-vertical");
+                    break;
+                case "left":
+                    dupNode.style.left = elemLeftValue + elemWidth + "px";
+                    break;
+                case "right":
+                    dupNode.style.left = elemLeftValue - elemWidth + "px";
+                    break;
+                default:
+                    console.log("Please enter up, down, left or right");
+            }
+
+            //            dupNode.onclick = splitNode;
+
+            document.getElementById('box').appendChild(dupNode);
+        }
+
+    </script>
+
+
+
+
+
+
+</body>
+
+</html>
