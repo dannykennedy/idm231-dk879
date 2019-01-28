@@ -32,14 +32,24 @@
             left: 20px;
             width: 80px;
             height: 80px;
-            /*   height: 80px; */
-            /*   width: 80px; */
             background-color: black;
             -webkit-clip-path: circle(50% at 50% 50%);
             clip-path: circle(50% at 50% 50%);
             padding-top: 0%;
             display: grid;
         }
+        
+        .bar {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: black;
+            animation-duration: 3s;
+            animation-name: fadeIn;
+            animation-fill-mode: forwards;
+        }
+        
+        .triangle {}
         
         .inner-circle {
             background-color: white;
@@ -52,8 +62,9 @@
             animation-fill-mode: forwards;
         }
         
-        .half-circle {
+        .mask {
             position: absolute;
+            background-color: white;
             animation-duration: 3s;
             animation-name: fadeIn;
             animation-fill-mode: forwards;
@@ -136,7 +147,7 @@
 
 
 
-        <div class="circle" onclick="pisces(this)"></div>
+        <div class="circle" onclick="gemini(this)"></div>
 
 
     </div>
@@ -145,60 +156,75 @@
 
 
     <script type="application/javascript">
+        
+        
+        
         function taurus(elem) {
-            emptyCircle(elem);
+            emptyOutCircle(elem);
             var topCircle = splitNode(elem, "up", -8);
             setTimeout(function() {
-                halfCircle(topCircle);
+                maskPartOfCircle(topCircle, "top", 60);
             }, 3000);
         }
 
-        function gemini(elem) {
+        function gemini(originalCircle) {
 
-            emptyCircle(elem);
-            var topCircle = splitNode(elem, "up", 30);
+            var gapBetweenCircles = 35;
+
+            emptyOutCircle(originalCircle);
+            var topCircle = splitNode(originalCircle, 'up', gapBetweenCircles);
 
             setTimeout(function() {
-                halfCircle(topCircle, "top");
+                maskPartOfCircle(topCircle, 'top', 70);
             }, 3000);
 
             setTimeout(function() {
-                halfCircle(elem, 'bottom');
+                maskPartOfCircle(originalCircle, 'bottom', 70);
             }, 3000);
+
+            setTimeout(function() {
+                var bar1 = createBar(gapBetweenCircles * 1.4, "vertical");
+                positionElement(bar1, getBottomDistance(topCircle) - 8, getLeftDistance(originalCircle) + getWidth(originalCircle) * 0.3);
+                originalCircle.parentElement.appendChild(bar1);
+
+                var bar2 = createBar(gapBetweenCircles * 1.4, "vertical");
+                positionElement(bar2, getBottomDistance(topCircle) - 8, getLeftDistance(originalCircle) + getWidth(originalCircle) * 0.6);
+                originalCircle.parentElement.appendChild(bar2);
+            }, 6000);
+
         }
+        
+        
 
         function pisces(elem) {
 
-            var gap = 30;
+            var gap = 20;
 
             var invisibleBox = document.getElementById("box");
 
-            emptyCircle(elem);
+            emptyOutCircle(elem);
             var topCircle = splitNode(elem, "up", gap);
 
             setTimeout(function() {
-                halfCircle(topCircle, "top");
+                maskPartOfCircle(topCircle, "top", 50);
             }, 3000);
 
             setTimeout(function() {
-                halfCircle(elem, 'bottom');
+                maskPartOfCircle(elem, 'bottom', 50);
             }, 3000);
 
-            var crossBar = document.createElement("div");
-            crossBar.style.position = "absolute";
-            crossBar.style.width = "8px"
-            crossBar.style.height = getWidth(elem) + gap + "px";
-            crossBar.style.backgroundColor = "black";
-            crossBar.style.left = getLeftDistance(elem) + getWidth(elem)/2 - 4 + "px";
-            crossBar.style.top = getTopDistance(elem) - getWidth(elem)/2 - gap + "px";
-
-            invisibleBox.appendChild(crossBar);
-
+            setTimeout(function() {
+                var crossBar = createBar(getWidth(elem) + gap, "vertical");
+                var leftDistance = getLeftDistance(elem) + getWidth(elem) / 2 - 4;
+                var topDistance = getTopDistance(elem) - getWidth(elem) / 2 - gap;
+                positionElement(crossBar, topDistance, leftDistance);
+                invisibleBox.appendChild(crossBar);
+            }, 6000);
 
             setTimeout(function() {
                 rotateElem(invisibleBox);
                 console.log("rotating this thing");
-            }, 6000);
+            }, 9000);
         }
 
 
@@ -213,7 +239,7 @@
 
 
 
-        function emptyCircle(element) {
+        function emptyOutCircle(element) {
 
             var elem = element;
             var style = window.getComputedStyle(elem, null);
@@ -230,35 +256,31 @@
         }
 
 
-        function halfCircle(element, side) {
+        function maskPartOfCircle(element, side, percentToMask) {
 
-
-
-            var style = window.getComputedStyle(element, null);
-
-            //Get style values of the element (minus 'px');
+            //Get dimensions and placement of object to mask
             var elemWidth = getWidth(element);
-            var elemHeight = parseInt(style.height.slice(0, -2));
+            var elemHeight = getHeight(element);
             var elemLeftValue = getLeftDistance(element);
             var elemTopValue = getTopDistance(element);
 
-            console.log("elemtop" + elemTopValue);
+            //Create mask
+            var mask = document.createElement('div');
+            mask.setAttribute("class", "mask");
 
-            var halfCircle = document.createElement('div');
-
-
+            //Mask either top or bottom 
             switch (side) {
                 case ("top"):
-                    halfCircle.style.width = elemWidth + "px";
-                    halfCircle.style.top = elemTopValue + "px";
-                    halfCircle.style.left = elemLeftValue + "px";
-                    halfCircle.style.height = elemHeight / 2 + "px";
+                    mask.style.width = elemWidth + "px";
+                    mask.style.top = elemTopValue + "px";
+                    mask.style.left = elemLeftValue + "px";
+                    mask.style.height = elemHeight * (percentToMask / 100) + "px";
                     break;
                 case ("bottom"):
-                    halfCircle.style.width = elemWidth + "px";
-                    halfCircle.style.top = elemTopValue + (elemHeight / 2) + "px";
-                    halfCircle.style.left = elemLeftValue + "px";
-                    halfCircle.style.height = elemHeight / 2 + "px";
+                    mask.style.width = elemWidth + "px";
+                    mask.style.top = elemTopValue + (elemHeight * ((100 - percentToMask) / 100)) + "px";
+                    mask.style.left = elemLeftValue + "px";
+                    mask.style.height = elemHeight * (percentToMask / 100) + "px";
                     break;
 
                 default:
@@ -266,23 +288,28 @@
 
             }
 
-            halfCircle.style.backgroundColor = "white";
+            element.parentElement.appendChild(mask);
+        }
 
 
-            halfCircle.style.borderTopLeftRadius = elemHeight;
-            halfCircle.style.borderTopRightRadius = elemHeight;
+        function createBar(size, orientation) {
 
-            halfCircle.setAttribute("class", "half-circle");
+            var crossBar = document.createElement("div");
+            crossBar.classList.add('bar');
 
-            //            
-            //            
-            //                      border-top-left-radius: $size * 2;
-            //          border-top-right-radius: $size * 2;
+            if (orientation == "vertical") {
+                crossBar.style.height = size + "px";
+            } else if (orientation == "horizontal") {
+                crossBar.style.width = +"px";
+            } else {
+                console.log("Please enter vertical or horizontal");
+            }
+            return crossBar;
+        }
 
-            element.parentElement.appendChild(halfCircle);
-
-
-
+        function positionElement(element, top, left) {
+            element.style.top = top + "px";
+            element.style.left = left + "px";
         }
 
 
@@ -338,6 +365,12 @@
             return parseInt(style.width.slice(0, -2));
         }
 
+        function getHeight(elem) {
+            var style = window.getComputedStyle(elem, null);
+            // Return pixel height of element as an integer, removing "px"
+            return parseInt(style.height.slice(0, -2));
+        }
+
         function getLeftDistance(elem) {
             var style = window.getComputedStyle(elem, null);
             // Return left value of element as an integer, removing "px"
@@ -348,6 +381,12 @@
             var style = window.getComputedStyle(elem, null);
             // Return top Value of element as an integer, removing "px"
             return parseInt(style.top.slice(0, -2));
+        }
+
+        function getBottomDistance(elem) {
+            var style = window.getComputedStyle(elem, null);
+            var top = parseInt(style.top.slice(0, -2));
+            return top + getHeight(elem);
         }
 
     </script>
