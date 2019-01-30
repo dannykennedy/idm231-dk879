@@ -12,32 +12,37 @@
             --top-final: 28px;
             --left-initial: 20px;
             --left-final: 100px;
+            --primary-circle-width: 80px;
+            --primary-circle-height: 80px;
+            --secondary-circle-width: 40px;
+            --secondary-circle-height: 40px;
+            --main-element-color: black;
+            --main-background-color: #00FFCC;
         }
         
         body {
-            background-color: white;
+            background-color: var(--main-background-color);
         }
         
         #box {
             position: relative;
             margin: auto;
             display: block;
-            background: white;
+            background: var(--main-background-color);
             width: 250px;
             height: 250px;
-            border: 1px solid black;
+            border: 1px solid var(--main-element-color);
         }
         
         .circle {
             position: absolute;
             top: 150px;
             left: 20px;
-            width: 80px;
-            height: 80px;
-            background-color: black;
+            width: var(--primary-circle-width);
+            height: var(--primary-circle-height);
+            background-color: var(--main-element-color);
             -webkit-clip-path: circle(50% at 50% 50%);
             clip-path: circle(50% at 50% 50%);
-            padding-top: 0%;
             display: grid;
         }
         
@@ -45,7 +50,7 @@
             position: absolute;
             width: 8px;
             height: 8px;
-            background-color: black;
+            background-color: var(--main-element-color);
             animation-duration: 3s;
             animation-name: fadeIn;
             animation-fill-mode: forwards;
@@ -54,7 +59,7 @@
         .triangle {}
         
         .inner-circle {
-            background-color: white;
+            background-color: var(--main-background-color);
             margin: auto;
             display: block;
             -webkit-clip-path: circle(50% at 50% 50%);
@@ -66,7 +71,7 @@
         
         .mask {
             position: absolute;
-            background-color: white;
+            background-color: var(--main-background-color);
             animation-duration: 3s;
             animation-name: fadeIn;
             animation-fill-mode: forwards;
@@ -90,6 +95,12 @@
             animation-fill-mode: forwards;
         }
         
+        .shrink-circle {
+            animation-duration: 3s;
+            animation-name: shrinkCircle;
+            animation-fill-mode: forwards;
+        }
+        
         .not-rotated {
             -ms-transform: rotate(0deg);
             /* IE 9 */
@@ -108,6 +119,17 @@
             }
         }
         
+        @keyframes shrinkCircle {
+            from {
+                width: var(--primary-circle-width);
+                height: var(--primary-circle-height);
+            }
+            to {
+                width: var(--secondary-circle-width);
+                height: var(--secondary-circle-height);
+            }
+        }
+        
         @keyframes growInnerCircle {
             from {
                 width: 0%;
@@ -116,6 +138,17 @@
             to {
                 width: 80%;
                 height: 80%;
+            }
+        }
+        
+        @keyframes growInnerCircleSmall {
+            from {
+                width: 0%;
+                height: 0%
+            }
+            to {
+                width: 50%;
+                height: 50%;
             }
         }
         
@@ -164,7 +197,7 @@
 
 
 
-        <div class="circle" onclick="taurus(this)"></div>
+        <div class="circle" onclick="aries(this)"></div>
 
 
     </div>
@@ -173,8 +206,6 @@
 
 
     <script type="application/javascript">
-        
-        
         const taurus = (elem) => {
             emptyOutCircle(elem);
             var topCircle = divideCellVertical(elem, -8)
@@ -190,8 +221,17 @@
 
             var invisibleBox = document.getElementById("box");
 
-            emptyOutCircle(elem);
-            var secondCircle = splitCellHorizontal(elem, 0);
+            shrinkCircle(elem);
+
+            setTimeout(function() {
+                emptyOutCircle(elem);
+            }, 3000);
+
+            var secondCircle;
+            setTimeout(function() {
+                secondCircle = splitCellHorizontal(elem, 0);
+            }, 6000);
+
         }
 
         function gemini(originalCircle) {
@@ -261,8 +301,21 @@
 
         }
 
+        const shrinkCircle = (elem) => elem.classList.add('shrink-circle');
 
 
+        const resizeElement = (elem, amount) => {
+
+            var style = window.getComputedStyle(elem, null);
+
+            //Get style values of the element (minus 'px');
+            var elemWidth = parseInt(style.width.slice(0, -2));
+            var elemHeight = parseInt(style.height.slice(0, -2));
+
+            elem.style.height = elemHeight * amount + "px";
+            elem.style.width = elemWidth * amount + "px";
+
+        }
 
 
         function emptyOutCircle(element) {
@@ -341,18 +394,31 @@
 
         const splitCellHorizontal = (elem, gap) => {
 
+            console.log('splitting');
+
+
+
             var style = window.getComputedStyle(elem, null);
             var dupNode = elem.cloneNode(true);
-            let root = document.documentElement;
 
             //Get style values of the element (minus 'px');
             var elemLeftValue = parseInt(style.left.slice(0, -2));
             var elemWidth = parseInt(style.width.slice(0, -2));
 
+            //we need to do this for now because the shrinking animation interferes with the splitting one.
+            dupNode.style.width = style.width;
+            dupNode.style.height = style.height;
+            dupNode.classList.remove('shrink-circle');
+
+            let root = document.documentElement;
+
             dupNode.classList.add("slide-horizontal");
             root.style.setProperty('--left-initial', style.left);
             root.style.setProperty('--left-final', elemLeftValue + elemWidth + gap + "px");
             document.getElementById('box').appendChild(dupNode);
+
+            console.log(dupNode);
+
             return dupNode;
         }
 
