@@ -10,6 +10,8 @@
         :root {
             --top-initial: 100px;
             --top-final: 28px;
+            --left-initial: 20px;
+            --left-final: 100px;
         }
         
         body {
@@ -76,6 +78,12 @@
             animation-fill-mode: forwards;
         }
         
+        .slide-horizontal {
+            animation-duration: 3s;
+            animation-name: slideShapeHorizontal;
+            animation-fill-mode: forwards;
+        }
+        
         .rotate-ninety {
             animation-duration: 3s;
             animation-name: rotateNinetyClockwise;
@@ -120,6 +128,15 @@
             }
         }
         
+        @keyframes slideShapeHorizontal {
+            from {
+                left: var(--left-initial);
+            }
+            to {
+                left: var(--left-final);
+            }
+        }
+        
         @keyframes rotateNinetyClockwise {
             from {}
             to {
@@ -147,7 +164,7 @@
 
 
 
-        <div class="circle" onclick="gemini(this)"></div>
+        <div class="circle" onclick="taurus(this)"></div>
 
 
     </div>
@@ -158,13 +175,23 @@
     <script type="application/javascript">
         
         
-        
-        function taurus(elem) {
+        const taurus = (elem) => {
             emptyOutCircle(elem);
-            var topCircle = splitNode(elem, "up", -8);
+            var topCircle = divideCellVertical(elem, -8)
             setTimeout(function() {
                 maskPartOfCircle(topCircle, "top", 60);
             }, 3000);
+        }
+
+
+        const aries = (elem) => {
+
+            var gap = 0;
+
+            var invisibleBox = document.getElementById("box");
+
+            emptyOutCircle(elem);
+            var secondCircle = splitCellHorizontal(elem, 0);
         }
 
         function gemini(originalCircle) {
@@ -172,7 +199,7 @@
             var gapBetweenCircles = 35;
 
             emptyOutCircle(originalCircle);
-            var topCircle = splitNode(originalCircle, 'up', gapBetweenCircles);
+            var topCircle = divideCellVertical(originalCircle, gapBetweenCircles);
 
             setTimeout(function() {
                 maskPartOfCircle(topCircle, 'top', 70);
@@ -193,8 +220,8 @@
             }, 6000);
 
         }
-        
-        
+
+
 
         function pisces(elem) {
 
@@ -203,7 +230,7 @@
             var invisibleBox = document.getElementById("box");
 
             emptyOutCircle(elem);
-            var topCircle = splitNode(elem, "up", gap);
+            var topCircle = divideCellVertical(elem, gap)
 
             setTimeout(function() {
                 maskPartOfCircle(topCircle, "top", 50);
@@ -223,7 +250,6 @@
 
             setTimeout(function() {
                 rotateElem(invisibleBox);
-                console.log("rotating this thing");
             }, 9000);
         }
 
@@ -313,50 +339,41 @@
         }
 
 
-        function splitNode(element, direction, gap) {
+        const splitCellHorizontal = (elem, gap) => {
 
-            console.log('splitting node');
-
-            var elem = element; //document.getElementsByClassName("circle")[0];
             var style = window.getComputedStyle(elem, null);
-            //            var style = node.getComputedStyle();
             var dupNode = elem.cloneNode(true);
+            let root = document.documentElement;
 
             //Get style values of the element (minus 'px');
             var elemLeftValue = parseInt(style.left.slice(0, -2));
-            var elemTopValue = parseInt(style.top.slice(0, -2));
             var elemWidth = parseInt(style.width.slice(0, -2));
-            var elemHeight = parseInt(style.height.slice(0, -2));
 
-
-            dupNode.classList.add("slide-vertical");
-            let root = document.documentElement;
-
-            switch (direction) {
-                case "up":
-                    root.style.setProperty('--top-initial', elemTopValue + "px");
-                    root.style.setProperty('--top-final', elemTopValue - elemWidth - gap + "px");
-                    break;
-                case "down":
-                    root.style.setProperty('--top-initial', elemTopValue + "px");
-                    root.style.setProperty('--top-final', elemTopValue + elemWidth + gap + "px");
-                    break;
-                case "left":
-                    dupNode.style.left = elemLeftValue + elemWidth + "px";
-                    break;
-                case "right":
-                    dupNode.style.left = elemLeftValue - elemWidth + "px";
-                    break;
-                default:
-                    console.log("Please enter up, down, left or right");
-            }
-
-            //            dupNode.onclick = splitNode;
-
+            dupNode.classList.add("slide-horizontal");
+            root.style.setProperty('--left-initial', style.left);
+            root.style.setProperty('--left-final', elemLeftValue + elemWidth + gap + "px");
             document.getElementById('box').appendChild(dupNode);
-
             return dupNode;
         }
+
+        const divideCellVertical = (elem, gap) => {
+
+            var style = window.getComputedStyle(elem, null);
+            var dupNode = elem.cloneNode(true);
+            let root = document.documentElement;
+
+            //Get style values of the element (minus 'px');
+            var elemTopValue = parseInt(style.top.slice(0, -2));
+            var elemWidth = parseInt(style.width.slice(0, -2));
+
+            dupNode.classList.add("slide-vertical");
+            root.style.setProperty('--top-initial', elemTopValue + "px");
+            root.style.setProperty('--top-final', elemTopValue - elemWidth - gap + "px");
+            document.getElementById('box').appendChild(dupNode);
+            return dupNode;
+        }
+
+
 
 
         function getWidth(elem) {
