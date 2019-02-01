@@ -8,16 +8,25 @@
 
     <style>
         :root {
+            /*PLACEMENT*/
             --top-initial: 100px;
             --top-final: 28px;
             --left-initial: 20px;
             --left-final: 100px;
+            /*SIZES*/
             --primary-circle-width: 80px;
             --primary-circle-height: 80px;
             --secondary-circle-width: 40px;
             --secondary-circle-height: 40px;
+            --inner-circle-width: 80%;
+            --inner-circle-height: 80%;
+            --stroke-width: 8px;
+            --descender-length: 50px;
+            /*COLORS*/
             --main-element-color: black;
             --main-background-color: #00FFCC;
+            /*TIMING*/
+            --interval: 1s;
         }
         
         body {
@@ -48,10 +57,11 @@
         
         .bar {
             position: absolute;
-            width: 8px;
-            height: 8px;
+            width: var(--stroke-width);
+            height: var(--stroke-width);
             background-color: var(--main-element-color);
-            animation-duration: 3s;
+            z-index: 100;
+            animation-duration: var(--interval);
             animation-name: fadeIn;
             animation-fill-mode: forwards;
         }
@@ -64,7 +74,7 @@
             display: block;
             -webkit-clip-path: circle(50% at 50% 50%);
             clip-path: circle(50% at 50% 50%);
-            animation-duration: 3s;
+            animation-duration: var(--interval);
             animation-name: growInnerCircle;
             animation-fill-mode: forwards;
         }
@@ -72,32 +82,38 @@
         .mask {
             position: absolute;
             background-color: var(--main-background-color);
-            animation-duration: 3s;
+            animation-duration: var(--interval);
             animation-name: fadeIn;
             animation-fill-mode: forwards;
         }
         
         .slide-vertical {
-            animation-duration: 3s;
+            animation-duration: var(--interval);
             animation-name: slideShapeVertical;
             animation-fill-mode: forwards;
         }
         
         .slide-horizontal {
-            animation-duration: 3s;
+            animation-duration: var(--interval);
             animation-name: slideShapeHorizontal;
             animation-fill-mode: forwards;
         }
         
         .rotate-ninety {
-            animation-duration: 3s;
+            animation-duration: var(--interval);
             animation-name: rotateNinetyClockwise;
             animation-fill-mode: forwards;
         }
         
         .shrink-circle {
-            animation-duration: 3s;
+            animation-duration: var(--interval);
             animation-name: shrinkCircle;
+            animation-fill-mode: forwards;
+        }
+        
+        .grow-descender {
+            animation-duration: var(--interval);
+            animation-name: growDescender;
             animation-fill-mode: forwards;
         }
         
@@ -136,8 +152,8 @@
                 height: 0%
             }
             to {
-                width: 80%;
-                height: 80%;
+                width: var(--inner-circle-width);
+                height: var(--inner-circle-height);
             }
         }
         
@@ -149,6 +165,15 @@
             to {
                 width: 50%;
                 height: 50%;
+            }
+        }
+        
+        @keyframes growDescender {
+            from {
+                height: 0px;
+            }
+            to {
+                height: var(--descender-length);
             }
         }
         
@@ -206,34 +231,50 @@
 
 
     <script type="application/javascript">
+        //
+        //Get the animation interval from CSS, convert to an integer in milliseconds
+        var animationInterval = window.getComputedStyle(document.documentElement).getPropertyValue('--interval');
+        animationInterval = parseInt(animationInterval.slice(0, -1)) * 1000;
+
+        //Get the stroke width from CSS, convert to an integer
+        var strokeWidth = window.getComputedStyle(document.documentElement).getPropertyValue('--stroke-width');
+        strokeWidth = parseInt(strokeWidth.slice(0, -2));
+
+        // TAURUS
         const taurus = (elem) => {
             emptyOutCircle(elem);
             var topCircle = divideCellVertical(elem, -8)
             setTimeout(function() {
                 maskPartOfCircle(topCircle, "top", 60);
-            }, 3000);
+            }, animationInterval);
         }
 
-
+        // ARIES
         const aries = (elem) => {
-
-            var gap = 0;
-
-            var invisibleBox = document.getElementById("box");
 
             shrinkCircle(elem);
 
-            setTimeout(function() {
-                emptyOutCircle(elem);
-            }, 3000);
-
             var secondCircle;
             setTimeout(function() {
-                secondCircle = splitCellHorizontal(elem, 0);
-            }, 6000);
+                secondCircle = splitCellHorizontal(elem, -8);
+            }, animationInterval);
 
+            setTimeout(function() {
+                emptyOutCircle(elem);
+                emptyOutCircle(secondCircle);
+            }, animationInterval * 2);
+
+            setTimeout(function() {
+                maskPartOfCircle(elem, 'bottom', 50);
+                maskPartOfCircle(secondCircle, 'bottom', 50);
+            }, animationInterval * 3);
+
+            setTimeout(function() {
+                addCircleDescender(elem, 50);
+            }, animationInterval * 4);
         }
 
+        // GEMINI
         function gemini(originalCircle) {
 
             var gapBetweenCircles = 35;
@@ -243,11 +284,11 @@
 
             setTimeout(function() {
                 maskPartOfCircle(topCircle, 'top', 70);
-            }, 3000);
+            }, animationInterval);
 
             setTimeout(function() {
                 maskPartOfCircle(originalCircle, 'bottom', 70);
-            }, 3000);
+            }, animationInterval);
 
             setTimeout(function() {
                 var bar1 = createBar(gapBetweenCircles * 1.4, "vertical");
@@ -257,12 +298,12 @@
                 var bar2 = createBar(gapBetweenCircles * 1.4, "vertical");
                 positionElement(bar2, getBottomDistance(topCircle) - 8, getLeftDistance(originalCircle) + getWidth(originalCircle) * 0.6);
                 originalCircle.parentElement.appendChild(bar2);
-            }, 6000);
+            }, animationInterval * 2);
 
         }
 
 
-
+        // PISCES
         function pisces(elem) {
 
             var gap = 20;
@@ -274,11 +315,11 @@
 
             setTimeout(function() {
                 maskPartOfCircle(topCircle, "top", 50);
-            }, 3000);
+            }, animationInterval);
 
             setTimeout(function() {
                 maskPartOfCircle(elem, 'bottom', 50);
-            }, 3000);
+            }, animationInterval);
 
             setTimeout(function() {
                 var crossBar = createBar(getWidth(elem) + gap, "vertical");
@@ -286,11 +327,11 @@
                 var topDistance = getTopDistance(elem) - getWidth(elem) / 2 - gap;
                 positionElement(crossBar, topDistance, leftDistance);
                 invisibleBox.appendChild(crossBar);
-            }, 6000);
+            }, animationInterval * 2);
 
             setTimeout(function() {
                 rotateElem(invisibleBox);
-            }, 9000);
+            }, animationInterval * 3);
         }
 
 
@@ -318,6 +359,23 @@
         }
 
 
+        const addCircleDescender = (elem, length) => {
+
+            var descenderBar = createBar(length, "vertical");
+
+            var verticalPosition = getTopDistance(elem) + (getHeight(elem) / 2);
+            var leftPosition = getLeftDistance(elem) + getWidth(elem) - strokeWidth;
+
+            positionElement(descenderBar, verticalPosition, leftPosition);
+
+            descenderBar.classList.add('grow-descender');
+
+            elem.parentElement.appendChild(descenderBar);
+
+            console.log(descenderBar);
+        }
+
+
         function emptyOutCircle(element) {
 
             var elem = element;
@@ -326,6 +384,13 @@
             //Get style values of the element (minus 'px');
             var elemWidth = parseInt(style.width.slice(0, -2));
             var elemHeight = parseInt(style.height.slice(0, -2));
+
+            //Set the inner circle width and height
+            //Minus 2*stroke width (8)
+            let root = document.documentElement;
+            root.style.setProperty('--inner-circle-width', elemWidth - 16 + "px");
+            root.style.setProperty('--inner-circle-height', elemWidth - 16 + "px");
+
 
 
             //Create new circle, add to parent
@@ -410,9 +475,9 @@
             dupNode.style.height = style.height;
             dupNode.classList.remove('shrink-circle');
 
-            let root = document.documentElement;
-
             dupNode.classList.add("slide-horizontal");
+
+            let root = document.documentElement;
             root.style.setProperty('--left-initial', style.left);
             root.style.setProperty('--left-final', elemLeftValue + elemWidth + gap + "px");
             document.getElementById('box').appendChild(dupNode);
