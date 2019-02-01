@@ -44,6 +44,7 @@
         }
         
         .circle {
+            display: grid;
             position: absolute;
             top: 150px;
             left: 20px;
@@ -52,7 +53,18 @@
             background-color: var(--main-element-color);
             -webkit-clip-path: circle(50% at 50% 50%);
             clip-path: circle(50% at 50% 50%);
+        }
+        
+        .triangle {
             display: grid;
+            position: absolute;
+            top: 150px;
+            left: 150px;
+            width: var(--primary-circle-width);
+            height: var(--primary-circle-height);
+            background-color: var(--main-element-color);
+            -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
         }
         
         .bar {
@@ -65,8 +77,6 @@
             animation-name: fadeIn;
             animation-fill-mode: forwards;
         }
-        
-        .triangle {}
         
         .inner-circle {
             background-color: var(--main-background-color);
@@ -224,6 +234,8 @@
 
         <div class="circle" onclick="aries(this)"></div>
 
+        <div class="triangle" onclick="acquarius(this)"></div>
+
 
     </div>
     <!-- end invisible box -->
@@ -246,6 +258,18 @@
             var topCircle = divideCellVertical(elem, -8)
             setTimeout(function() {
                 maskPartOfCircle(topCircle, "top", 60);
+            }, animationInterval);
+        }
+
+        const acquarius = (elem) => {
+            
+            var secondTriangle;
+            var thirdTriangle;
+            
+            secondTriangle = splitCellHorizontal(elem, strokeWidth * (-1)); 
+
+            setTimeout(function() {
+                thirdTriangle = splitCellHorizontal(elem, getWidth(elem) + strokeWidth * (-1));
             }, animationInterval);
         }
 
