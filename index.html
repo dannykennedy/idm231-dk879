@@ -234,7 +234,7 @@
 
         <div class="circle" onclick="aries(this)"></div>
 
-        <div class="triangle" onclick="acquarius(this)"></div>
+        <div class="triangle" onclick="aquarius(this)"></div>
 
 
     </div>
@@ -261,27 +261,37 @@
             }, animationInterval);
         }
 
-        const acquarius = (elem) => {
-            
+        //TEST
+        const test = (elem) => {
+
+            shrinkCircle(elem, animationInterval);
+
+        }
+
+        // AQUARIUS
+        const aquarius = (elem) => {
+
             var secondTriangle;
             var thirdTriangle;
-            
-            secondTriangle = splitCellHorizontal(elem, strokeWidth * (-1)); 
+
+            secondTriangle = divideCellHorizontal(elem, strokeWidth * (-1));
 
             setTimeout(function() {
-                thirdTriangle = splitCellHorizontal(elem, getWidth(elem) + strokeWidth * (-1));
+                thirdTriangle = divideCellHorizontal(elem, getWidth(elem) + strokeWidth * (-1));
             }, animationInterval);
         }
 
         // ARIES
         const aries = (elem) => {
-
-            shrinkCircle(elem);
-
+            
             var secondCircle;
+
+            shrinkCircle(elem, animationInterval);
+            
             setTimeout(function() {
-                secondCircle = splitCellHorizontal(elem, -8);
-            }, animationInterval);
+                secondCircle = divideCellHorizontal(elem, -8);
+                console.log(secondCircle);
+            }, animationInterval)
 
             setTimeout(function() {
                 emptyOutCircle(elem);
@@ -366,7 +376,18 @@
 
         }
 
-        const shrinkCircle = (elem) => elem.classList.add('shrink-circle');
+        
+        const shrinkCircle = (elem, animationInterval) => {
+
+            var style = window.getComputedStyle(elem, null);
+            elem.classList.add('shrink-circle');
+
+            setTimeout(function() {
+                elem.style.width = style.width;
+                elem.style.height = style.height;
+                elem.classList.remove('shrink-circle');
+            }, animationInterval);
+        }
 
 
         const resizeElement = (elem, amount) => {
@@ -481,11 +502,9 @@
         }
 
 
-        const splitCellHorizontal = (elem, gap) => {
+        const divideCellHorizontal = (elem, gap) => {
 
             console.log('splitting');
-
-
 
             var style = window.getComputedStyle(elem, null);
             var dupNode = elem.cloneNode(true);
@@ -494,19 +513,12 @@
             var elemLeftValue = parseInt(style.left.slice(0, -2));
             var elemWidth = parseInt(style.width.slice(0, -2));
 
-            //we need to do this for now because the shrinking animation interferes with the splitting one.
-            dupNode.style.width = style.width;
-            dupNode.style.height = style.height;
-            dupNode.classList.remove('shrink-circle');
-
             dupNode.classList.add("slide-horizontal");
 
             let root = document.documentElement;
             root.style.setProperty('--left-initial', style.left);
             root.style.setProperty('--left-final', elemLeftValue + elemWidth + gap + "px");
             document.getElementById('box').appendChild(dupNode);
-
-            console.log(dupNode);
 
             return dupNode;
         }
