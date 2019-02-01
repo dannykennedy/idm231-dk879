@@ -26,7 +26,7 @@
             --main-element-color: black;
             --main-background-color: #00FFCC;
             /*TIMING*/
-            --interval: 1s;
+            --interval: 2s;
         }
         
         body {
@@ -55,8 +55,20 @@
             clip-path: circle(50% at 50% 50%);
         }
         
+        .inner-circle {
+            background-color: var(--main-background-color);
+            margin: auto;
+            display: block;
+            -webkit-clip-path: circle(50% at 50% 50%);
+            clip-path: circle(50% at 50% 50%);
+            animation-duration: var(--interval);
+            animation-name: growInnerCircle;
+            animation-fill-mode: forwards;
+        }
+        
         .triangle {
             display: grid;
+            grid-template-rows: 20px 1fr;
             position: absolute;
             top: 150px;
             left: 150px;
@@ -67,6 +79,18 @@
             clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
         }
         
+        .inner-triangle {
+            grid-row-end: -1;
+            background-color: var(--main-background-color);
+            margin: auto;
+            display: block;
+            -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            animation-duration: var(--interval);
+            animation-name: growInnerCircle;
+            animation-fill-mode: forwards;
+        }
+        
         .bar {
             position: absolute;
             width: var(--stroke-width);
@@ -75,17 +99,6 @@
             z-index: 100;
             animation-duration: var(--interval);
             animation-name: fadeIn;
-            animation-fill-mode: forwards;
-        }
-        
-        .inner-circle {
-            background-color: var(--main-background-color);
-            margin: auto;
-            display: block;
-            -webkit-clip-path: circle(50% at 50% 50%);
-            clip-path: circle(50% at 50% 50%);
-            animation-duration: var(--interval);
-            animation-name: growInnerCircle;
             animation-fill-mode: forwards;
         }
         
@@ -167,17 +180,6 @@
             }
         }
         
-        @keyframes growInnerCircleSmall {
-            from {
-                width: 0%;
-                height: 0%
-            }
-            to {
-                width: 50%;
-                height: 50%;
-            }
-        }
-        
         @keyframes growDescender {
             from {
                 height: 0px;
@@ -232,9 +234,11 @@
 
 
 
-        <div class="circle" onclick="aries(this)"></div>
+        <div class="circle" onclick="libra(this)"></div>
 
         <div class="triangle" onclick="aquarius(this)"></div>
+
+        <!--        <div class="circle" onclick="aquarius(this)" style="left: 294px;"></div>-->
 
 
     </div>
@@ -254,8 +258,8 @@
 
         // TAURUS
         const taurus = (elem) => {
-            emptyOutCircle(elem);
-            var topCircle = divideCellVertical(elem, -8)
+            emptyOutCircle(elem, strokeWidth);
+            var topCircle = divideCellVertical(elem, strokeWidth * (-1));
             setTimeout(function() {
                 maskPartOfCircle(topCircle, "top", 60);
             }, animationInterval);
@@ -274,28 +278,89 @@
             var secondTriangle;
             var thirdTriangle;
 
-            secondTriangle = divideCellHorizontal(elem, strokeWidth * (-1));
+            shrinkCircle(elem, animationInterval);
 
             setTimeout(function() {
-                thirdTriangle = divideCellHorizontal(elem, getWidth(elem) + strokeWidth * (-1));
+                secondTriangle = splitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
             }, animationInterval);
+
+            setTimeout(function() {
+                thirdTriangle = splitCellHorizontal(elem, getWidth(elem) + strokeWidth * (-2), animationInterval);
+            }, animationInterval * 2 + 10);
+
+            setTimeout(function() {
+                emptyOutTriangle(elem);
+                emptyOutTriangle(secondTriangle);
+                emptyOutTriangle(thirdTriangle);
+            }, animationInterval * 3);
+
+            setTimeout(function() {
+                splitCellVertical(elem, 0, animationInterval);
+            }, animationInterval * 4);
+
+            setTimeout(function() {
+                splitCellVertical(secondTriangle, 0, animationInterval);
+            }, animationInterval * 5);
+
+            setTimeout(function() {
+                splitCellVertical(thirdTriangle, 0, animationInterval);
+            }, animationInterval * 6);
+
+        }
+
+        const libra = (elem) => {
+
+            var originalCircleWidth = getWidth(elem);
+            var originalCircleBottom = getBottomDistance(elem);
+
+            shrinkCircle(elem, animationInterval);
+
+            setTimeout(function() {
+                emptyOutCircle(elem, strokeWidth);
+            }, animationInterval);
+
+            //Create mask
+            var mask = document.createElement('div');
+            mask.setAttribute("class", "mask");
+
+            setTimeout(function() {
+                mask.style.width = getWidth(elem) / 3 + "px";
+                mask.style.height = getHeight(elem) / 3 + "px";
+                mask.style.top = getTopDistance(elem) + getHeight(elem) * (2 / 3) + "px";
+                mask.style.left = getLeftDistance(elem) + getWidth(elem) / 3 + "px";
+                mask.style.zIndex = 2;
+                elem.parentElement.appendChild(mask);
+            }, animationInterval * 2);
+
+            setTimeout(function() {
+                var bar1 = createBar(originalCircleWidth, "horizontal");
+                bar1.style.zIndex = 1;
+                positionElement(bar1, getBottomDistance(elem) - strokeWidth, getLeftDistance(elem) - getWidth(elem) / 2);
+                elem.parentElement.appendChild(bar1);
+            }, animationInterval * 3);
+
+            setTimeout(function() {
+                var bar1 = createBar(originalCircleWidth, "horizontal");
+                positionElement(bar1, originalCircleBottom - strokeWidth*3, getLeftDistance(elem) - getWidth(elem) / 2);
+                elem.parentElement.appendChild(bar1);
+            }, animationInterval * 4);
+
         }
 
         // ARIES
         const aries = (elem) => {
-            
+
             var secondCircle;
 
             shrinkCircle(elem, animationInterval);
-            
+
             setTimeout(function() {
-                secondCircle = divideCellHorizontal(elem, -8);
-                console.log(secondCircle);
+                secondCircle = splitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
             }, animationInterval)
 
             setTimeout(function() {
-                emptyOutCircle(elem);
-                emptyOutCircle(secondCircle);
+                emptyOutCircle(elem, strokeWidth);
+                emptyOutCircle(secondCircle, strokeWidth);
             }, animationInterval * 2);
 
             setTimeout(function() {
@@ -313,7 +378,7 @@
 
             var gapBetweenCircles = 35;
 
-            emptyOutCircle(originalCircle);
+            emptyOutCircle(originalCircle, strokeWidth);
             var topCircle = divideCellVertical(originalCircle, gapBetweenCircles);
 
             setTimeout(function() {
@@ -344,7 +409,7 @@
 
             var invisibleBox = document.getElementById("box");
 
-            emptyOutCircle(elem);
+            emptyOutCircle(elem, strokeWidth);
             var topCircle = divideCellVertical(elem, gap)
 
             setTimeout(function() {
@@ -376,11 +441,11 @@
 
         }
 
-        
+
         const shrinkCircle = (elem, animationInterval) => {
 
-            var style = window.getComputedStyle(elem, null);
             elem.classList.add('shrink-circle');
+            var style = window.getComputedStyle(elem, null);
 
             setTimeout(function() {
                 elem.style.width = style.width;
@@ -388,6 +453,7 @@
                 elem.classList.remove('shrink-circle');
             }, animationInterval);
         }
+
 
 
         const resizeElement = (elem, amount) => {
@@ -407,36 +473,48 @@
         const addCircleDescender = (elem, length) => {
 
             var descenderBar = createBar(length, "vertical");
-
             var verticalPosition = getTopDistance(elem) + (getHeight(elem) / 2);
             var leftPosition = getLeftDistance(elem) + getWidth(elem) - strokeWidth;
 
             positionElement(descenderBar, verticalPosition, leftPosition);
-
             descenderBar.classList.add('grow-descender');
-
             elem.parentElement.appendChild(descenderBar);
-
             console.log(descenderBar);
         }
 
+        function emptyOutTriangle(elem) {
 
-        function emptyOutCircle(element) {
-
-            var elem = element;
             var style = window.getComputedStyle(elem, null);
 
             //Get style values of the element (minus 'px');
-            var elemWidth = parseInt(style.width.slice(0, -2));
-            var elemHeight = parseInt(style.height.slice(0, -2));
+            var elemWidth = getWidth(elem);
+            var elemHeight = getHeight(elem);
+
+            //Minus 2*stroke width (8)
+            let root = document.documentElement;
+            root.style.setProperty('--inner-circle-width', elemWidth - 2 * strokeWidth + "px");
+            root.style.setProperty('--inner-circle-height', elemWidth - 2 * strokeWidth + "px");
+
+            //Create new circle, add to parent
+            var innerCircle = document.createElement('div');
+            innerCircle.setAttribute("class", "inner-triangle");
+            elem.appendChild(innerCircle);
+        }
+
+
+        function emptyOutCircle(elem, strokeWidth) {
+
+            var style = window.getComputedStyle(elem, null);
+
+            //Get style values of the element (minus 'px');
+            var elemWidth = getWidth(elem);
+            var elemHeight = getHeight(elem);
 
             //Set the inner circle width and height
             //Minus 2*stroke width (8)
             let root = document.documentElement;
-            root.style.setProperty('--inner-circle-width', elemWidth - 16 + "px");
-            root.style.setProperty('--inner-circle-height', elemWidth - 16 + "px");
-
-
+            root.style.setProperty('--inner-circle-width', elemWidth - 2 * strokeWidth + "px");
+            root.style.setProperty('--inner-circle-height', elemWidth - 2 * strokeWidth + "px");
 
             //Create new circle, add to parent
             var innerCircle = document.createElement('div');
@@ -489,10 +567,12 @@
             if (orientation == "vertical") {
                 crossBar.style.height = size + "px";
             } else if (orientation == "horizontal") {
-                crossBar.style.width = +"px";
+                console.log("hi there");
+                crossBar.style.width = size + "px";
             } else {
                 console.log("Please enter vertical or horizontal");
             }
+            console.log(getWidth(crossBar));
             return crossBar;
         }
 
@@ -501,10 +581,54 @@
             element.style.left = left + "px";
         }
 
+        const splitCellHorizontal = (elem, gap, animationInterval) => {
+
+            var style = window.getComputedStyle(elem, null);
+            var dupNode = elem.cloneNode(true);
+
+            let root = document.documentElement;
+            root.style.setProperty('--left-initial', style.left);
+            root.style.setProperty('--left-final', getLeftDistance(elem) + getWidth(elem) + gap + "px");
+
+            dupNode.classList.add("slide-horizontal");
+            document.getElementById('box').appendChild(dupNode);
+
+            setTimeout(function() {
+                var style = window.getComputedStyle(dupNode, null);
+                dupNode.style.left = style.left;
+                dupNode.classList.remove("slide-horizontal");
+                //Would ideally call the other function here...?
+            }, animationInterval);
+
+            return dupNode;
+        }
+
+        const splitCellVertical = (elem, gap, animationInterval) => {
+
+            var style = window.getComputedStyle(elem, null);
+            var dupNode = elem.cloneNode(true);
+
+            let root = document.documentElement;
+            root.style.setProperty('--top-initial', style.top);
+            root.style.setProperty('--top-final', getTopDistance(elem) + getHeight(elem) + gap + "px");
+
+            dupNode.classList.add("slide-vertical");
+            document.getElementById('box').appendChild(dupNode);
+
+            setTimeout(function() {
+                var style = window.getComputedStyle(dupNode, null);
+                dupNode.style.top = style.top;
+                dupNode.classList.remove("slide-vertical");
+                //Would ideally call the other function here...?
+            }, animationInterval);
+
+            return dupNode;
+        }
+
+
 
         const divideCellHorizontal = (elem, gap) => {
 
-            console.log('splitting');
 
             var style = window.getComputedStyle(elem, null);
             var dupNode = elem.cloneNode(true);
