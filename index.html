@@ -207,6 +207,15 @@
             }
         }
         
+        @keyframes translateShape {
+            from {
+                top: var(--top-initial);
+            }
+            to {
+                top: var(--top-final);
+            }
+        }
+        
         @keyframes rotateNinetyClockwise {
             from {}
             to {
@@ -234,7 +243,7 @@
 
 
 
-        <div class="circle" onclick="libra(this)"></div>
+        <div class="circle" onclick="cancer(this)"></div>
 
         <div class="triangle" onclick="aquarius(this)"></div>
 
@@ -341,7 +350,7 @@
 
             setTimeout(function() {
                 var bar1 = createBar(originalCircleWidth, "horizontal");
-                positionElement(bar1, originalCircleBottom - strokeWidth*3, getLeftDistance(elem) - getWidth(elem) / 2);
+                positionElement(bar1, originalCircleBottom - strokeWidth * 3, getLeftDistance(elem) - getWidth(elem) / 2);
                 elem.parentElement.appendChild(bar1);
             }, animationInterval * 4);
 
@@ -431,6 +440,63 @@
             setTimeout(function() {
                 rotateElem(invisibleBox);
             }, animationInterval * 3);
+        }
+
+        // CANCER
+        const cancer = (elem) => {
+            emptyOutCircle(elem, strokeWidth);
+        }
+
+        // SCORPIO
+        const scorpio = (elem) => {
+
+            virgoScorpioBaseShape(elem);
+
+        }
+
+        // VIRGO
+        const virgo = (elem) => {
+
+            virgoScorpioBaseShape(elem);
+
+        }
+
+        // SCORPIO
+        function virgoScorpioBaseShape(elem) {
+
+            originalHeight = getHeight(elem);
+
+            shrinkCircle(elem, animationInterval);
+
+            var secondCircle;
+            var thirdCircle;
+
+            setTimeout(function() {
+                secondCircle = splitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
+            }, animationInterval);
+
+            setTimeout(function() {
+                thirdCircle = splitCellHorizontal(secondCircle, strokeWidth * (-1), animationInterval);
+            }, animationInterval * 2 + 50);
+
+            setTimeout(function() {
+                emptyOutCircle(elem, strokeWidth);
+                emptyOutCircle(secondCircle, strokeWidth);
+                emptyOutCircle(thirdCircle, strokeWidth);
+            }, animationInterval * 3);
+
+            setTimeout(function() {
+                maskPartOfCircle(elem, 'bottom', 50);
+                maskPartOfCircle(secondCircle, 'bottom', 50);
+                maskPartOfCircle(thirdCircle, 'bottom', 50);
+                maskPartOfCircle(elem, 'left', 50);
+            }, animationInterval * 4);
+
+            setTimeout(function() {
+                addCircleDescender(elem, originalHeight - getHeight(elem) / 2 - strokeWidth);
+                addCircleDescender(secondCircle, originalHeight - getHeight(elem) / 2 + strokeWidth);
+                addCircleDescender(thirdCircle, originalHeight - getHeight(elem) / 2 + strokeWidth);
+            }, animationInterval * 5);
         }
 
 
@@ -549,6 +615,12 @@
                     mask.style.left = elemLeftValue + "px";
                     mask.style.height = elemHeight * (percentToMask / 100) + "px";
                     break;
+                case ("left"):
+                    mask.style.width = elemWidth * (percentToMask / 100) + "px";
+                    mask.style.top = elemTopValue + "px";
+                    mask.style.left = elemLeftValue + "px";
+                    mask.style.height = elemHeight + "px";
+                    break;
 
                 default:
                     console.log("Please enter top, bottom, left or right");
@@ -572,7 +644,7 @@
             } else {
                 console.log("Please enter vertical or horizontal");
             }
-            console.log(getWidth(crossBar));
+            console.log("width: " + getWidth(crossBar));
             return crossBar;
         }
 
@@ -662,6 +734,23 @@
             root.style.setProperty('--top-final', elemTopValue - elemWidth - gap + "px");
             document.getElementById('box').appendChild(dupNode);
             return dupNode;
+        }
+
+
+        // The setInterval() method calls a function or evaluates an expression at specified intervals (in milliseconds).
+        function translateElement(elem, down, right, animationInterval) {
+            var pos = 0;
+            var id = setInterval(frame, animationInterval);
+
+            function frame() {
+                if (pos == 350) {
+                    clearInterval(id);
+                } else {
+                    pos++;
+                    elem.style.top = pos + "px";
+                    elem.style.left = pos + "px";
+                }
+            }
         }
 
 
