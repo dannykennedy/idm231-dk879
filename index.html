@@ -14,19 +14,23 @@
             --left-initial: 20px;
             --left-final: 100px;
             /*SIZES*/
-            --primary-circle-width: 80px;
-            --primary-circle-height: 80px;
-            --secondary-circle-width: 40px;
-            --secondary-circle-height: 40px;
+            --primary-circle-diameter: 89px;
+            --primary-circle-width: 89px;
+            --primary-circle-height: 89px;
+            --secondary-circle-width: 45px;
+            --secondary-circle-height: 45px;
+            --tertiary-circle-width: 35px;
+            --tertiary-circle-height: 35px;
             --inner-circle-width: 80%;
             --inner-circle-height: 80%;
+            --inner-circle-diameter-primary: 73px;
             --stroke-width: 8px;
             --descender-length: 50px;
             /*COLORS*/
             --main-element-color: black;
             --main-background-color: #00FFCC;
             /*TIMING*/
-            --interval: 2s;
+            --interval: 1s;
         }
         
         body {
@@ -61,8 +65,17 @@
             display: block;
             -webkit-clip-path: circle(50% at 50% 50%);
             clip-path: circle(50% at 50% 50%);
+        }
+        
+        .inner-circle-custom {
             animation-duration: var(--interval);
             animation-name: growInnerCircle;
+            animation-fill-mode: forwards;
+        }
+        
+        .inner-circle-primary {
+            animation-duration: var(--interval);
+            animation-name: growInnerCirclePrimary;
             animation-fill-mode: forwards;
         }
         
@@ -134,9 +147,21 @@
             animation-fill-mode: forwards;
         }
         
+        .grow-circle {
+            animation-duration: var(--interval);
+            animation-name: growCircle;
+            animation-fill-mode: forwards;
+        }
+        
         .grow-descender {
             animation-duration: var(--interval);
             animation-name: growDescender;
+            animation-fill-mode: forwards;
+        }
+        
+        .grow {
+            animation-duration: var(--interval);
+            animation-name: grow;
             animation-fill-mode: forwards;
         }
         
@@ -164,8 +189,26 @@
                 height: var(--primary-circle-height);
             }
             to {
-                width: var(--secondary-circle-width);
-                height: var(--secondary-circle-height);
+                width: var(--tertiary-circle-width);
+                height: var(--tertiary-circle-height);
+            }
+        }
+        
+        @keyframes growCircle {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(2.515);
+            }
+        }
+        
+        @keyframes grow {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
             }
         }
         
@@ -177,6 +220,17 @@
             to {
                 width: var(--inner-circle-width);
                 height: var(--inner-circle-height);
+            }
+        }
+        
+        @keyframes growInnerCirclePrimary {
+            from {
+                width: 0%;
+                height: 0%
+            }
+            to {
+                width: var(inner-circle-diameter-primary);
+                height: var(inner-circle-diameter-primary);
             }
         }
         
@@ -444,8 +498,110 @@
 
         // CANCER
         const cancer = (elem) => {
-            emptyOutCircle(elem, strokeWidth);
+            //            emptyOutCircle(elem, strokeWidth);
+
+            originalHeight = getHeight(elem);
+
+            shrinkCircle(elem, animationInterval);
+
+            var secondCircle;
+            var thirdCircle;
+
+            elem.style.zIndex = 100;
+
+            setTimeout(function() {
+                secondCircle = splitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
+            }, animationInterval);
+
+            setTimeout(function() {
+                thirdCircle = splitCellHorizontal(secondCircle, strokeWidth * (-1), animationInterval);
+            }, animationInterval * 2 + 50);
+
+            setTimeout(function() {
+                emptyOutCircle(elem, strokeWidth);
+                emptyOutCircle(thirdCircle, strokeWidth);
+            }, animationInterval * 3);
+
+            setTimeout(function() {
+                secondCircle.style.zIndex = 0;
+                growCircle(secondCircle, animationInterval);
+            }, animationInterval * 4);
+
+
+            setTimeout(function() {
+                var innerCircle = document.createElement('div');
+                innerCircle.classList.add("inner-circle");
+                innerCircle.style.width = "29px";
+                innerCircle.style.height = "29px";
+                innerCircle.classList.add("grow");
+                secondCircle.appendChild(innerCircle);
+
+            }, animationInterval * 5);
+
+
+            setTimeout(function() {
+
+                //Create mask
+                var mask = document.createElement('div');
+                mask.setAttribute("class", "mask");
+//                mask.style.backgroundColor = "red";
+
+                mask.style.width = getWidth(thirdCircle) + 5 + "px";
+                mask.style.top = getTopDistance(thirdCircle) - strokeWidth + "px";
+                mask.style.left = getLeftDistance(thirdCircle) + "px";
+                mask.style.height = getHeight(thirdCircle)/2 + strokeWidth + "px";
+                
+                elem.parentElement.appendChild(mask);
+                
+                                //Create mask
+                var mask2 = document.createElement('div');
+                mask2.setAttribute("class", "mask");
+//                mask2.style.backgroundColor = "red";
+
+                mask2.style.width = getWidth(elem) + 5 + "px";
+                mask2.style.top = getBottomDistance(elem) - getHeight(elem)/2 + "px";
+                mask2.style.left = getLeftDistance(elem) + "px";
+                mask2.style.height = getHeight(elem)/2 + strokeWidth + "px";
+                
+                elem.parentElement.appendChild(mask2);
+
+
+            }, animationInterval * 6);
+
+
+
+
         }
+
+
+        function emptyOutCirclePrimary(elem) {
+            var innerCircle = document.createElement('div');
+            innerCircle.classList.add("inner-circle");
+            innerCircle.classList.add("inner-circle-custom");
+            innerCircle.style.zIndex = 100;
+            innerCircle.style.color = "red";
+            console.log(innerCircle);
+            elem.appendChild(innerCircle);
+            return innerCircle;
+        }
+
+        function growCircle(elem, animationInterval) {
+
+            elem.classList.add('grow-circle');
+
+            setTimeout(function() {
+                var style = window.getComputedStyle(elem, null);
+                elem.style.width = style.width;
+                elem.style.height = style.height;
+                //                elem.classList.remove('grow-circle');
+            }, animationInterval + 50);
+
+        }
+
+
+
+
+
 
         // SCORPIO
         const scorpio = (elem) => {
@@ -568,7 +724,7 @@
         }
 
 
-        function emptyOutCircle(elem, strokeWidth) {
+        function emptyOutCircle(elem, strokeWidth, custom) {
 
             var style = window.getComputedStyle(elem, null);
 
@@ -576,16 +732,30 @@
             var elemWidth = getWidth(elem);
             var elemHeight = getHeight(elem);
 
+            console.log("width is : " + elemWidth);
+
+            if (custom) {
+                elemWidth = 45;
+                elemHeight = 45;
+            }
+
             //Set the inner circle width and height
             //Minus 2*stroke width (8)
             let root = document.documentElement;
             root.style.setProperty('--inner-circle-width', elemWidth - 2 * strokeWidth + "px");
             root.style.setProperty('--inner-circle-height', elemWidth - 2 * strokeWidth + "px");
 
+            console.log("set inner circle width to: " + (elemWidth - 2 * strokeWidth));
+
             //Create new circle, add to parent
             var innerCircle = document.createElement('div');
-            innerCircle.setAttribute("class", "inner-circle");
+            innerCircle.classList.add("inner-circle");
+            innerCircle.classList.add("inner-circle-custom");
             elem.appendChild(innerCircle);
+
+            setTimeout(function() {
+                var style = window.getComputedStyle(innerCircle, null);
+            }, animationInterval);
         }
 
 
@@ -616,6 +786,11 @@
                     mask.style.height = elemHeight * (percentToMask / 100) + "px";
                     break;
                 case ("left"):
+                    //                    positionElement(mask, elemTopValue, elemLeftValue);
+                    //                    setElementSize(mask, elemHeight, elemWidth * (percentToMask / 100));
+                    //                    mask.style.backgroundColor = "red";
+
+
                     mask.style.width = elemWidth * (percentToMask / 100) + "px";
                     mask.style.top = elemTopValue + "px";
                     mask.style.left = elemLeftValue + "px";
@@ -629,6 +804,19 @@
 
             element.parentElement.appendChild(mask);
         }
+
+        function positionElement(element, top, left) {
+            element.style.top = top + "px";
+            element.style.left = left + "px";
+        }
+
+        function setElementSize(element, height, width) {
+            console.log("setting size");
+            element.style.left = height + "px";
+            element.style.width = width + "px";
+        }
+
+
 
 
         function createBar(size, orientation) {
@@ -646,11 +834,6 @@
             }
             console.log("width: " + getWidth(crossBar));
             return crossBar;
-        }
-
-        function positionElement(element, top, left) {
-            element.style.top = top + "px";
-            element.style.left = left + "px";
         }
 
         const splitCellHorizontal = (elem, gap, animationInterval) => {
@@ -778,6 +961,14 @@
             var style = window.getComputedStyle(elem, null);
             // Return top Value of element as an integer, removing "px"
             return parseInt(style.top.slice(0, -2));
+        }
+
+        function getVerticalCenter(elem) {
+            return getTopDistance(elem) + getHeight(elem) / 2;
+        }
+
+        function getHorizontalCenter(elem) {
+            return getLeftDistance(elem) + getWidth(elem) / 2;
         }
 
         function getBottomDistance(elem) {
