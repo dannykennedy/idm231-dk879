@@ -1,0 +1,249 @@
+:root {
+    /*PLACEMENT*/
+    --top-initial: 100px;
+    --top-final: 28px;
+    --left-initial: 20px;
+    --left-final: 100px;
+    /*SIZES*/
+    --primary-circle-diameter: 89px;
+    --primary-circle-width: 89px;
+    --primary-circle-height: 89px;
+    --secondary-circle-width: 45px;
+    --secondary-circle-height: 45px;
+    --tertiary-circle-width: 35px;
+    --tertiary-circle-height: 35px;
+    --inner-circle-width: 80%;
+    --inner-circle-height: 80%;
+    --inner-circle-diameter-primary: 73px;
+    --stroke-width: 8px;
+    --descender-length: 50px;
+    /*COLORS*/
+    --main-element-color: black;
+    --main-background-color: #00FFCC;
+    /*TIMING*/
+    --interval: 1s;
+}
+html {
+    box-sizing: border-box;
+    box-sizing: border-box;
+}
+body {
+    background-color: var(--main-background-color);
+}
+#box {
+    position: relative;
+    margin: auto;
+    display: block;
+    background: var(--main-background-color);
+    width: 250px;
+    height: 250px;
+    border: 1px solid var(--main-element-color);
+}
+.circle {
+    display: grid;
+    position: absolute;
+    top: 150px;
+    left: 20px;
+    width: var(--primary-circle-width);
+    height: var(--primary-circle-height);
+    background-color: var(--main-element-color);
+    -webkit-clip-path: circle(50% at 50% 50%);
+    clip-path: circle(50% at 50% 50%);
+}
+.inner-circle {
+    background-color: var(--main-background-color);
+    margin: auto;
+    display: block;
+    -webkit-clip-path: circle(50% at 50% 50%);
+    clip-path: circle(50% at 50% 50%);
+}
+.inner-circle-custom {
+    animation-duration: var(--interval);
+    animation-name: growInnerCircle;
+    animation-fill-mode: forwards;
+}
+.inner-circle-primary {
+    animation-duration: var(--interval);
+    animation-name: growInnerCirclePrimary;
+    animation-fill-mode: forwards;
+}
+.triangle {
+    display: grid;
+    grid-template-rows: 20px 1fr;
+    position: absolute;
+    top: 150px;
+    left: 150px;
+    width: var(--primary-circle-width);
+    height: var(--primary-circle-height);
+    background-color: var(--main-element-color);
+    -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+.inner-triangle {
+    grid-row-end: -1;
+    background-color: var(--main-background-color);
+    margin: auto;
+    display: block;
+    -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    animation-duration: var(--interval);
+    animation-name: growInnerCircle;
+    animation-fill-mode: forwards;
+}
+.bar {
+    position: absolute;
+    width: var(--stroke-width);
+    height: var(--stroke-width);
+    background-color: var(--main-element-color);
+    z-index: 100;
+    animation-duration: var(--interval);
+    animation-name: fadeIn;
+    animation-fill-mode: forwards;
+}
+.mask {
+    position: absolute;
+    background-color: var(--main-background-color);
+    animation-duration: var(--interval);
+    animation-name: fadeIn;
+    animation-fill-mode: forwards;
+}
+.slide-vertical {
+    animation-duration: var(--interval);
+    animation-name: slideShapeVertical;
+    animation-fill-mode: forwards;
+}
+.slide-horizontal {
+    animation-duration: var(--interval);
+    animation-name: slideShapeHorizontal;
+    animation-fill-mode: forwards;
+}
+.rotate-ninety {
+    animation-duration: var(--interval);
+    animation-name: rotateNinetyClockwise;
+    animation-fill-mode: forwards;
+}
+.shrink-circle {
+    animation-duration: var(--interval);
+    animation-name: shrinkCircle;
+    animation-fill-mode: forwards;
+}
+.grow-circle {
+    animation-duration: var(--interval);
+    animation-name: growCircle;
+    animation-fill-mode: forwards;
+}
+.grow-descender {
+    animation-duration: var(--interval);
+    animation-name: growDescender;
+    animation-fill-mode: forwards;
+}
+.grow {
+    animation-duration: var(--interval);
+    animation-name: grow;
+    animation-fill-mode: forwards;
+}
+.not-rotated {
+    -ms-transform: rotate(0deg);
+    /* IE 9 */
+    -webkit-transform: rotate(0deg);
+    /* Safari */
+    transform: rotate(0deg);
+    /* Standard syntax */
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@keyframes shrinkCircle {
+    from {
+        width: var(--primary-circle-width);
+        height: var(--primary-circle-height);
+    }
+    to {
+        width: var(--tertiary-circle-width);
+        height: var(--tertiary-circle-height);
+    }
+}
+@keyframes growCircle {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(2.515);
+    }
+}
+@keyframes grow {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+@keyframes growInnerCircle {
+    from {
+        width: 0%;
+        height: 0%
+    }
+    to {
+        width: var(--inner-circle-width);
+        height: var(--inner-circle-height);
+    }
+}
+@keyframes growInnerCirclePrimary {
+    from {
+        width: 0%;
+        height: 0%
+    }
+    to {
+        width: var(inner-circle-diameter-primary);
+        height: var(inner-circle-diameter-primary);
+    }
+}
+@keyframes growDescender {
+    from {
+        height: 0px;
+    }
+    to {
+        height: var(--descender-length);
+    }
+}
+@keyframes slideShapeVertical {
+    from {
+        top: var(--top-initial);
+    }
+    to {
+        top: var(--top-final);
+    }
+}
+@keyframes slideShapeHorizontal {
+    from {
+        left: var(--left-initial);
+    }
+    to {
+        left: var(--left-final);
+    }
+}
+@keyframes translateShape {
+    from {
+        top: var(--top-initial);
+    }
+    to {
+        top: var(--top-final);
+    }
+}
+@keyframes rotateNinetyClockwise {
+    from {}
+    to {
+        -ms-transform: rotate(-90deg);
+        /* IE 9 */
+        -webkit-transform: rotate(-90deg);
+        /* Safari */
+        transform: rotate(-90deg);
+        /* Standard syntax */
+    }
+}
