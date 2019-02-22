@@ -5,11 +5,17 @@
     --left-initial: 20px;
     --left-final: 100px;
     /*SIZES*/
+    
+    /*Original shape sizes*/
     --primary-circle-diameter: 89px;
     --primary-circle-width: 89px;
     --primary-circle-height: 89px;
+    
+    /*Half shape sizes*/
     --secondary-circle-width: 45px;
     --secondary-circle-height: 45px;
+    
+    
     --tertiary-circle-width: 35px;
     --tertiary-circle-height: 35px;
     --inner-circle-width: 80%;
@@ -17,6 +23,13 @@
     --inner-circle-diameter-primary: 73px;
     --stroke-width: 8px;
     --descender-length: 50px;
+    
+    
+    /*Translations*/
+    --translate-small: 27px;
+    
+    
+    
     /*COLORS*/
     --main-element-color: black;
     --main-background-color: #00FFCC;
@@ -236,6 +249,10 @@ body {
         top: var(--top-final);
     }
 }
+
+
+
+
 @keyframes rotateNinetyClockwise {
     from {}
     to {
@@ -247,3 +264,31 @@ body {
         /* Standard syntax */
     }
 }
+
+
+
+
+.move-left-small {
+    animation-duration: var(--interval);
+    animation-name: moveLeftSmall;
+    animation-fill-mode: forwards;
+}
+
+
+@keyframes moveLeftSmall {
+    
+    from {}
+    to {
+         transform: translateX(27px);
+    }
+}
+
+
+
+
+
+
+
+
+
+

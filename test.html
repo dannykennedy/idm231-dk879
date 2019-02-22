@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+        .showbox {
+            position: absolute;
+            top: 150px;
+            left: 20px;
+            float: left;
+            margin: 4em 1em;
+            width: 100px;
+            height: 60px;
+            border: 2px solid green;
+            background-color: #fff;
+            line-height: 60px;
+            text-align: center;
+            -webkit-transition: 1s ease-in-out;
+            -moz-transition: 1s ease-in-out;
+            -o-transition: 1s ease-in-out;
+            transition: 1s ease-in-out;
+        }
+        
+        .showbox.slideright:hover {
+            -webkit-transform: translateX(20px, 0);
+            -moz-transform: translateX(20px, 0);
+            -o-transform: translateX(20px, 0);
+            -ms-transform: translateX(20px, 0);
+            transform: translateX(20px, 0);
+        }
+        
+        .move-left-small {
+            animation-duration: var(--interval);
+            animation-name: moveLeftSmall;
+            animation-fill-mode: forwards;
+        }
+        
+        @keyframes moveLeftSmall {
+            from {}
+            to {
+                transform: translateX(27px);
+            }
+        }
+
+    </style>
+
+
+</head>
+
+<body>
+    <div class="showbox slideright" id="zz">box 1</div>
+
+</body>
+
+<script>
+    var myVar = setInterval(myTimer, 1000);
+
+    function myTimer() {
+        let elem = document.getElementById('zz');
+        let ht = window.getComputedStyle(elem, null).getPropertyValue("left");
+        console.log("bla " + ht + " bla");
+    }
+
+</script>
+
+
+</html>
