@@ -24,6 +24,8 @@
     --stroke-width: 8px;
     --descender-length: 50px;
     
+    --fourth-circle-diameter: 15px;
+    
     
     /*Translations*/
     --translate-small: 27px;
@@ -140,6 +142,11 @@ body {
     animation-name: shrinkCircle;
     animation-fill-mode: forwards;
 }
+.shrink-elem-four {
+    animation-duration: var(--interval);
+    animation-name: shrinkElemFour;
+    animation-fill-mode: forwards;
+}
 .grow-circle {
     animation-duration: var(--interval);
     animation-name: growCircle;
@@ -179,6 +186,16 @@ body {
     to {
         width: var(--tertiary-circle-width);
         height: var(--tertiary-circle-height);
+    }
+}
+@keyframes shrinkElemFour {
+    from {
+        width: var(--primary-circle-width);
+        height: var(--primary-circle-height);
+    }
+    to {
+        width: var(--fourth-circle-diameter);
+        height: var(--fourth-circle-diameter);
     }
 }
 @keyframes growCircle {
@@ -263,6 +280,21 @@ body {
         transform: rotate(-90deg);
         /* Standard syntax */
     }
+}
+
+.move-elem {
+    animation-duration: var(--interval);
+    animation-name: moveElem;
+    animation-fill-mode: forwards;
+}
+
+@keyframes moveElem {
+    from {
+    }
+    to {
+        left: var(--left-final);
+        top: var(--top-final);
+    } 
 }
 
 

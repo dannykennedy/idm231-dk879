@@ -76,6 +76,184 @@ const aquarius = (elem) => {
 
 }
 
+
+// SCORPIO TWO
+const scorpioTwo = (elem) => {
+
+    var secondCircle;
+    var thirdCircle;
+    var fourthCircle;
+    var triangle = document.getElementById('original-triangle');
+
+    //////// Common elements virgo scorpio
+
+    shrinkCircle(elem, animationInterval);
+
+    setTimeout(function () {
+        secondCircle = splitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
+    }, animationInterval);
+
+    setTimeout(function () {
+        thirdCircle = splitCellHorizontal(elem, getWidth(elem) + strokeWidth * (-2), animationInterval);
+    }, animationInterval * 2 + 10);
+
+    setTimeout(function () {
+        fourthCircle = splitCellHorizontal(elem, getWidth(elem) * 2 + strokeWidth * (-3), animationInterval);
+    }, animationInterval * 3 + 20);
+
+    setTimeout(function () {
+        emptyOutCircle(elem, strokeWidth);
+        emptyOutCircle(secondCircle, strokeWidth);
+        emptyOutCircle(thirdCircle, strokeWidth);
+        emptyOutCircle(fourthCircle, strokeWidth);
+    }, animationInterval * 4);
+
+    setTimeout(function () {
+        moveCellVertical(fourthCircle, 15, animationInterval);
+    }, animationInterval * 5);
+
+    setTimeout(function () {
+        maskPartOfCircle(elem, 'bottom', 50);
+        maskPartOfCircle(secondCircle, 'bottom', 50);
+        maskPartOfCircle(thirdCircle, 'bottom', 50);
+        maskPartOfCircle(elem, 'left', 50);
+    }, animationInterval * 6 + 100);
+
+    setTimeout(function () {
+        addCircleDescender(elem, 50);
+        addCircleDescender(secondCircle, 50);
+        addCircleDescender(thirdCircle, 50);
+    }, animationInterval * 7 + 100);
+
+    setTimeout(function () {
+        addCircleDescender(elem, 50);
+        addCircleDescender(secondCircle, 50);
+        addCircleDescender(thirdCircle, 50);
+    }, animationInterval * 7 + 100);
+
+    //Create mask
+    var mask = document.createElement('div');
+    mask.setAttribute("class", "mask");
+
+    setTimeout(function () {
+        mask.style.width = getWidth(fourthCircle) + 10 + "px";
+        mask.style.height = getHeight(fourthCircle) / 2 + "px";
+        mask.style.top = getTopDistance(fourthCircle) + "px";
+        mask.style.left = getLeftDistance(fourthCircle) + "px";
+        mask.style.zIndex = 2;
+        elem.parentElement.appendChild(mask);
+    }, animationInterval * 8);
+
+    ////////End common elements virgo scorpio
+
+    setTimeout(function () {
+        console.log(triangle);
+        shrinkElemFour(triangle, animationInterval);
+    }, animationInterval * 9 + 100);
+
+    setTimeout(function () {
+        var style = window.getComputedStyle(triangle, null);
+        triangle.style.width = style.width;
+        triangle.style.height = style.height;
+        triangle.classList.remove('shrink-elem-four');
+        //        triangle.style.backgroundColor = 'red';
+        triangle.style.zIndex = 1000;
+        moveElement(triangle, getLeftDistance(fourthCircle) + getWidth(fourthCircle) - getWidth(triangle) * (3 / 4), getTopDistance(fourthCircle) + getHeight(fourthCircle) / 2 - getHeight(triangle) + 1, animationInterval);
+    }, animationInterval * 10 + 100);
+}
+
+
+function virgo(elem) {
+
+    var secondCircle;
+    var thirdCircle;
+    var fourthCircle;
+    var fifthCircle;
+    var triangle = document.getElementById('original-triangle');
+
+    //////// Common elements virgo scorpio
+
+    shrinkCircle(elem, animationInterval);
+
+    setTimeout(function () {
+        secondCircle = splitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
+    }, animationInterval);
+
+    setTimeout(function () {
+        thirdCircle = splitCellHorizontal(elem, getWidth(elem) + strokeWidth * (-2), animationInterval);
+    }, animationInterval * 2 + 10);
+
+    setTimeout(function () {
+        fourthCircle = splitCellHorizontal(elem, getWidth(elem) * 2 + strokeWidth * (-3), animationInterval);
+    }, animationInterval * 3 + 20);
+
+    setTimeout(function () {
+        emptyOutCircle(elem, strokeWidth);
+        emptyOutCircle(secondCircle, strokeWidth);
+        emptyOutCircle(thirdCircle, strokeWidth);
+        emptyOutCircle(fourthCircle, strokeWidth);
+    }, animationInterval * 4);
+
+    setTimeout(function () {
+        fifthCircle = splitCellVertical(fourthCircle, 15, animationInterval);
+    }, animationInterval * 5);
+
+    setTimeout(function () {
+        fourthCircle.style.zIndex = 2000;
+        maskPartOfCircle(elem, 'bottom', 50);
+        maskPartOfCircle(secondCircle, 'bottom', 50);
+        maskPartOfCircle(thirdCircle, 'bottom', 50);
+        maskPartOfCircle(elem, 'left', 50);
+    }, animationInterval * 6 + 100);
+
+    setTimeout(function () {
+        addCircleDescender(elem, 50);
+        addCircleDescender(secondCircle, 50);
+        addCircleDescender(thirdCircle, 50);
+    }, animationInterval * 7 + 100);
+
+    setTimeout(function () {
+        addCircleDescender(elem, 50);
+        addCircleDescender(secondCircle, 50);
+        addCircleDescender(thirdCircle, 50);
+    }, animationInterval * 7 + 100);
+
+    //Create mask
+    var mask = document.createElement('div');
+    mask.setAttribute("class", "mask");
+
+    setTimeout(function () {
+        mask.style.width = getWidth(fifthCircle) + 10 + "px";
+        mask.style.height = getHeight(fifthCircle) / 2 + "px";
+        mask.style.top = getTopDistance(fifthCircle) + "px";
+        mask.style.left = getLeftDistance(fifthCircle) + "px";
+        mask.style.zIndex = 2;
+        elem.parentElement.appendChild(mask);
+        maskPartOfCircle(fifthCircle, 'right', 50);
+    }, animationInterval * 8);
+
+    setTimeout(function () {
+        fixElement(fifthCircle);
+        moveCellVertical(fourthCircle, 22, animationInterval);
+    }, animationInterval * 9 + 100);
+
+}
+
+// Remove slide and resize classes
+// Give the element these properties permanently
+function fixElement(elem){
+    var style = window.getComputedStyle(elem, null);
+    elem.style.top = style.top;
+    elem.style.left = style.left;
+    elem.style.width = style.width;
+    elem.style.height = style.height;
+    elem.classList.remove('slide-vertical');
+    elem.classList.remove('slide-horizontal');
+    elem.classList.remove('move-elem');
+}
+
+
+
 const libra = (elem) => {
 
     var originalCircleWidth = getWidth(elem);
@@ -278,6 +456,31 @@ const cancer = (elem) => {
 
 }
 
+function moveElement(elem, left, top, animationInterval) {
+
+    console.log("the top is " + top);
+    console.log("the left is " + left);
+
+    var style = window.getComputedStyle(elem, null);
+
+    //Minus 2*stroke width (8)
+    let root = document.documentElement;
+    root.style.setProperty('--left-final', left + "px");
+    root.style.setProperty('--top-final', top + "px");
+
+    setTimeout(function () {
+            elem.classList.add('move-elem');
+        }, 50)
+        //
+    console.log(elem);
+
+    setTimeout(function () {
+        elem.style.top = style.top;
+        elem.style.left = style.left;
+        elem.classList.remove('move-elem');
+    }, animationInterval + 100);
+}
+
 
 function emptyOutCirclePrimary(elem) {
     var innerCircle = document.createElement('div');
@@ -338,20 +541,25 @@ const scorpio = (elem) => {
         emptyOutCircle(elem, strokeWidth);
         emptyOutCircle(secondCircle, strokeWidth);
         emptyOutCircle(thirdCircle, strokeWidth);
+        emptyOutCircle(fourthCircle, strokeWidth);
     }, animationInterval * 4 + 100);
+
+    setTimeout(function () {
+        moveElemVerticalTwo(fourthCircle, 70);
+    }, animationInterval * 5 + 100);
 
     setTimeout(function () {
         maskPartOfCircle(elem, 'bottom', 50);
         maskPartOfCircle(secondCircle, 'bottom', 50);
         maskPartOfCircle(thirdCircle, 'bottom', 50);
         maskPartOfCircle(elem, 'left', 50);
-    }, animationInterval * 5 + 100);
+    }, animationInterval * 6 + 100);
 
     setTimeout(function () {
         addCircleDescender(elem, originalHeight - getHeight(elem) / 2 - strokeWidth);
         addCircleDescender(secondCircle, originalHeight - getHeight(elem) / 2 + strokeWidth);
-        addCircleDescender(thirdCircle, originalHeight - getHeight(elem) / 2 + strokeWidth);
-    }, animationInterval * 6 + 100);
+        addCircleDescender(thirdCircle, 3);
+    }, animationInterval * 7 + 100);
 
 
 
@@ -364,24 +572,6 @@ function cellSplit(elem, distance) {
     elem.parentElement.appendChild(secondElem);
     moveElemHorizontalTwo(secondElem, distance);
     return secondElem;
-}
-
-
-function moveElemHorizontal(elem, distance) {
-
-    var frameInterval = animationInterval / distance;
-    var pos = getLeftDistance(elem);
-    var end = pos + distance;
-    var id = setInterval(frame, frameInterval);
-
-    function frame() {
-        if (pos == end) {
-            clearInterval(id);
-        } else {
-            pos++;
-            elem.style.left = pos + 'px';
-        }
-    }
 }
 
 
@@ -415,42 +605,35 @@ function moveElemHorizontalTwo(elem, distance) {
     }
 }
 
-
-//for (var i = 0, len = diff; i <= len; i++) {
-//    (function (s) {
-//        setTimeout(function () {
-//            //self.turnPages(s);                           
-//            console.log("Page " + s + " turned");
-//        }, time);
-//    })(i);
-//
-//    time = easeInOutQuad(i, minTime, maxTime, diff);
-//    console.log(time);
-//}
-
-
-
-
-
-
-
-function moveElemVertical(elem, distance) {
+function moveElemVerticalTwo(elem, distance) {
 
     var frameInterval = animationInterval / distance;
     var pos = getTopDistance(elem);
     var end = pos + distance;
-    var id = setInterval(frame, frameInterval);
 
-    function frame() {
+
+    for (var i = 0, len = diff; i <= len; i++) {
+        (function (s) {
+            setTimeout(function () {
+                pos++;
+
+                //Don't go over the end
+                if (pos > end) {
+                    return;
+                }
+
+                elem.style.top = pos + 'px';
+            }, time);
+        })(i);
+
         if (pos == end) {
-            clearInterval(id);
-        } else {
-            pos++;
-            elem.style.top = pos + 'px';
+            break;
         }
+
+        time = easeInQuad(i, minTime, maxTime, diff);
+        console.log(time);
     }
 }
-
 
 
 
@@ -496,6 +679,18 @@ const shrinkCircle = (elem, animationInterval) => {
         elem.style.height = style.height;
         elem.classList.remove('shrink-circle');
     }, animationInterval);
+}
+
+const shrinkElemFour = (elem, animationInterval) => {
+
+    elem.classList.add('shrink-elem-four');
+
+    setTimeout(function () {
+        var style = window.getComputedStyle(elem, null);
+        elem.style.width = style.width;
+        elem.style.height = style.height;
+        elem.classList.remove('shrink-elem-four');
+    }, animationInterval + 10);
 }
 
 
@@ -606,19 +801,20 @@ function maskPartOfCircle(element, side, percentToMask) {
             mask.style.height = elemHeight * (percentToMask / 100) + "px";
             break;
         case ("left"):
-            //                    positionElement(mask, elemTopValue, elemLeftValue);
-            //                    setElementSize(mask, elemHeight, elemWidth * (percentToMask / 100));
-            //                    mask.style.backgroundColor = "red";
-
-
             mask.style.width = elemWidth * (percentToMask / 100) + "px";
             mask.style.top = elemTopValue + "px";
             mask.style.left = elemLeftValue + "px";
             mask.style.height = elemHeight + "px";
             break;
+        case ("right"):
+            mask.style.width = elemWidth * (percentToMask / 100) + "px";
+            mask.style.top = elemTopValue + "px";
+            mask.style.left = elemLeftValue + elemWidth * (percentToMask / 100) + "px";
+            mask.style.height = elemHeight + 5 + "px";
+            break;
 
         default:
-            console.log("Please enter top, bottom, left or right");
+            console.log("Please enter top, bottom, left or right. You entered: " + side);
 
     }
 
@@ -669,14 +865,15 @@ const splitCellHorizontal = (elem, gap, animationInterval) => {
     document.getElementById('box').appendChild(dupNode);
 
     setTimeout(function () {
-        var style = window.getComputedStyle(dupNode, null);
-        dupNode.style.left = style.left;
-        dupNode.classList.remove("slide-horizontal");
-        //Would ideally call the other function here...?
+        //seems to do nothing
+        fixElement(dupNode);
+//        var style = window.getComputedStyle(dupNode, null);
+//        dupNode.style.left = style.left;
+//        dupNode.classList.remove("slide-horizontal");
+//        //Would ideally call the other function here...?
     }, animationInterval);
 
-    //            dupNode.style.left = getLeftDistance(dupNode);
-    //            dupNode.classList.remove("slide-ho")
+
     return dupNode;
 }
 
@@ -688,8 +885,8 @@ const splitCellVertical = (elem, gap, animationInterval) => {
     dupNode.classList.remove("slide-horizontal");
 
     let root = document.documentElement;
+
     const topFinal = getTopDistance(elem) + getHeight(elem) + gap + "px";
-    //            console.log("topfinal: " + topFinal);
 
     root.style.setProperty('--top-initial', style.top);
     root.style.setProperty('--top-final', topFinal);
@@ -699,6 +896,33 @@ const splitCellVertical = (elem, gap, animationInterval) => {
 
     return dupNode;
 }
+
+
+const moveCellVertical = (elem, gap, animationInterval) => {
+
+    var style = window.getComputedStyle(elem, null);
+
+    elem.classList.remove("slide-horizontal");
+
+    let root = document.documentElement;
+    //Why does this need the 1...
+    const topFinal = getTopDistance(elem) + gap + "px";
+
+    root.style.setProperty('--top-initial', style.top);
+    root.style.setProperty('--top-final', topFinal);
+
+    elem.classList.add("slide-vertical");
+
+    //Need to remove the class and fix the property once animation is over
+    //Otherwise it will be affected by other elements
+    setTimeout(function () {
+        var style = window.getComputedStyle(elem, null);
+        elem.style.top = style.top;
+        elem.classList.remove("slide-vertical");
+    }, animationInterval);
+}
+
+
 
 
 
