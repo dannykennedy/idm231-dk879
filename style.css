@@ -5,19 +5,14 @@
     --left-initial: 20px;
     --left-final: 100px;
     /*SIZES*/
-    
     /*Original shape sizes*/
     --primary-circle-diameter: 89px;
     --primary-circle-width: 89px;
     --primary-circle-height: 89px;
-    
     /*Half shape sizes*/
     --secondary-circle-width: 45px;
     --secondary-circle-height: 45px;
-    
     --final-diameter: 100px;
-    
-    
     --tertiary-circle-width: 35px;
     --tertiary-circle-height: 35px;
     --inner-circle-width: 80%;
@@ -25,15 +20,9 @@
     --inner-circle-diameter-primary: 73px;
     --stroke-width: 8px;
     --descender-length: 50px;
-    
     --fourth-circle-diameter: 15px;
-    
-    
     /*Translations*/
     --translate-small: 27px;
-    
-    
-    
     /*COLORS*/
     --main-element-color: black;
     --main-background-color: #00FFCC;
@@ -56,53 +45,41 @@ body {
     height: 250px;
     border: 1px solid var(--main-element-color);
 }
-.circle {
-    display: grid;
-    position: absolute;
-    top: 150px;
-    left: 20px;
+
+
+.primary-shape {
     width: var(--primary-circle-width);
     height: var(--primary-circle-height);
     background-color: var(--main-element-color);
-    -webkit-clip-path: circle(50% at 50% 50%);
-    clip-path: circle(50% at 50% 50%);
+    display: grid;
+    position: absolute;
 }
-.inner-circle {
-    background-color: var(--main-background-color);
-    margin: auto;
-    display: block;
-    -webkit-clip-path: circle(50% at 50% 50%);
-    clip-path: circle(50% at 50% 50%);
-}
-
-
-
-
 
 /*USE*/
+
 .inner-shape {
     background-color: var(--main-background-color);
     margin: auto;
-    display: block; 
+    display: block;
     z-index: 10;
 }
 
 /*USE*/
-.circle-shape {
+.circle {
     -webkit-clip-path: circle(50% at 50% 50%);
     clip-path: circle(50% at 50% 50%);
 }
 
 /*USE*/
+
 .grow-shape {
     animation-duration: var(--interval);
     animation-name: grow;
     animation-fill-mode: forwards;
 }
 
-
-
 /*USE*/
+
 .grow-inner-shape {
     animation-duration: var(--interval);
     animation-name: growInnerShape;
@@ -110,16 +87,12 @@ body {
 }
 
 /*USE*/
+
 .basic-triangle {
     background-color: var(--main-element-color);
     -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
-
-
-
-
-
 .inner-circle-custom {
     animation-duration: var(--interval);
     animation-name: growInnerCircle;
@@ -203,11 +176,6 @@ body {
 .grow-descender {
     animation-duration: var(--interval);
     animation-name: growDescender;
-    animation-fill-mode: forwards;
-}
-.grow {
-    animation-duration: var(--interval);
-    animation-name: grow;
     animation-fill-mode: forwards;
 }
 .not-rotated {
@@ -314,10 +282,6 @@ body {
         top: var(--top-final);
     }
 }
-
-
-
-
 @keyframes rotateNinetyClockwise {
     from {}
     to {
@@ -329,59 +293,38 @@ body {
         /* Standard syntax */
     }
 }
-
 .move-elem {
     animation-duration: var(--interval);
     animation-name: moveElem;
     animation-fill-mode: forwards;
 }
-
 @keyframes moveElem {
-    from {
-    }
+    from {}
     to {
         left: var(--left-final);
         top: var(--top-final);
-    } 
+    }
 }
-
 .shrink-elem-arbitrary {
     animation-duration: var(--interval);
     animation-name: shrinkElemArbitrary;
     animation-fill-mode: forwards;
 }
-
 @keyframes shrinkElemArbitrary {
-    from {
-    }
+    from {}
     to {
         width: var(--final-diameter);
         height: var(--final-diameter);
-    } 
+    }
 }
-
-
 .move-left-small {
     animation-duration: var(--interval);
     animation-name: moveLeftSmall;
     animation-fill-mode: forwards;
 }
-
-
 @keyframes moveLeftSmall {
-    
     from {}
     to {
-         transform: translateX(27px);
+        transform: translateX(27px);
     }
 }
-
-
-
-
-
-
-
-
-
-

@@ -26,18 +26,11 @@ strokeWidth = parseInt(strokeWidth.slice(0, -2));
 
 // TAURUS
 const taurus = (elem) => {
-    emptyOutCircle(elem, strokeWidth);
+    hollowOutCircle(elem, strokeWidth);
     var topCircle = divideCellVertical(elem, strokeWidth * (-1));
     setTimeout(function () {
         maskPartOfCircle(topCircle, "top", 60);
     }, animationInterval);
-}
-
-//TEST
-const test = (elem) => {
-
-    shrinkElement(elem, animationInterval);
-
 }
 
 // AQUARIUS
@@ -78,7 +71,7 @@ const aquarius = (elem) => {
 
 
 // SCORPIO TWO
-const scorpioTwo = (elem) => {
+const scorpio = (elem) => {
 
     var secondCircle;
     var thirdCircle;
@@ -102,14 +95,14 @@ const scorpioTwo = (elem) => {
     }, animationInterval * 3 + 20);
 
     setTimeout(function () {
-        emptyOutCircle(elem, strokeWidth);
-        emptyOutCircle(secondCircle, strokeWidth);
-        emptyOutCircle(thirdCircle, strokeWidth);
-        emptyOutCircle(fourthCircle, strokeWidth);
+        hollowOutCircle(elem, strokeWidth);
+        hollowOutCircle(secondCircle, strokeWidth);
+        hollowOutCircle(thirdCircle, strokeWidth);
+        hollowOutCircle(fourthCircle, strokeWidth);
     }, animationInterval * 4);
 
     setTimeout(function () {
-        moveCellVertical(fourthCircle, 15, animationInterval);
+        moveCellVertical(fourthCircle, 50, animationInterval);
     }, animationInterval * 5);
 
     setTimeout(function () {
@@ -192,7 +185,6 @@ function virgo(elem) {
         hollowOutCircle(secondCircle, strokeWidth);
         hollowOutCircle(thirdCircle, strokeWidth);
         hollowOutCircle(fourthCircle, strokeWidth);
-
     }, animationInterval * 4);
 
     setTimeout(function () {
@@ -272,7 +264,7 @@ const libra = (elem) => {
     shrinkElement(elem, animationInterval);
 
     setTimeout(function () {
-        emptyOutCircle(elem, strokeWidth);
+        hollowOutCircle(elem, strokeWidth);
     }, animationInterval);
 
     //Create mask
@@ -315,8 +307,8 @@ const aries = (elem) => {
     }, animationInterval)
 
     setTimeout(function () {
-        emptyOutCircle(elem, strokeWidth);
-        emptyOutCircle(secondCircle, strokeWidth);
+        hollowOutCircle(elem, strokeWidth);
+        hollowOutCircle(secondCircle, strokeWidth);
     }, animationInterval * 2);
 
     setTimeout(function () {
@@ -334,7 +326,7 @@ function gemini(originalCircle) {
 
     var gapBetweenCircles = 35;
 
-    emptyOutCircle(originalCircle, strokeWidth);
+    hollowOutCircle(originalCircle, strokeWidth);
     var topCircle = divideCellVertical(originalCircle, gapBetweenCircles);
 
     setTimeout(function () {
@@ -365,7 +357,7 @@ function pisces(elem) {
 
     var invisibleBox = document.getElementById("box");
 
-    emptyOutCircle(elem, strokeWidth);
+    hollowOutCircle(elem, strokeWidth);
     var topCircle = divideCellVertical(elem, gap)
 
     setTimeout(function () {
@@ -391,7 +383,6 @@ function pisces(elem) {
 
 // CANCER
 const cancer = (elem) => {
-    //            emptyOutCircle(elem, strokeWidth);
 
     originalHeight = getHeight(elem);
 
@@ -411,8 +402,8 @@ const cancer = (elem) => {
     }, animationInterval * 2 + 50);
 
     setTimeout(function () {
-        emptyOutCircle(elem, strokeWidth);
-        emptyOutCircle(thirdCircle, strokeWidth);
+        hollowOutCircle(elem, strokeWidth);
+        hollowOutCircle(thirdCircle, strokeWidth);
     }, animationInterval * 3);
 
     setTimeout(function () {
@@ -422,11 +413,13 @@ const cancer = (elem) => {
 
 
     setTimeout(function () {
+
         var innerCircle = document.createElement('div');
-        innerCircle.classList.add("inner-circle");
+        innerCircle.classList.add("inner-shape");
+        innerCircle.classList.add("circle");
         innerCircle.style.width = "29px";
         innerCircle.style.height = "29px";
-        innerCircle.classList.add("grow");
+        innerCircle.classList.add("grow-shape");
         secondCircle.appendChild(innerCircle);
 
     }, animationInterval * 5);
@@ -492,17 +485,6 @@ function moveElement(elem, left, top, animationInterval) {
 }
 
 
-function emptyOutCirclePrimary(elem) {
-    var innerCircle = document.createElement('div');
-    innerCircle.classList.add("inner-circle");
-    innerCircle.classList.add("inner-circle-custom");
-    innerCircle.style.zIndex = 100;
-    innerCircle.style.color = "red";
-    console.log(innerCircle);
-    elem.appendChild(innerCircle);
-    return innerCircle;
-}
-
 function growCircle(elem, animationInterval) {
 
     elem.classList.add('grow-circle');
@@ -513,66 +495,6 @@ function growCircle(elem, animationInterval) {
         elem.style.height = style.height;
         //                elem.classList.remove('grow-circle');
     }, animationInterval + 50);
-
-}
-
-
-
-
-
-
-// SCORPIO
-const scorpio = (elem) => {
-
-    var secondCircle;
-    var thirdCircle;
-    var fourthCircle;
-
-    originalHeight = getHeight(elem);
-
-    elem.style.left = getLeftDistance(elem);
-
-    shrinkElement(elem, animationInterval);
-
-    setTimeout(function () {
-        secondCircle = cellSplit(elem, 27)
-    }, animationInterval);
-
-    setTimeout(function () {
-        thirdCircle = cellSplit(secondCircle, 27);
-    }, animationInterval * 2 + 100);
-
-    setTimeout(function () {
-        fourthCircle = cellSplit(thirdCircle, 27);
-    }, animationInterval * 3 + 100);
-
-
-    setTimeout(function () {
-        emptyOutCircle(elem, strokeWidth);
-        emptyOutCircle(secondCircle, strokeWidth);
-        emptyOutCircle(thirdCircle, strokeWidth);
-        emptyOutCircle(fourthCircle, strokeWidth);
-    }, animationInterval * 4 + 100);
-
-    setTimeout(function () {
-        moveElemVerticalTwo(fourthCircle, 70);
-    }, animationInterval * 5 + 100);
-
-    setTimeout(function () {
-        maskPartOfCircle(elem, 'bottom', 50);
-        maskPartOfCircle(secondCircle, 'bottom', 50);
-        maskPartOfCircle(thirdCircle, 'bottom', 50);
-        maskPartOfCircle(elem, 'left', 50);
-    }, animationInterval * 6 + 100);
-
-    setTimeout(function () {
-        addCircleDescender(elem, originalHeight - getHeight(elem) / 2 - strokeWidth);
-        addCircleDescender(secondCircle, originalHeight - getHeight(elem) / 2 + strokeWidth);
-        addCircleDescender(thirdCircle, 3);
-    }, animationInterval * 7 + 100);
-
-
-
 
 }
 
@@ -793,65 +715,29 @@ function hollowOutTriangle(elem) {
 }
 
 
-function emptyOutCircle(elem, strokeWidth, custom) {
-
-    var style = window.getComputedStyle(elem, null);
-
-    //Get style values of the element (minus 'px');
-    var elemWidth = getWidth(elem);
-    var elemHeight = getHeight(elem);
-
-    console.log("width is : " + elemWidth);
-
-    if (custom) {
-        elemWidth = 45;
-        elemHeight = 45;
-    }
-
-    //Set the inner circle width and height
-    //Minus 2*stroke width (8)
-    let root = document.documentElement;
-    root.style.setProperty('--inner-circle-width', elemWidth - 2 * strokeWidth + "px");
-    root.style.setProperty('--inner-circle-height', elemWidth - 2 * strokeWidth + "px");
-
-    //Create new circle, add to parent
-    var innerCircle = document.createElement('div');
-    innerCircle.classList.add("inner-circle");
-    innerCircle.classList.add("inner-circle-custom");
-    elem.appendChild(innerCircle);
-
-    //    setTimeout(function () {
-    //        var style = window.getComputedStyle(innerCircle, null);
-    //        innerCircle.style.width = style.width;
-    //        innerCircle.style.height = style.height;        
-    //    }, animationInterval);
-}
-
-
+// "Hollow out" a circle
+// i.e. create an inner circle with background colour
 function hollowOutCircle(elem, strokeWidth) {
 
-    //Get style values of the element (minus 'px');
-    var style = window.getComputedStyle(elem, null);
     var elemWidth = getWidth(elem);
-    var elemHeight = getHeight(elem);
-    
-    //Dimensions of inner circle are outer circle - strokewidth*2
     var innerCircle = document.createElement('div');
-    innerCircle.style.height = elemWidth - 2 * strokeWidth + "px";
-    innerCircle.style.width = elemWidth - 2 * strokeWidth + "px";
-    
+    setDiameter(innerCircle, elemWidth - 2 * strokeWidth);
+
     innerCircle.classList.add("inner-shape");
-    innerCircle.classList.add("circle-shape");
+    innerCircle.classList.add("circle");
     innerCircle.classList.add("grow-shape");
 
     elem.appendChild(innerCircle);
 }
 
 
+// Set diameter of shape 
+function setDiameter(elem, diameter) {
 
+    elem.style.height = diameter + "px";
+    elem.style.width = diameter + "px";
 
-
-
+}
 
 
 
@@ -1044,26 +930,6 @@ const divideCellVertical = (elem, gap) => {
     return dupNode;
 }
 
-
-// The setInterval() method calls a function or evaluates an expression at specified intervals (in milliseconds).
-function translateElement(elem, down, right, animationInterval) {
-    var pos = 0;
-    var id = setInterval(frame, animationInterval);
-
-    function frame() {
-        if (pos == 350) {
-            clearInterval(id);
-        } else {
-            pos++;
-            elem.style.top = pos + "px";
-            elem.style.left = pos + "px";
-        }
-    }
-}
-
-
-
-
 function getWidth(elem) {
     var style = window.getComputedStyle(elem, null);
     // Return pixel width of element as an integer, removing "px"
@@ -1100,28 +966,6 @@ function getBottomDistance(elem) {
     var style = window.getComputedStyle(elem, null);
     var top = parseInt(style.top.slice(0, -2));
     return top + getHeight(elem);
-}
-
-
-
-// http://upshots.org/actionscript/jsas-understanding-easing
-/*
-    @t is the current time (or position) of the tween. This can be seconds or frames, steps, seconds, ms, whatever – as long as the unit is the same as is used for the total time [3].
-    @b is the beginning value of the property.
-    @c is the change between the beginning and destination value of the property.
-    @d is the total time of the tween.
-*/
-function easeInOutQuad(t, b, c, d) {
-    if ((t /= d / 2) < 1) return c / 2 * t * t + b;
-    return -c / 2 * ((--t) * (t - 2) - 1) + b;
-}
-
-function easeOutQuad(t, b, c, d) {
-    return -c * (t /= d) * (t - 2) + b;
-}
-
-function easeInQuad(t, b, c, d) {
-    return c * (t /= d) * t + b;
 }
 
 
