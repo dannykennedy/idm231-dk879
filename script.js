@@ -36,7 +36,7 @@ const taurus = (elem) => {
 //TEST
 const test = (elem) => {
 
-    shrinkCircle(elem, animationInterval);
+    shrinkElement(elem, animationInterval);
 
 }
 
@@ -46,7 +46,7 @@ const aquarius = (elem) => {
     var secondTriangle;
     var thirdTriangle;
 
-    shrinkCircle(elem, animationInterval);
+    shrinkElement(elem, animationInterval);
 
     setTimeout(function () {
         secondTriangle = splitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
@@ -87,7 +87,7 @@ const scorpioTwo = (elem) => {
 
     //////// Common elements virgo scorpio
 
-    shrinkCircle(elem, animationInterval);
+    shrinkElement(elem, animationInterval);
 
     setTimeout(function () {
         secondCircle = splitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
@@ -173,7 +173,7 @@ function virgo(elem) {
 
     //////// Common elements virgo scorpio
 
-    shrinkCircle(elem, animationInterval);
+    shrinkElement(elem, animationInterval);
 
     setTimeout(function () {
         secondCircle = splitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
@@ -188,10 +188,11 @@ function virgo(elem) {
     }, animationInterval * 3 + 20);
 
     setTimeout(function () {
-        emptyOutCircle(elem, strokeWidth);
-        emptyOutCircle(secondCircle, strokeWidth);
-        emptyOutCircle(thirdCircle, strokeWidth);
-        emptyOutCircle(fourthCircle, strokeWidth);
+        hollowOutCircle(elem, strokeWidth);
+        hollowOutCircle(secondCircle, strokeWidth);
+        hollowOutCircle(thirdCircle, strokeWidth);
+        hollowOutCircle(fourthCircle, strokeWidth);
+
     }, animationInterval * 4);
 
     setTimeout(function () {
@@ -237,11 +238,20 @@ function virgo(elem) {
         moveCellVertical(fourthCircle, 22, animationInterval);
     }, animationInterval * 9 + 100);
 
+    setTimeout(function () {
+        shrinkElementArbitrary(triangle, animationInterval, 50);
+    }, animationInterval * 9 + 100);
+
+    setTimeout(function () {
+        emptyOutTriangle(triangle);
+    }, animationInterval * 10 + 100);
+
+
 }
 
 // Remove slide and resize classes
 // Give the element these properties permanently
-function fixElement(elem){
+function fixElement(elem) {
     var style = window.getComputedStyle(elem, null);
     elem.style.top = style.top;
     elem.style.left = style.left;
@@ -259,7 +269,7 @@ const libra = (elem) => {
     var originalCircleWidth = getWidth(elem);
     var originalCircleBottom = getBottomDistance(elem);
 
-    shrinkCircle(elem, animationInterval);
+    shrinkElement(elem, animationInterval);
 
     setTimeout(function () {
         emptyOutCircle(elem, strokeWidth);
@@ -298,7 +308,7 @@ const aries = (elem) => {
 
     var secondCircle;
 
-    shrinkCircle(elem, animationInterval);
+    shrinkElement(elem, animationInterval);
 
     setTimeout(function () {
         secondCircle = splitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
@@ -385,7 +395,7 @@ const cancer = (elem) => {
 
     originalHeight = getHeight(elem);
 
-    shrinkCircle(elem, animationInterval);
+    shrinkElement(elem, animationInterval);
 
     var secondCircle;
     var thirdCircle;
@@ -522,7 +532,7 @@ const scorpio = (elem) => {
 
     elem.style.left = getLeftDistance(elem);
 
-    shrinkCircle(elem, animationInterval);
+    shrinkElement(elem, animationInterval);
 
     setTimeout(function () {
         secondCircle = cellSplit(elem, 27)
@@ -669,7 +679,7 @@ function copyNode(elem) {
 
 
 
-const shrinkCircle = (elem, animationInterval) => {
+const shrinkElement = (elem, animationInterval) => {
 
     elem.classList.add('shrink-circle');
     var style = window.getComputedStyle(elem, null);
@@ -680,6 +690,24 @@ const shrinkCircle = (elem, animationInterval) => {
         elem.classList.remove('shrink-circle');
     }, animationInterval);
 }
+
+
+function shrinkElementArbitrary(elem, animationInterval, percent) {
+
+    var style = window.getComputedStyle(elem, null);
+    var elemWidth = getWidth(elem);
+    var newWidth = (percent / 100) * elemWidth;
+
+    //Minus 2*stroke width (8)
+    let root = document.documentElement;
+    root.style.setProperty('--final-diameter', newWidth + "px");
+
+    elem.classList.add('shrink-elem-arbitrary');
+
+}
+
+
+
 
 const shrinkElemFour = (elem, animationInterval) => {
 
@@ -730,13 +758,37 @@ function emptyOutTriangle(elem) {
     var elemHeight = getHeight(elem);
 
     //Minus 2*stroke width (8)
+    var baseStrokeWidth = getTriangleBaseStrokeWidth(strokeWidth);
     let root = document.documentElement;
-    root.style.setProperty('--inner-circle-width', elemWidth - 2 * strokeWidth + "px");
-    root.style.setProperty('--inner-circle-height', elemWidth - 2 * strokeWidth + "px");
+    root.style.setProperty('--inner-circle-width', elemWidth - 2 * baseStrokeWidth + "px");
+    root.style.setProperty('--inner-circle-height', elemWidth - 2 * baseStrokeWidth + "px");
 
     //Create new circle, add to parent
     var innerCircle = document.createElement('div');
     innerCircle.setAttribute("class", "inner-triangle");
+    elem.appendChild(innerCircle);
+}
+
+
+
+function hollowOutTriangle(elem) {
+
+    var style = window.getComputedStyle(elem, null);
+
+    //Get style values of the element (minus 'px');
+    var elemWidth = getWidth(elem);
+    var elemHeight = getHeight(elem);
+
+    //Calculate 
+    let root = document.documentElement;
+    root.style.setProperty('--inner-triangle-width', elemWidth - 2 * strokeWidth + "px");
+    root.style.setProperty('--inner-triangle-height', elemWidth - 2 * strokeWidth + "px");
+
+    //Create new circle, add to parent
+    var innerTriangle = document.createElement('div');
+    innerTriangle.classList.add('inner-shape');
+
+
     elem.appendChild(innerCircle);
 }
 
@@ -768,10 +820,39 @@ function emptyOutCircle(elem, strokeWidth, custom) {
     innerCircle.classList.add("inner-circle-custom");
     elem.appendChild(innerCircle);
 
-    setTimeout(function () {
-        var style = window.getComputedStyle(innerCircle, null);
-    }, animationInterval);
+    //    setTimeout(function () {
+    //        var style = window.getComputedStyle(innerCircle, null);
+    //        innerCircle.style.width = style.width;
+    //        innerCircle.style.height = style.height;        
+    //    }, animationInterval);
 }
+
+
+function hollowOutCircle(elem, strokeWidth) {
+
+    //Get style values of the element (minus 'px');
+    var style = window.getComputedStyle(elem, null);
+    var elemWidth = getWidth(elem);
+    var elemHeight = getHeight(elem);
+    
+    //Dimensions of inner circle are outer circle - strokewidth*2
+    var innerCircle = document.createElement('div');
+    innerCircle.style.height = elemWidth - 2 * strokeWidth + "px";
+    innerCircle.style.width = elemWidth - 2 * strokeWidth + "px";
+    
+    innerCircle.classList.add("inner-shape");
+    innerCircle.classList.add("circle-shape");
+    innerCircle.classList.add("grow-shape");
+
+    elem.appendChild(innerCircle);
+}
+
+
+
+
+
+
+
 
 
 function maskPartOfCircle(element, side, percentToMask) {
@@ -867,10 +948,10 @@ const splitCellHorizontal = (elem, gap, animationInterval) => {
     setTimeout(function () {
         //seems to do nothing
         fixElement(dupNode);
-//        var style = window.getComputedStyle(dupNode, null);
-//        dupNode.style.left = style.left;
-//        dupNode.classList.remove("slide-horizontal");
-//        //Would ideally call the other function here...?
+        //        var style = window.getComputedStyle(dupNode, null);
+        //        dupNode.style.left = style.left;
+        //        dupNode.classList.remove("slide-horizontal");
+        //        //Would ideally call the other function here...?
     }, animationInterval);
 
 
@@ -1043,6 +1124,13 @@ function easeInQuad(t, b, c, d) {
     return c * (t /= d) * t + b;
 }
 
+
+//Given the stroke width, get the horizontal strokewidth at base of triangle (pythagoras) 
+function getTriangleBaseStrokeWidth(strokeWidth) {
+    //strokewidth^2 + 1/2*strokewidth ^2 = basewidth^2
+    //basewidth = sqrt(strokewidth^2 + 1/2*strokewidth ^2)
+    return Math.sqrt(Math.pow(strokeWidth, 2) + Math.pow((1 / 2) * strokeWidth, 2));
+}
 
 
 
