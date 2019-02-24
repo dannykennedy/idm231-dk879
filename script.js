@@ -42,11 +42,11 @@ const aquarius = (elem) => {
     shrinkElement(elem, animationInterval);
 
     setTimeout(function () {
-        secondTriangle = splitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
+        secondTriangle = zplitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
     }, animationInterval);
 
     setTimeout(function () {
-        thirdTriangle = splitCellHorizontal(elem, getWidth(elem) + strokeWidth * (-2), animationInterval);
+        thirdTriangle = zplitCellHorizontal(elem, getWidth(elem) + strokeWidth * (-2), animationInterval);
     }, animationInterval * 2 + 10);
 
     setTimeout(function () {
@@ -60,11 +60,11 @@ const aquarius = (elem) => {
     }, animationInterval * 4);
 
     setTimeout(function () {
-        splitCellVertical(secondTriangle, 0, animationInterval);
+        zplitCellVertical(secondTriangle, 0, animationInterval);
     }, animationInterval * 5);
 
     setTimeout(function () {
-        splitCellVertical(thirdTriangle, 0, animationInterval);
+        zplitCellVertical(thirdTriangle, 0, animationInterval);
     }, animationInterval * 6);
 
 }
@@ -83,15 +83,15 @@ const scorpio = (elem) => {
     shrinkElement(elem, animationInterval);
 
     setTimeout(function () {
-        secondCircle = splitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
+        secondCircle = zplitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
     }, animationInterval);
 
     setTimeout(function () {
-        thirdCircle = splitCellHorizontal(elem, getWidth(elem) + strokeWidth * (-2), animationInterval);
+        thirdCircle = zplitCellHorizontal(elem, getWidth(elem) + strokeWidth * (-2), animationInterval);
     }, animationInterval * 2 + 10);
 
     setTimeout(function () {
-        fourthCircle = splitCellHorizontal(elem, getWidth(elem) * 2 + strokeWidth * (-3), animationInterval);
+        fourthCircle = zplitCellHorizontal(elem, getWidth(elem) * 2 + strokeWidth * (-3), animationInterval);
     }, animationInterval * 3 + 20);
 
     setTimeout(function () {
@@ -169,15 +169,15 @@ function virgo(elem) {
     shrinkElement(elem, animationInterval);
 
     setTimeout(function () {
-        secondCircle = splitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
+        secondCircle = zplitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
     }, animationInterval);
 
     setTimeout(function () {
-        thirdCircle = splitCellHorizontal(elem, getWidth(elem) + strokeWidth * (-2), animationInterval);
+        thirdCircle = zplitCellHorizontal(elem, getWidth(elem) + strokeWidth * (-2), animationInterval);
     }, animationInterval * 2 + 10);
 
     setTimeout(function () {
-        fourthCircle = splitCellHorizontal(elem, getWidth(elem) * 2 + strokeWidth * (-3), animationInterval);
+        fourthCircle = zplitCellHorizontal(elem, getWidth(elem) * 2 + strokeWidth * (-3), animationInterval);
     }, animationInterval * 3 + 20);
 
     setTimeout(function () {
@@ -188,7 +188,7 @@ function virgo(elem) {
     }, animationInterval * 4);
 
     setTimeout(function () {
-        fifthCircle = splitCellVertical(fourthCircle, 15, animationInterval);
+        fifthCircle = zplitCellVertical(fourthCircle, 15, animationInterval);
     }, animationInterval * 5);
 
     setTimeout(function () {
@@ -303,7 +303,7 @@ const aries = (elem) => {
     shrinkElement(elem, animationInterval);
 
     setTimeout(function () {
-        secondCircle = splitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
+        secondCircle = zplitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
     }, animationInterval)
 
     setTimeout(function () {
@@ -568,25 +568,6 @@ function moveElemVerticalTwo(elem, distance) {
 }
 
 
-
-function splitLeftSmall(elem, animationInterval) {
-
-    secondElem = elem.cloneNode(true);
-    elem.parentElement.appendChild(secondElem);
-    secondElem.style.backgroundColor = 'blue';
-    secondElem.classList.add('move-left-small');
-
-    setTimeout(function () {
-        secondElem.classList.remove('move-left-small');
-        var style = window.getComputedStyle(secondElem, null);
-        secondElem.style.left = style.left;
-    }, animationInterval);
-
-    return secondElem;
-}
-
-
-
 function rotateElem(elem) {
 
     elem.classList.add("rotate-ninety");
@@ -844,6 +825,64 @@ const splitCellHorizontal = (elem, gap, animationInterval) => {
     return dupNode;
 }
 
+
+const zplitCellHorizontal = (elem, gap, animationInterval) => {
+
+    var style = window.getComputedStyle(elem, null);
+    var dupNode = elem.cloneNode(true);
+
+    let root = document.documentElement;
+    root.style.setProperty('--left-initial', style.left);
+    
+    dupNode.classList.add('move-left');
+    dupNode.style.left = getLeftDistance(elem) + getWidth(elem) + gap + "px";
+
+    document.getElementById('box').appendChild(dupNode);
+
+    return dupNode;
+}
+
+
+const zplitCellVertical = (elem, gap, animationInterval) => {
+    
+    
+    
+    elem.classList.remove('move-left');
+    var style = window.getComputedStyle(elem, null);
+    var dupNode = elem.cloneNode(true);
+
+    let root = document.documentElement;
+    root.style.setProperty('--top-initial', style.top);
+    
+    dupNode.classList.add('move-down');
+    dupNode.style.top = getTopDistance(elem) + getHeight(elem) + gap + "px";
+//    dupNode.style.top = "100px";
+
+    document.getElementById('box').appendChild(dupNode);
+
+    return dupNode;
+}
+
+
+const moveCellVertical = (elem, gap, animationInterval) => {
+
+    elem.classList.remove('move-left');
+    var style = window.getComputedStyle(elem, null);
+
+    let root = document.documentElement;
+    root.style.setProperty('--top-initial', style.top);
+    
+    elem.classList.add('move-down');
+    elem.style.top = getTopDistance(elem) + gap + "px";
+}
+
+
+
+
+
+
+
+
 const splitCellVertical = (elem, gap, animationInterval) => {
 
     var style = window.getComputedStyle(elem, null);
@@ -859,55 +898,6 @@ const splitCellVertical = (elem, gap, animationInterval) => {
     root.style.setProperty('--top-final', topFinal);
 
     dupNode.classList.add("slide-vertical");
-    document.getElementById('box').appendChild(dupNode);
-
-    return dupNode;
-}
-
-
-const moveCellVertical = (elem, gap, animationInterval) => {
-
-    var style = window.getComputedStyle(elem, null);
-
-    elem.classList.remove("slide-horizontal");
-
-    let root = document.documentElement;
-    //Why does this need the 1...
-    const topFinal = getTopDistance(elem) + gap + "px";
-
-    root.style.setProperty('--top-initial', style.top);
-    root.style.setProperty('--top-final', topFinal);
-
-    elem.classList.add("slide-vertical");
-
-    //Need to remove the class and fix the property once animation is over
-    //Otherwise it will be affected by other elements
-    setTimeout(function () {
-        var style = window.getComputedStyle(elem, null);
-        elem.style.top = style.top;
-        elem.classList.remove("slide-vertical");
-    }, animationInterval);
-}
-
-
-
-
-
-const divideCellHorizontal = (elem, gap) => {
-
-
-    var style = window.getComputedStyle(elem, null);
-    var dupNode = elem.cloneNode(true);
-
-    //Get style values of the element (minus 'px');
-    var elemLeftValue = parseInt(style.left.slice(0, -2));
-    var elemWidth = parseInt(style.width.slice(0, -2));
-
-    dupNode.classList.add("slide-horizontal");
-
-    let root = document.documentElement;
-    root.style.setProperty('--left-initial', style.left);
-    root.style.setProperty('--left-final', elemLeftValue + elemWidth + gap + "px");
     document.getElementById('box').appendChild(dupNode);
 
     return dupNode;
@@ -975,12 +965,3 @@ function getTriangleBaseStrokeWidth(strokeWidth) {
     //basewidth = sqrt(strokewidth^2 + 1/2*strokewidth ^2)
     return Math.sqrt(Math.pow(strokeWidth, 2) + Math.pow((1 / 2) * strokeWidth, 2));
 }
-
-
-
-
-
-
-
-
-//}

@@ -45,8 +45,6 @@ body {
     height: 250px;
     border: 1px solid var(--main-element-color);
 }
-
-
 .primary-shape {
     width: var(--primary-circle-width);
     height: var(--primary-circle-height);
@@ -65,6 +63,7 @@ body {
 }
 
 /*USE*/
+
 .circle {
     -webkit-clip-path: circle(50% at 50% 50%);
     clip-path: circle(50% at 50% 50%);
@@ -305,6 +304,40 @@ body {
         top: var(--top-final);
     }
 }
+
+
+
+
+.move-left {
+    animation-duration: var(--interval);
+    animation-name: moveLeft;
+    animation-fill-mode: forwards;
+}
+@keyframes moveLeft {
+    from {
+        left: var(--left-initial);
+    }
+    to {
+    }
+}
+
+.move-down {
+    animation-duration: var(--interval);
+    animation-name: moveDown;
+    animation-fill-mode: forwards;
+}
+@keyframes moveDown {
+    from {
+        top: var(--top-initial);
+    }
+    to {
+    }
+}
+
+
+
+
+
 .shrink-elem-arbitrary {
     animation-duration: var(--interval);
     animation-name: shrinkElemArbitrary;
@@ -315,16 +348,5 @@ body {
     to {
         width: var(--final-diameter);
         height: var(--final-diameter);
-    }
-}
-.move-left-small {
-    animation-duration: var(--interval);
-    animation-name: moveLeftSmall;
-    animation-fill-mode: forwards;
-}
-@keyframes moveLeftSmall {
-    from {}
-    to {
-        transform: translateX(27px);
     }
 }
