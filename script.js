@@ -1,4 +1,3 @@
-
 var animationInterval = 1000;
 
 //Get the stroke width from CSS, convert to an integer
@@ -17,26 +16,22 @@ const taurus = (elem) => {
 // AQUARIUS
 const aquarius = (elem) => {
 
-    var secondTriangle;
-    var thirdTriangle;
+    let triangles = [];
 
     shrinkElement(elem, animationInterval);
 
     setTimeout(function () {
-        secondTriangle = zplitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
-        thirdTriangle = zplitCellHorizontal(elem, getWidth(elem) + strokeWidth * (-2), animationInterval);
+        triangles = fanOutHorizontal(elem, 3, strokeWidth, animationInterval);
     }, animationInterval);
 
     setTimeout(function () {
-        emptyOutTriangle(elem);
-        emptyOutTriangle(secondTriangle);
-        emptyOutTriangle(thirdTriangle);
+        triangles.forEach(emptyOutTriangle);
     }, animationInterval * 2);
 
     setTimeout(function () {
-        splitCellVertical(elem, 0, animationInterval);
-        splitCellVertical(secondTriangle, 0, animationInterval);
-        splitCellVertical(thirdTriangle, 0, animationInterval);
+        triangles.forEach(function (item) {
+            splitCellVertical(item, 0, animationInterval);
+        });
     }, animationInterval * 3);
 }
 
@@ -44,23 +39,21 @@ const aquarius = (elem) => {
 // SCORPIO
 const scorpio = (elem) => {
 
-    var secondCircle;
-    var thirdCircle;
+    let topCircles = [];
     var fourthCircle;
     var triangle = document.getElementById('original-triangle');
 
     shrinkElement(elem, animationInterval);
 
     setTimeout(function () {
-        secondCircle = zplitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
-        thirdCircle = zplitCellHorizontal(elem, getWidth(elem) + strokeWidth * (-2), animationInterval);
-        fourthCircle = zplitCellHorizontal(elem, getWidth(elem) * 2 + strokeWidth * (-3), animationInterval);
+        topCircles = fanOutHorizontal(elem, 3, strokeWidth, animationInterval);
+        fourthCircle = splitCellHorizontal(elem, getWidth(elem) * 2 + strokeWidth * (-3), animationInterval);
     }, animationInterval);
 
     setTimeout(function () {
-        hollowOutCircle(elem, strokeWidth);
-        hollowOutCircle(secondCircle, strokeWidth);
-        hollowOutCircle(thirdCircle, strokeWidth);
+        topCircles.forEach(function (item) {
+            hollowOutCircle(item, strokeWidth);
+        });
         hollowOutCircle(fourthCircle, strokeWidth);
     }, animationInterval * 2);
 
@@ -69,38 +62,21 @@ const scorpio = (elem) => {
     }, animationInterval * 3);
 
     setTimeout(function () {
-        maskPartOfCircle(elem, 'bottom', 50);
-        maskPartOfCircle(secondCircle, 'bottom', 50);
-        maskPartOfCircle(thirdCircle, 'bottom', 50);
+        topCircles.forEach(function (item) {
+            maskPartOfCircle(item, 'bottom', 50);
+        });
         maskPartOfCircle(elem, 'left', 50);
     }, animationInterval * 3 + 100);
 
     setTimeout(function () {
-        addCircleDescender(elem, 50);
-        addCircleDescender(secondCircle, 50);
-        addCircleDescender(thirdCircle, 50);
+        topCircles.forEach(function (item) {
+            addCircleDescender(item, 50);
+        });
     }, animationInterval * 4 + 100);
 
     setTimeout(function () {
-        addCircleDescender(elem, 50);
-        addCircleDescender(secondCircle, 50);
-        addCircleDescender(thirdCircle, 50);
-    }, animationInterval * 5 + 100);
-
-    //Create mask
-    var mask = document.createElement('div');
-    mask.setAttribute("class", "mask");
-
-    setTimeout(function () {
-        mask.style.width = getWidth(fourthCircle) + 10 + "px";
-        mask.style.height = getHeight(fourthCircle) / 2 + "px";
-        mask.style.top = getTopDistance(fourthCircle) + "px";
-        mask.style.left = getLeftDistance(fourthCircle) + "px";
-        mask.style.zIndex = 2;
-        elem.parentElement.appendChild(mask);
+        maskPartOfCircle(fourthCircle, 'top', 50);
     }, animationInterval * 5);
-
-    ////////End common elements virgo scorpio
 
     setTimeout(function () {
         console.log(triangle);
@@ -121,90 +97,108 @@ const scorpio = (elem) => {
 
 function virgo(elem) {
 
-    var secondCircle;
-    var thirdCircle;
+    let topCircles = [];
     var fourthCircle;
-    var fifthCircle;
     var triangle = document.getElementById('original-triangle');
 
     shrinkElement(elem, animationInterval);
 
     setTimeout(function () {
-        secondCircle = zplitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
-        thirdCircle = zplitCellHorizontal(elem, getWidth(elem) + strokeWidth * (-2), animationInterval);
-        fourthCircle = zplitCellHorizontal(elem, getWidth(elem) * 2 + strokeWidth * (-3), animationInterval);
+        topCircles = fanOutHorizontal(elem, 3, strokeWidth, animationInterval);
+        fourthCircle = splitCellHorizontal(elem, getWidth(elem) * 2 + strokeWidth * (-3), animationInterval);
     }, animationInterval);
 
     setTimeout(function () {
-        hollowOutCircle(elem, strokeWidth);
-        hollowOutCircle(secondCircle, strokeWidth);
-        hollowOutCircle(thirdCircle, strokeWidth);
+        topCircles.forEach(function (item) {
+            hollowOutCircle(item, strokeWidth);
+        });
         hollowOutCircle(fourthCircle, strokeWidth);
     }, animationInterval * 2);
 
     setTimeout(function () {
         fifthCircle = splitCellVertical(fourthCircle, 15, animationInterval);
-        fifthCircle.style.zIndex = 2;
+        //        fifthCircle.style.zIndex = 2;
     }, animationInterval * 3);
 
     setTimeout(function () {
         fourthCircle.style.zIndex = 2000;
-        maskPartOfCircle(elem, 'bottom', 50);
-        maskPartOfCircle(secondCircle, 'bottom', 50);
-        maskPartOfCircle(thirdCircle, 'bottom', 50);
+        topCircles.forEach(function (item) {
+            maskPartOfCircle(item, 'bottom', 50);
+        });
         maskPartOfCircle(elem, 'left', 50);
-        
+
+        topCircles.forEach(function (item) {
+            addCircleDescender(item, 50);
+        });
+
     }, animationInterval * 4 + 100);
 
+    setTimeout(function () {
+        maskPartOfCircle(fifthCircle, 'top', 50);
+        maskPartOfCircle(fifthCircle, 'right', 70);
+    }, animationInterval * 5);
 
     setTimeout(function () {
-        addCircleDescender(elem, 50);
-        addCircleDescender(secondCircle, 50);
-        addCircleDescender(thirdCircle, 50);
-    }, animationInterval * 5 + 100);
+        fixElement(fifthCircle);
+        moveCellVertical(fourthCircle, 10, animationInterval);
+        shrinkElementArbitrary(triangle, animationInterval, 69);
+    }, animationInterval * 6 + 100);
+
+    setTimeout(function () {
+        lineFromTriangle(triangle, strokeWidth);
+    }, animationInterval * 7 + 100);
+
+    setTimeout(function () {
+        var style = window.getComputedStyle(triangle, null);
+        triangle.style.width = style.width;
+        triangle.style.height = style.height;
+
+        triangle.classList.remove('shrink-elem-arbitrary');
+
+        triangle.style.zIndex = 2002;
+
+        triangle.style.left = getLeftDistance(fourthCircle) - 1 + "px";
+        triangle.style.top = getBottomDistance(fourthCircle) - 20 + "px";
+
+        moveElement(triangle, 0, 0, animationInterval);
+    }, animationInterval * 8 + 100);
 
     //Create mask
     var mask = document.createElement('div');
     mask.setAttribute("class", "mask");
-
     setTimeout(function () {
-        mask.style.width = getWidth(fifthCircle) + 10 + "px";
-        mask.style.height = getHeight(fifthCircle) / 2 + "px";
-        mask.style.top = getTopDistance(fifthCircle) + "px";
-        mask.style.left = getLeftDistance(fifthCircle) + "px";
-        mask.style.zIndex = 2;
+        mask.style.width = getWidth(fourthCircle) - 9 + "px";
+        mask.style.height = getHeight(fourthCircle) / 2 + "px";
+        mask.style.top = getTopDistance(fourthCircle) + getHeight(fourthCircle) / 2 + 1 + "px";
+        mask.style.left = getLeftDistance(fourthCircle) + "px";
+        mask.style.zIndex = 2001;
         elem.parentElement.appendChild(mask);
-        maskPartOfCircle(fifthCircle, 'right', 50);
-    }, animationInterval * 6);
 
-    setTimeout(function () {
-        fixElement(fifthCircle);
-        moveCellVertical(fourthCircle, 22, animationInterval);
-    }, animationInterval * 6 + 100);
-
-    setTimeout(function () {
-        shrinkElementArbitrary(triangle, animationInterval, 50);
-    }, animationInterval * 8 + 100);
-
-    setTimeout(function () {
-        emptyOutTriangle(triangle);
     }, animationInterval * 9 + 100);
 
-//    setTimeout(function () {
-//        var style = window.getComputedStyle(triangle, null);
-//        triangle.style.width = style.width;
-//        triangle.style.height = style.height;
-//        triangle.classList.remove('shrink-elem-arbitrary');
-//        triangle.style.zIndex = 1000;
-//        triangle.childNodes[0].style.zIndex = -10;
-//        console.log(triangle.childNodes[0]);
-//        console.log("^");
-//        moveElement(triangle, getLeftDistance(fifthCircle) + getWidth(fifthCircle) - getWidth(triangle) * (3 / 4), getTopDistance(fourthCircle) + getHeight(fourthCircle)/2, animationInterval);
-//    }, animationInterval * 11 + 100);
-
-
-
 }
+
+
+
+function capricorn(elem) {
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+}
+
+
+
+
+
+
+
 
 
 const libra = (elem) => {
@@ -246,31 +240,41 @@ const libra = (elem) => {
 
 }
 
+
 // ARIES
 const aries = (elem) => {
-
-    var secondCircle;
-
+    
+    var circles = [];
+    
     shrinkElement(elem, animationInterval);
 
     setTimeout(function () {
-        secondCircle = zplitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
+        circles = fanOutHorizontal(elem, 2, strokeWidth, animationInterval);
     }, animationInterval)
 
     setTimeout(function () {
-        hollowOutCircle(elem, strokeWidth);
-        hollowOutCircle(secondCircle, strokeWidth);
+        circles.forEach(function(item){
+            hollowOutCircle(item, strokeWidth);
+        });
     }, animationInterval * 2);
 
     setTimeout(function () {
-        maskPartOfCircle(elem, 'bottom', 50);
-        maskPartOfCircle(secondCircle, 'bottom', 50);
+        circles.forEach(function(item){
+            maskPartOfCircle(item, 'bottom', 50);
+        });
     }, animationInterval * 3);
 
     setTimeout(function () {
         addCircleDescender(elem, 50);
     }, animationInterval * 4);
 }
+
+
+
+
+
+
+
 
 // GEMINI
 function gemini(originalCircle) {
@@ -345,11 +349,11 @@ const cancer = (elem) => {
     elem.style.zIndex = 100;
 
     setTimeout(function () {
-        secondCircle = splitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
+        secondCircle = splitCellCancer(elem, strokeWidth * (-1), animationInterval);
     }, animationInterval);
 
     setTimeout(function () {
-        thirdCircle = splitCellHorizontal(secondCircle, strokeWidth * (-1), animationInterval);
+        thirdCircle = splitCellCancer(secondCircle, strokeWidth * (-1), animationInterval);
     }, animationInterval * 2 + 50);
 
     setTimeout(function () {
@@ -668,7 +672,7 @@ function createBar(size, orientation) {
     return crossBar;
 }
 
-const splitCellHorizontal = (elem, gap, animationInterval) => {
+const splitCellCancer = (elem, gap, animationInterval) => {
 
     var style = window.getComputedStyle(elem, null);
     var dupNode = copyNode(elem);
@@ -689,7 +693,7 @@ const splitCellHorizontal = (elem, gap, animationInterval) => {
 }
 
 
-const zplitCellHorizontal = (elem, gap, animationInterval) => {
+const splitCellHorizontal = (elem, gap, animationInterval) => {
 
     var style = window.getComputedStyle(elem, null);
     var dupNode = copyNode(elem);
@@ -807,4 +811,35 @@ function fixElement(elem) {
     elem.classList.remove('slide-vertical');
     elem.classList.remove('slide-horizontal');
     elem.classList.remove('move-elem');
+}
+
+// "Fans out" the element and returns an array including the element and all the new fanned out nodes
+function fanOutHorizontal(elem, number, strokeWidth, animationInterval) {
+    let elems = [];
+    elems.push(elem);
+    for (var i = 1; i < number; i++) {
+        elems.push(splitCellHorizontal(elem, getWidth(elem) * (i - 1) + strokeWidth * (i * (-1)), animationInterval));
+    }
+    return elems;
+}
+
+function lineFromTriangle(elem, strokeWidth) {
+
+    // x is the base width of the line
+    // y - z = x/2
+    //                                    z       y          x           
+    //    -webkit - clip - path: polygon(50 % 0, 55 % 10 % , 10 % 100 % , 0 100 % );
+    //    clip - path: polygon(50 % 0, 55 % 10 % , 10 % 100 % , 0 100 % );
+
+    fixElement(elem);
+
+    const baseStrokeWidth = getTriangleBaseStrokeWidth(strokeWidth);
+    const baseStrokeWidthAsPercent = (100 / getWidth(elem)) * baseStrokeWidth;
+    const triangleHeight = (Math.sqrt(3) / 2) * baseStrokeWidthAsPercent;
+    const halfWidthPlus50 = 50 + baseStrokeWidthAsPercent / 2;
+
+    let root = document.documentElement;
+    root.style.setProperty('--triangle-line-clip-path', "polygon(50% 0, " + halfWidthPlus50 + "% " + triangleHeight + "%, " + baseStrokeWidthAsPercent + "% 100%, 0 100%)");
+
+    elem.classList.add('triangle-line');
 }

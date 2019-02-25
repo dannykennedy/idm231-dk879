@@ -28,6 +28,12 @@
     --main-background-color: #00FFCC;
     /*TIMING*/
     --interval: 1s;
+    /*ARRANGEMENT*/
+    --inner-shape-zindex: 10;
+    --bar-zindex: 2003;
+    /* SHAPES */
+    --triangle-line-clip-path: polygon(50% 0, 55% 10%, 10% 100%, 0 100%);
+    
 }
 html {
     box-sizing: border-box;
@@ -46,20 +52,20 @@ body {
     border: 1px solid var(--main-element-color);
 }
 .primary-shape {
+    display: grid;
+    position: absolute;
     width: var(--primary-circle-width);
     height: var(--primary-circle-height);
     background-color: var(--main-element-color);
-    display: grid;
-    position: absolute;
 }
 
 /*USE*/
 
 .inner-shape {
-    background-color: var(--main-background-color);
     margin: auto;
     display: block;
-    z-index: 10;
+    background-color: var(--main-background-color);
+    z-index: var(--inner-shape-zindex);
 }
 
 /*USE*/
@@ -67,6 +73,11 @@ body {
 .circle {
     -webkit-clip-path: circle(50% at 50% 50%);
     clip-path: circle(50% at 50% 50%);
+}
+.triangle {
+    grid-template-rows: 20px 1fr;
+    -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
 
 /*USE*/
@@ -87,11 +98,6 @@ body {
 
 /*USE*/
 
-.basic-triangle {
-    background-color: var(--main-element-color);
-    -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-}
 .inner-circle-custom {
     animation-duration: var(--interval);
     animation-name: growInnerCircle;
@@ -101,18 +107,6 @@ body {
     animation-duration: var(--interval);
     animation-name: growInnerCirclePrimary;
     animation-fill-mode: forwards;
-}
-.triangle {
-    display: grid;
-    grid-template-rows: 20px 1fr;
-    position: absolute;
-    top: 150px;
-    left: 150px;
-    width: var(--primary-circle-width);
-    height: var(--primary-circle-height);
-    background-color: var(--main-element-color);
-    -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
 .inner-triangle {
     grid-row-end: -1;
@@ -130,7 +124,7 @@ body {
     width: var(--stroke-width);
     height: var(--stroke-width);
     background-color: var(--main-element-color);
-    z-index: 100;
+    z-index: var(--bar-zindex);;
     animation-duration: var(--interval);
     animation-name: fadeIn;
     animation-fill-mode: forwards;
@@ -176,14 +170,6 @@ body {
     animation-duration: var(--interval);
     animation-name: growDescender;
     animation-fill-mode: forwards;
-}
-.not-rotated {
-    -ms-transform: rotate(0deg);
-    /* IE 9 */
-    -webkit-transform: rotate(0deg);
-    /* Safari */
-    transform: rotate(0deg);
-    /* Standard syntax */
 }
 @keyframes fadeIn {
     from {
@@ -304,10 +290,6 @@ body {
         top: var(--top-final);
     }
 }
-
-
-
-
 .move-left {
     animation-duration: var(--interval);
     animation-name: moveLeft;
@@ -317,10 +299,8 @@ body {
     from {
         left: var(--left-initial);
     }
-    to {
-    }
+    to {}
 }
-
 .move-down {
     animation-duration: var(--interval);
     animation-name: moveDown;
@@ -330,14 +310,8 @@ body {
     from {
         top: var(--top-initial);
     }
-    to {
-    }
+    to {}
 }
-
-
-
-
-
 .shrink-elem-arbitrary {
     animation-duration: var(--interval);
     animation-name: shrinkElemArbitrary;
@@ -348,5 +322,20 @@ body {
     to {
         width: var(--final-diameter);
         height: var(--final-diameter);
+    }
+}
+.triangle-line {
+    animation-duration: var(--interval);
+    animation-name: triangleLine;
+    animation-fill-mode: forwards;
+}
+@keyframes triangleLine {
+    from {
+        -webkit-clip-path: polygon(50% 0, 100% 100%, 100% 100%, 0 100%);
+        clip-path: polygon(50% 0, 100% 100%, 100% 100%, 0 100%);
+    }
+    to {
+        -webkit-clip-path: var(--triangle-line-clip-path);
+        clip-path: var(--triangle-line-clip-path);
     }
 }
