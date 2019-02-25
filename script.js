@@ -459,6 +459,90 @@ const cancer = (elem) => {
 
 }
 
+
+
+// CANCER
+const cancer2 = (elem) => {
+
+    originalHeight = getHeight(elem);
+
+    shrinkElement(elem, animationInterval);
+
+    var secondCircle;
+    var thirdCircle;
+
+    elem.style.zIndex = 100;
+
+    setTimeout(function () {
+        secondCircle = zplitCellHorizontal(elem, strokeWidth * (-1), animationInterval);
+    }, animationInterval);
+
+    setTimeout(function () {
+        thirdCircle = zplitCellHorizontal(secondCircle, strokeWidth * (-1), animationInterval);
+    }, animationInterval * 2 + 50);
+
+    setTimeout(function () {
+//        fixElement(secondCircle);
+        hollowOutCircle(elem, strokeWidth);
+        hollowOutCircle(thirdCircle, strokeWidth);
+    }, animationInterval * 3);
+
+    setTimeout(function () {
+        secondCircle.style.zIndex = 0;
+//        secondCircle.classList.add('grow-circle')
+        
+        secondCircle.style.transform = "scale(2.515)";
+    }, animationInterval * 4);
+
+
+    setTimeout(function () {
+
+        hollowOutCircle(secondCircle);
+
+    }, animationInterval * 5);
+
+
+    setTimeout(function () {
+
+        //Create mask
+        var mask = document.createElement('div');
+        mask.setAttribute("class", "mask");
+        //                mask.style.backgroundColor = "red";
+
+        mask.style.width = getWidth(thirdCircle) + 5 + "px";
+        mask.style.top = getTopDistance(thirdCircle) - strokeWidth + "px";
+        mask.style.left = getLeftDistance(thirdCircle) + "px";
+        mask.style.height = getHeight(thirdCircle) / 2 + strokeWidth + "px";
+
+        elem.parentElement.appendChild(mask);
+
+        //Create mask
+        var mask2 = document.createElement('div');
+        mask2.setAttribute("class", "mask");
+
+        mask2.style.width = getWidth(elem) + 5 + "px";
+        mask2.style.top = getBottomDistance(elem) - getHeight(elem) / 2 + "px";
+        mask2.style.left = getLeftDistance(elem) + "px";
+        mask2.style.height = getHeight(elem) / 2 + strokeWidth + "px";
+
+        elem.parentElement.appendChild(mask2);
+
+
+    }, animationInterval * 6);
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
 function moveElement(elem, left, top, animationInterval) {
 
     console.log("the top is " + top);
@@ -488,13 +572,6 @@ function moveElement(elem, left, top, animationInterval) {
 function growCircle(elem, animationInterval) {
 
     elem.classList.add('grow-circle');
-
-    setTimeout(function () {
-        var style = window.getComputedStyle(elem, null);
-        elem.style.width = style.width;
-        elem.style.height = style.height;
-        //                elem.classList.remove('grow-circle');
-    }, animationInterval + 50);
 
 }
 
@@ -813,12 +890,7 @@ const splitCellHorizontal = (elem, gap, animationInterval) => {
     document.getElementById('box').appendChild(dupNode);
 
     setTimeout(function () {
-        //seems to do nothing
         fixElement(dupNode);
-        //        var style = window.getComputedStyle(dupNode, null);
-        //        dupNode.style.left = style.left;
-        //        dupNode.classList.remove("slide-horizontal");
-        //        //Would ideally call the other function here...?
     }, animationInterval);
 
 
@@ -833,30 +905,34 @@ const zplitCellHorizontal = (elem, gap, animationInterval) => {
 
     let root = document.documentElement;
     root.style.setProperty('--left-initial', style.left);
-    
+
     dupNode.classList.add('move-left');
     dupNode.style.left = getLeftDistance(elem) + getWidth(elem) + gap + "px";
 
     document.getElementById('box').appendChild(dupNode);
+
+    setTimeout(function () {
+        fixElement(dupNode);
+    }, animationInterval+200);
 
     return dupNode;
 }
 
 
 const zplitCellVertical = (elem, gap, animationInterval) => {
-    
-    
-    
+
+
+
     elem.classList.remove('move-left');
     var style = window.getComputedStyle(elem, null);
     var dupNode = elem.cloneNode(true);
 
     let root = document.documentElement;
     root.style.setProperty('--top-initial', style.top);
-    
+
     dupNode.classList.add('move-down');
     dupNode.style.top = getTopDistance(elem) + getHeight(elem) + gap + "px";
-//    dupNode.style.top = "100px";
+    //    dupNode.style.top = "100px";
 
     document.getElementById('box').appendChild(dupNode);
 
@@ -871,7 +947,7 @@ const moveCellVertical = (elem, gap, animationInterval) => {
 
     let root = document.documentElement;
     root.style.setProperty('--top-initial', style.top);
-    
+
     elem.classList.add('move-down');
     elem.style.top = getTopDistance(elem) + gap + "px";
 }
