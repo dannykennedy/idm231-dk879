@@ -1,3 +1,5 @@
+"use strict";
+
 var animationInterval = 1000;
 
 //Get the stroke width from CSS, convert to an integer
@@ -98,8 +100,8 @@ const scorpio = (elem) => {
 function virgo(elem) {
 
     let topCircles = [];
-    var fourthCircle;
-    var triangle = document.getElementById('original-triangle');
+    let fourthCircle, fifthCircle;
+    let triangle = document.getElementById('original-triangle');
 
     shrinkElement(elem, animationInterval);
 
@@ -181,16 +183,17 @@ function virgo(elem) {
 
 
 function capricorn(elem) {
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+    flipTriangle(elem);
+
+    setTimeout(function () {
+        hollowFlippedTriangle(elem, strokeWidth);
+    }, animationInterval);
+
+}
+
+function flipTriangle(elem) {
+    elem.classList.add('flip-triangle');
 }
 
 
@@ -243,9 +246,9 @@ const libra = (elem) => {
 
 // ARIES
 const aries = (elem) => {
-    
+
     var circles = [];
-    
+
     shrinkElement(elem, animationInterval);
 
     setTimeout(function () {
@@ -253,13 +256,13 @@ const aries = (elem) => {
     }, animationInterval)
 
     setTimeout(function () {
-        circles.forEach(function(item){
+        circles.forEach(function (item) {
             hollowOutCircle(item, strokeWidth);
         });
     }, animationInterval * 2);
 
     setTimeout(function () {
-        circles.forEach(function(item){
+        circles.forEach(function (item) {
             maskPartOfCircle(item, 'bottom', 50);
         });
     }, animationInterval * 3);
@@ -800,6 +803,18 @@ function getTriangleBaseStrokeWidth(strokeWidth) {
     return Math.sqrt(Math.pow(strokeWidth, 2) + Math.pow((1 / 2) * strokeWidth, 2));
 }
 
+
+
+function triangleLongEdgeGivenHeight(height) {
+    return height * (Math.sqrt(3 / 2));
+}
+
+function triangleHeightGivenLongEdge(longEdge) {
+    return longEdge * (Math.sqrt(4 / 5));
+}
+
+
+
 // Remove slide and resize classes
 // Give the element these properties permanently
 function fixElement(elem) {
@@ -842,4 +857,40 @@ function lineFromTriangle(elem, strokeWidth) {
     root.style.setProperty('--triangle-line-clip-path', "polygon(50% 0, " + halfWidthPlus50 + "% " + triangleHeight + "%, " + baseStrokeWidthAsPercent + "% 100%, 0 100%)");
 
     elem.classList.add('triangle-line');
+}
+
+function asPercent(length, asPercentOfLength) {
+    return (100 / asPercentOfLength) * length;
+}
+
+//Angle in radians = Angle in degrees x PI / 180.
+function radiansToDegrees(radians) {
+    return radians * (Math.PI / 180);
+}
+
+function hollowFlippedTriangle(elem, strokeWidth) {
+
+    let topLeftDot = {};
+    let topRightDot = {};
+    let bottomDot = {};
+
+    const relativeStrokeWidth = asPercent(strokeWidth, getHeight(elem));
+
+    //* Math.PI / 180 is necessary because it's expecting radians
+    bottomDot.y = 100 - relativeStrokeWidth / Math.cos(radiansToDegrees(36.87)) / Math.sqrt(3 / 2);
+    bottomDot.x = 50 - (relativeStrokeWidth / 2);
+    topRightDot.y = relativeStrokeWidth;
+    topRightDot.x = 100 - ((relativeStrokeWidth / 2)) - (relativeStrokeWidth / Math.cos(radiansToDegrees(26.565)));
+    topLeftDot.y = relativeStrokeWidth;
+    topLeftDot.x = relativeStrokeWidth / 2;
+
+    const hollowPolygonString = `polygon(0 0, 100% 0, 50% 100%, ${bottomDot.x}% ${bottomDot.y}%, ${topRightDot.x}% ${topRightDot.y}%, ${topLeftDot.x}% ${topLeftDot.y}%)`;
+
+    const preHollowPolygonString = `polygon(0 0, 100% 0, 50% 100%, ${bottomDot.x}% ${bottomDot.y}%, 25% 50%, ${topLeftDot.x}% ${topLeftDot.y}%)`;
+
+    let root = document.documentElement;
+    root.style.setProperty('--flipped-hollow-triangle-clip-path', hollowPolygonString);
+    root.style.setProperty('--flipped-prehollow-triangle-clip-path', preHollowPolygonString);
+
+    elem.classList.add('hollow-flipped-triangle');
 }

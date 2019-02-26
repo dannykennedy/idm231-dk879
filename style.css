@@ -33,7 +33,8 @@
     --bar-zindex: 2003;
     /* SHAPES */
     --triangle-line-clip-path: polygon(50% 0, 55% 10%, 10% 100%, 0 100%);
-    
+    --flipped-hollow-triangle-clip-path: polygon(0 0, 100% 0, 50% 100%, 44% 88%, 84% 10%, 6% 10%);
+    --flipped-prehollow-triangle-clip-path: polygon(0 0, 100% 0, 50% 100%, 44% 88%, 84% 10%, 6% 10%);
 }
 html {
     box-sizing: border-box;
@@ -124,7 +125,8 @@ body {
     width: var(--stroke-width);
     height: var(--stroke-width);
     background-color: var(--main-element-color);
-    z-index: var(--bar-zindex);;
+    z-index: var(--bar-zindex);
+    ;
     animation-duration: var(--interval);
     animation-name: fadeIn;
     animation-fill-mode: forwards;
@@ -339,3 +341,49 @@ body {
         clip-path: var(--triangle-line-clip-path);
     }
 }
+.flip-triangle {
+    animation-duration: var(--interval);
+    animation-name: flipTriangle;
+    animation-fill-mode: forwards;
+}
+@keyframes flipTriangle {
+    from {
+        -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+    to {
+        -webkit-clip-path: polygon(50% 100%, 0 0, 100% 0);
+        clip-path: polygon(50% 100%, 0 0, 100% 0);
+    }
+}
+
+
+
+.hollow-flipped-triangle {
+    animation-duration: var(--interval);
+    animation-name: hollowFlippedTriangle;
+    animation-fill-mode: forwards;
+}
+@keyframes hollowFlippedTriangle {
+    from {
+        -webkit-clip-path: var(--flipped-prehollow-triangle-clip-path);
+        clip-path: var(--flipped-prehollow-triangle-clip-path);
+    }
+    to {
+        -webkit-clip-path: var(--flipped-hollow-triangle-clip-path);
+        clip-path: var(--flipped-hollow-triangle-clip-path);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+flipped-prehollow-triangle-clip-path:
