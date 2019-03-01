@@ -27,7 +27,9 @@ const aquarius = (elem) => {
     }, animationInterval);
 
     setTimeout(function () {
-        triangles.forEach(emptyOutTriangle);
+        triangles.forEach(function (item) {
+            hollowOutTriangle(item, strokeWidth);
+        });
     }, animationInterval * 2);
 
     setTimeout(function () {
@@ -36,6 +38,43 @@ const aquarius = (elem) => {
         });
     }, animationInterval * 3);
 }
+
+
+const sagittarius = (triangle) => {
+
+    shrinkElement(triangle, animationInterval);
+
+    setTimeout(function () {
+        hollowOutTriangle(triangle, strokeWidth);
+    }, animationInterval);
+
+    setTimeout(function () {
+        var crossBar = createBar(80, "vertical");
+        var leftDistance = getLeftDistance(triangle) + getWidth(triangle) / 2 - strokeWidth / 2;
+        var topDistance = getTopDistance(triangle) + strokeWidth;
+        positionElement(crossBar, topDistance, leftDistance);
+        triangle.parentElement.appendChild(crossBar);
+    }, animationInterval * 2);
+
+    setTimeout(function () {
+        var crossBar = createBar(getWidth(triangle), "horizontal");
+        var leftDistance = getLeftDistance(triangle);
+        var topDistance = getTopDistance(triangle) + 50;
+        positionElement(crossBar, topDistance, leftDistance);
+        triangle.parentElement.appendChild(crossBar);
+    }, animationInterval * 3);
+
+
+    var invisibleBox = document.getElementById('triangle-box');
+    setTimeout(function () {
+        rotateElem(invisibleBox);
+    }, animationInterval * 4);
+
+
+
+}
+
+
 
 
 // SCORPIO
@@ -94,6 +133,24 @@ const scorpio = (elem) => {
         triangle.style.zIndex = 1000;
         moveElement(triangle, getLeftDistance(fourthCircle) + getWidth(fourthCircle) - getWidth(triangle) * (3 / 4), getTopDistance(fourthCircle) + getHeight(fourthCircle) / 2 - getHeight(triangle) + 1, animationInterval);
     }, animationInterval * 7 + 100);
+
+    setTimeout(function () {
+         const final = copyNode(elem.parentElement);
+        final.style.marginTop = 500;
+    
+        final.style.border = "1px solid #FFF";
+//        final.parentElement.style.gridRowStart = 2;
+        elem.parentElement.parentElement.appendChild(final);
+        final.style.gridColumnStart = 2;
+//        final.parentElement.style.backgroundColor = 'red';
+        console.log(final);
+    }, animationInterval * 8 + 100);
+
+   
+
+
+
+
 }
 
 
@@ -180,15 +237,96 @@ function virgo(elem) {
 
 }
 
+function leo(circle) {
+
+    let circles = [];
+    shrinkElement(circle, animationInterval);
+
+    setTimeout(function () {
+        circles = fanOutHorizontal(circle, 3, strokeWidth, animationInterval);
+    }, animationInterval);
+
+    setTimeout(function () {
+        circles.forEach(function (item) {
+            hollowOutCircle(item, strokeWidth);
+        });
+        fixElement(circles[2]);
+        fixElement(circles[1]);
+        moveElement(circle, getLeftDistance(circle) + strokeWidth, getTopDistance(circle) + getHeight(circle) - 2 * strokeWidth, animationInterval);
+    }, animationInterval * 2 + 200);
+
+    setTimeout(function () {
+        fixElement(circle);
+        moveElement(circles[2], getLeftDistance(circles[2]), getTopDistance(circles[2]) + (2 * getHeight(circle)) - (3 * strokeWidth), animationInterval);
+    }, animationInterval * 3 + 300);
+
+    setTimeout(function () {
+        addCircleDescender(circles[1], 60);
+        maskPartOfCircle(circles[2], 'top', 60);
+    }, animationInterval * 4);
+
+    setTimeout(function () {
+        addMask(circle, getTopDistance(circle), getLeftDistance(circle), 20, 20);
+        addMask(circles[1], partwayDown(circles[1], 60), getLeftDistance(circles[1]) + 15, 15, 15);
+    }, animationInterval * 5);
+
+
+}
+
 
 
 function capricorn(elem) {
 
+    const circle = document.getElementById('original-circle');
+    console.log(circle);
+
     flipTriangle(elem);
+    const secondCircle = splitCellVertical(circle, -170, animationInterval);
+
+    setTimeout(function () {
+        shrinkElement(circle, animationInterval);
+        hollowFlippedTriangle(elem, strokeWidth);
+    }, animationInterval);
 
     setTimeout(function () {
         hollowFlippedTriangle(elem, strokeWidth);
-    }, animationInterval);
+        var style = window.getComputedStyle(circle, null);
+        circle.style.width = style.width;
+        circle.style.height = style.height;
+        circle.classList.remove('shrink-elem');
+        moveElement(circle, getRightDistance(elem) - getWidth(circle) - 7, getBottomDistance(elem) - getHeight(circle), animationInterval);
+    }, animationInterval * 2);
+
+    setTimeout(function () {
+        hollowOutCircle(circle, strokeWidth);
+        hollowOutCircle(secondCircle, strokeWidth);
+        elem.style.zIndex = 1000;
+        circle.style.zIndex = 1002;
+        circle.childNodes[0].style.zIndex = 1003;
+    }, animationInterval * 3);
+
+    setTimeout(function () {
+        secondCircle.classList.remove('move-down');
+        console.log(secondCircle);
+        moveElement(secondCircle, getLeftDistance(elem), getBottomDistance(elem) - getHeight(circle) - 8, animationInterval);
+    }, animationInterval * 4);
+
+    var mask = document.createElement('div');
+    mask.setAttribute("class", "mask");
+
+    setTimeout(function () {
+        maskPartOfCircle(secondCircle, 'bottom', 50);
+        maskPartOfCircle(secondCircle, 'right', 88);
+
+        mask.style.width = getWidth(elem) / 3 + "px";
+        mask.style.height = getHeight(elem) / 3 + "px";
+        mask.style.top = getTopDistance(elem) + getHeight(elem) * (2 / 3) + 5 + "px";
+        mask.style.left = getLeftDistance(elem) + getWidth(elem) / 3 + "px";
+        mask.style.zIndex = 1001;
+        elem.parentElement.appendChild(mask);
+    }, animationInterval * 5);
+
+
 
 }
 
@@ -574,26 +712,6 @@ const addCircleDescender = (elem, length) => {
     console.log(descenderBar);
 }
 
-function emptyOutTriangle(elem) {
-
-    var style = window.getComputedStyle(elem, null);
-
-    //Get style values of the element (minus 'px');
-    var elemWidth = getWidth(elem);
-    var elemHeight = getHeight(elem);
-
-    //Minus 2*stroke width (8)
-    var baseStrokeWidth = getTriangleBaseStrokeWidth(strokeWidth);
-    let root = document.documentElement;
-    root.style.setProperty('--inner-circle-width', elemWidth - 2 * baseStrokeWidth + "px");
-    root.style.setProperty('--inner-circle-height', elemWidth - 2 * baseStrokeWidth + "px");
-
-    //Create new circle, add to parent
-    var innerCircle = document.createElement('div');
-    innerCircle.setAttribute("class", "inner-triangle");
-    elem.appendChild(innerCircle);
-}
-
 // "Hollow out" a circle
 // i.e. create an inner circle with background colour
 function hollowOutCircle(elem, strokeWidth) {
@@ -607,6 +725,21 @@ function hollowOutCircle(elem, strokeWidth) {
     innerCircle.classList.add("grow-shape");
 
     elem.appendChild(innerCircle);
+}
+
+function addMask(elem, top, left, width, height) {
+
+    const mask = document.createElement('div');
+    mask.setAttribute("class", "mask");
+
+    mask.style.width = width + "px";
+    mask.style.top = top + "px";
+    mask.style.left = left + "px";
+    mask.style.height = height + "px";
+
+    elem.parentElement.appendChild(mask);
+
+    return mask;
 }
 
 
@@ -631,10 +764,10 @@ function maskPartOfCircle(element, side, percentToMask) {
             mask.style.height = elemHeight * (percentToMask / 100) + "px";
             break;
         case ("bottom"):
-            mask.style.width = elemWidth + "px";
+            mask.style.width = elemWidth + 5 + "px";
             mask.style.top = elemTopValue + (elemHeight * ((100 - percentToMask) / 100)) + "px";
             mask.style.left = elemLeftValue + "px";
-            mask.style.height = elemHeight * (percentToMask / 100) + "px";
+            mask.style.height = elemHeight * (percentToMask / 100) + 2 + "px";
             break;
         case ("left"):
             mask.style.width = elemWidth * (percentToMask / 100) + "px";
@@ -653,6 +786,7 @@ function maskPartOfCircle(element, side, percentToMask) {
             console.log("Please enter top, bottom, left or right. You entered: " + side);
 
     }
+    //    mask.style.backgroundColor = 'red';
 
     element.parentElement.appendChild(mask);
 }
@@ -754,7 +888,9 @@ const moveCellVertical = (elem, gap, animationInterval) => {
 //Helper functions
 
 function copyNode(elem) {
-    return elem.cloneNode(true);
+    const newNode = elem.cloneNode(true);
+    newNode.setAttribute('id', Math.random(10));
+    return newNode;
 }
 
 function positionElement(element, top, left) {
@@ -788,6 +924,12 @@ function getLeftDistance(elem) {
     return parseInt(style.left.slice(0, -2));
 }
 
+// Return right value of element as an integer, removing "px"
+function getRightDistance(elem) {
+    var style = window.getComputedStyle(elem, null);
+    return getLeftDistance(elem) + getWidth(elem);
+}
+
 // Return top Value of element as an integer, removing "px"
 function getTopDistance(elem) {
     var style = window.getComputedStyle(elem, null);
@@ -798,9 +940,14 @@ function getBottomDistance(elem) {
     return getTopDistance(elem) + getHeight(elem);
 }
 
+function partwayDown(elem, percent) {
+    return getTopDistance(elem) + getHeight(elem) * (percent / 100);
+}
+
 //Given the stroke width, get the horizontal strokewidth at base of triangle (pythagoras) 
 function getTriangleBaseStrokeWidth(strokeWidth) {
-    return Math.sqrt(Math.pow(strokeWidth, 2) + Math.pow((1 / 2) * strokeWidth, 2));
+    return strokeWidth / (Math.sin(degreesToRadians(63.435)));
+    //    return Math.sqrt(Math.pow(strokeWidth, 2) + Math.pow((1 / 2) * strokeWidth, 2));
 }
 
 
@@ -826,6 +973,7 @@ function fixElement(elem) {
     elem.classList.remove('slide-vertical');
     elem.classList.remove('slide-horizontal');
     elem.classList.remove('move-elem');
+    elem.classList.remove('move-left');
 }
 
 // "Fans out" the element and returns an array including the element and all the new fanned out nodes
@@ -833,7 +981,9 @@ function fanOutHorizontal(elem, number, strokeWidth, animationInterval) {
     let elems = [];
     elems.push(elem);
     for (var i = 1; i < number; i++) {
-        elems.push(splitCellHorizontal(elem, getWidth(elem) * (i - 1) + strokeWidth * (i * (-1)), animationInterval));
+        let newElem = splitCellHorizontal(elem, getWidth(elem) * (i - 1) + strokeWidth * (i * (-1)), animationInterval);
+        newElem.setAttribute('id', 'circle' + (i + 1));
+        elems.push(newElem);
     }
     return elems;
 }
@@ -864,8 +1014,8 @@ function asPercent(length, asPercentOfLength) {
 }
 
 //Angle in radians = Angle in degrees x PI / 180.
-function radiansToDegrees(radians) {
-    return radians * (Math.PI / 180);
+function degreesToRadians(degrees) {
+    return degrees * (Math.PI / 180);
 }
 
 function hollowFlippedTriangle(elem, strokeWidth) {
@@ -873,14 +1023,12 @@ function hollowFlippedTriangle(elem, strokeWidth) {
     let topLeftDot = {};
     let topRightDot = {};
     let bottomDot = {};
-
     const relativeStrokeWidth = asPercent(strokeWidth, getHeight(elem));
 
-    //* Math.PI / 180 is necessary because it's expecting radians
-    bottomDot.y = 100 - relativeStrokeWidth / Math.cos(radiansToDegrees(36.87)) / Math.sqrt(3 / 2);
+    bottomDot.y = 100 - relativeStrokeWidth / Math.cos(degreesToRadians(36.87)) / Math.sqrt(3 / 2);
     bottomDot.x = 50 - (relativeStrokeWidth / 2);
     topRightDot.y = relativeStrokeWidth;
-    topRightDot.x = 100 - ((relativeStrokeWidth / 2)) - (relativeStrokeWidth / Math.cos(radiansToDegrees(26.565)));
+    topRightDot.x = 100 - ((relativeStrokeWidth / 2)) - (relativeStrokeWidth / Math.cos(degreesToRadians(26.565)));
     topLeftDot.y = relativeStrokeWidth;
     topLeftDot.x = relativeStrokeWidth / 2;
 
@@ -894,3 +1042,54 @@ function hollowFlippedTriangle(elem, strokeWidth) {
 
     elem.classList.add('hollow-flipped-triangle');
 }
+
+function hollowOutTriangle(elem) {
+
+    console.log(elem);
+
+    let topDot = {};
+    let bottomLeftDot = {};
+    let bottomRightDot = {};
+    const relativeStrokeWidth = asPercent(strokeWidth, getHeight(elem));
+
+    bottomLeftDot.x = getTriangleBaseStrokeWidth(relativeStrokeWidth);
+    bottomRightDot.x = 100 - getTriangleBaseStrokeWidth(relativeStrokeWidth);
+    topDot.y = relativeStrokeWidth / (Math.cos(degreesToRadians(63.435)));
+
+    const preHollowPolygonString = `polygon(100% 100%, ${bottomRightDot.x}% 100%, 50% 100%, ${bottomLeftDot.x}% 100%, 0 100%, 50% 0)`;
+
+    const hollowPolygonString = `polygon(100% 100%, ${bottomRightDot.x}% 100%, 50% ${topDot.y}%, ${bottomLeftDot.x}% 100%, 0 100%, 50% 0)`;
+
+    let root = document.documentElement;
+    root.style.setProperty('--hollow-triangle-clip-path', hollowPolygonString);
+    root.style.setProperty('--prehollow-triangle-clip-path', preHollowPolygonString);
+
+    elem.classList.add('hollow-triangle');
+}
+
+
+
+//function clipHollowedTriangle(elem, strokeWidth) {
+//
+//    let topLeftDot = {};
+//    let topRightDot = {};
+//    let bottomDot = {};
+//    const relativeStrokeWidth = asPercent(strokeWidth, getHeight(elem));
+//
+//    bottomDot.y = 100 - relativeStrokeWidth / Math.cos(radiansToDegrees(36.87)) / Math.sqrt(3 / 2);
+//    bottomDot.x = 50 - (relativeStrokeWidth / 2);
+//    topRightDot.y = relativeStrokeWidth;
+//    topRightDot.x = 100 - ((relativeStrokeWidth / 2)) - (relativeStrokeWidth / Math.cos(radiansToDegrees(26.565)));
+//    topLeftDot.y = relativeStrokeWidth;
+//    topLeftDot.x = relativeStrokeWidth / 2;
+//
+//    const newPolygonString = `polygon(0 0, 100% 0, 50% 100%, ${bottomDot.x}% ${bottomDot.y}%, ${topRightDot.x}% ${topRightDot.y}%, ${topLeftDot.x}% ${topLeftDot.y}%)`;
+//
+//    const originalPolygonString = `polygon(0 0, 100% 0, 50% 100%, ${bottomDot.x}% ${bottomDot.y}%, ${topRightDot.x}% ${topRightDot.y}%, ${topLeftDot.x}% ${topLeftDot.y}%)`;
+//
+//    let root = document.documentElement;
+//    root.style.setProperty('--flipped-hollow-triangle-clip-path', newPolygonString);
+//    root.style.setProperty('--flipped-prehollow-triangle-clip-path', originalPolygonString);
+//
+//    elem.classList.add('hollow-flipped-triangle');
+//}

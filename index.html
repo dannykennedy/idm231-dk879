@@ -6,27 +6,57 @@
     <title>Zodiac builder</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    
-    
+
+    <script>
+        $(window).on('load', function() {
+            document.getElementById("select-method").addEventListener('click', function() {
+                var method = $("#select-method").children("option:selected").val();
+                console.log(method);
+            })
+        });
+
+
+
+        //    var method = $("#select-method").children("option:selected").val();
+        //        
+        //    console.log(method);
+
+    </script>
+
+
 
 </head>
 
 <body>
 
     <!-- invisible box -->
-    <div id=box>
 
+    <label>
+        star sign:
+        <select id="select-method">
+            <option value="taurus">Taurus</option>
+            <option value="aquarius">Aquarius</option>
+            <option value="gemini">gemini</option>
+            <option value="virgo">virgo</option>
+            <option value="capricorn">capricorn</option>
+            <option value="scorpio">scorpio</option>
+            <option value="aries">aries</option>
+            <option value="pisces">pisces</option>
+            <option value="libra">libra</option>
+        </select>
+    </label>
 
+    <div id="container" style="background-color: aqua;">
 
-        <div class="primary-shape circle" id="original-circle" style="top: 150px; left: 20px;" onclick="virgo(this)"></div>
+        <div id=box>
+            <div class="primary-shape circle" id="original-circle" style="top: 5px; left: 20px;" onclick="scorpio(this)"></div>
+            <div class="primary-shape triangle" id="original-triangle" style="top: 5px; left: 150px;" onclick="sagittarius(this)"></div>
+        </div>
 
-        <div class="primary-shape triangle" id="original-triangle" style="top: 150px; left: 150px;" onclick="capricorn(this)"></div>
-
-
+        <div id="zodiac-pigeonholes"></div>
 
     </div>
-    <!-- end invisible box -->
-    
+
     <script src="script.js"></script>
 
 </body>

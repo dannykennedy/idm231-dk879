@@ -35,6 +35,10 @@
     --triangle-line-clip-path: polygon(50% 0, 55% 10%, 10% 100%, 0 100%);
     --flipped-hollow-triangle-clip-path: polygon(0 0, 100% 0, 50% 100%, 44% 88%, 84% 10%, 6% 10%);
     --flipped-prehollow-triangle-clip-path: polygon(0 0, 100% 0, 50% 100%, 44% 88%, 84% 10%, 6% 10%);
+    --hollow-triangle-clip-path: polygon(0 0, 100% 0, 50% 100%, 44% 88%, 84% 10%, 6% 10%);
+    --prehollow-triangle-clip-path: polygon(0 0, 100% 0, 50% 100%, 44% 88%, 84% 10%, 6% 10%);
+    /*IMAGES*/
+    --background-image: url(starry-universe-james-bo-insogna.jpg);
 }
 html {
     box-sizing: border-box;
@@ -49,15 +53,28 @@ body {
     display: block;
     background: var(--main-background-color);
     width: 250px;
-    height: 250px;
+    height: 300px;
     border: 1px solid var(--main-element-color);
+    align-items: center;
 }
+
+#container {
+    position: absolute;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 500px;
+    height: 300px;
+    border: 1px solid #090;
+}
+
+
+
 .primary-shape {
     display: grid;
     position: absolute;
     width: var(--primary-circle-width);
     height: var(--primary-circle-height);
-    background-color: var(--main-element-color);
+    background: var(--background-image);
 }
 
 /*USE*/
@@ -76,7 +93,6 @@ body {
     clip-path: circle(50% at 50% 50%);
 }
 .triangle {
-    grid-template-rows: 20px 1fr;
     -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
@@ -124,9 +140,8 @@ body {
     position: absolute;
     width: var(--stroke-width);
     height: var(--stroke-width);
-    background-color: var(--main-element-color);
+    background: var(--background-image);
     z-index: var(--bar-zindex);
-    ;
     animation-duration: var(--interval);
     animation-name: fadeIn;
     animation-fill-mode: forwards;
@@ -272,11 +287,11 @@ body {
 @keyframes rotateNinetyClockwise {
     from {}
     to {
-        -ms-transform: rotate(-90deg);
+        -ms-transform: rotate(26.5deg);
         /* IE 9 */
-        -webkit-transform: rotate(-90deg);
+        -webkit-transform: rotate(26.5deg);
         /* Safari */
-        transform: rotate(-90deg);
+        transform: rotate(26.5deg);
         /* Standard syntax */
     }
 }
@@ -356,9 +371,6 @@ body {
         clip-path: polygon(50% 100%, 0 0, 100% 0);
     }
 }
-
-
-
 .hollow-flipped-triangle {
     animation-duration: var(--interval);
     animation-name: hollowFlippedTriangle;
@@ -374,16 +386,19 @@ body {
         clip-path: var(--flipped-hollow-triangle-clip-path);
     }
 }
+.hollow-triangle {
+    animation-duration: var(--interval);
+    animation-name: hollowTriangle;
+    animation-fill-mode: forwards;
+}
+@keyframes hollowTriangle {
+    from {
+        -webkit-clip-path: var(--prehollow-triangle-clip-path);
+        clip-path: var(--prehollow-triangle-clip-path);
+    }
+    to {
+        -webkit-clip-path: var(--hollow-triangle-clip-path);
+        clip-path: var(--hollow-triangle-clip-path);
+    }
+}
 
-
-
-
-
-
-
-
-
-
-
-
-flipped-prehollow-triangle-clip-path:
