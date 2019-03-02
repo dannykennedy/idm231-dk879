@@ -44,8 +44,17 @@ html {
     box-sizing: border-box;
     box-sizing: border-box;
 }
+header {
+    display: grid;
+    grid-template-columns: 25% 50% 25%;
+}
+
 body {
     background-color: var(--main-background-color);
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 1em;
+    line-height: 1.42857143;
+    color: #333;
 }
 #box {
     position: relative;

@@ -6,6 +6,139 @@ var animationInterval = 1000;
 var strokeWidth = window.getComputedStyle(document.documentElement).getPropertyValue('--stroke-width');
 strokeWidth = parseInt(strokeWidth.slice(0, -2));
 
+
+
+function computeStarSign(whichMonth, whichDayOfMonth) {
+
+    let astroSign = "";
+    
+    const circle = document.getElementById('original-circle');
+    const triangle = document.getElementById('original-triangle');
+
+    if ((whichMonth == 12 && whichDayOfMonth >= 22) || (whichMonth == 1 && whichDayOfMonth <= 19)) {
+        astroSign = "Cap";
+        capricorn(triangle);
+    } else if ((whichMonth == 11 && whichDayOfMonth >= 22) || (whichMonth == 12 && whichDayOfMonth <= 21)) {
+        astroSign = "Sag";
+        sagittarius(triangle);
+    } else if ((whichMonth == 10 && whichDayOfMonth >= 24) || (whichMonth == 11 && whichDayOfMonth <= 21)) {
+        astroSign = "Sco";
+        scorpio(circle);
+    } else if ((whichMonth == 9 && whichDayOfMonth >= 23) || (whichMonth == 10 && whichDayOfMonth <= 23)) {
+        astroSign = "Lib";
+        libra(circle);
+    } else if ((whichMonth == 8 && whichDayOfMonth >= 23) || (whichMonth == 9 && whichDayOfMonth <= 22)) {
+        astroSign = "Vir";
+        virgo(circle);
+    } else if ((whichMonth == 7 && whichDayOfMonth >= 23) || (whichMonth == 8 && whichDayOfMonth <= 22)) {
+        astroSign = "Leo";
+        leo(circle);
+    } else if ((whichMonth == 6 && whichDayOfMonth >= 22) || (whichMonth == 7 && whichDayOfMonth <= 22)) {
+        astroSign = "Can";
+        cancer(circle);
+    } else if ((whichMonth == 5 && whichDayOfMonth >= 21) || (whichMonth == 6 && whichDayOfMonth <= 21)) {
+        astroSign = "Gem";
+        gemini(circle);
+    } else if ((whichMonth == 4 && whichDayOfMonth >= 20) || (whichMonth == 5 && whichDayOfMonth <= 20)) {
+        astroSign = "Tau";
+        taurus(circle);
+    } else if ((whichMonth == 3 && whichDayOfMonth >= 21) || (whichMonth == 4 && whichDayOfMonth <= 19)) {
+        astroSign = "Ari";
+        aries(circle);
+    } else if ((whichMonth == 2 && whichDayOfMonth >= 19) || (whichMonth == 3 && whichDayOfMonth <= 20)) {
+        astroSign = "Pis";
+        pisces(circle);
+    } else if ((whichMonth == 1 && whichDayOfMonth >= 20) || (whichMonth == 2 && whichDayOfMonth <= 18)) {
+        astroSign = "Aqu";
+        aquarius(triangle);
+    } else {
+        alert("30 days hath September, April, June, and November; All the rest have thirty-one Except February - That's the weird one. I imagine you have a calendar on your phone. Stop looking for edge cases and leave me alone.")
+    }
+    return astroSign;
+}
+
+
+function animateStarSign() {
+
+    const monthDropdown = document.getElementById("select-month");
+    const month = monthDropdown.options[monthDropdown.selectedIndex].value;
+
+    const dayDropdown = document.getElementById("select-day");
+    const day = dayDropdown.options[dayDropdown.selectedIndex].value;
+
+    const astroSign = computeStarSign(month, day);
+
+    console.log("let's do this thankg " + astroSign);
+    
+//    animateElement(astroSign);
+}
+
+
+
+function animateElement(astroSign) {
+    
+    const circle = document.getElementById('original-circle');
+    const triangle = document.getElementById('original-triangle');
+    
+    switch (astroSign) {
+        case ("Cap"):
+            capricorn(triangle);
+            break;
+        case ("Sag"):
+            sagittarius(triangle);
+            break;
+        case ("Sco"):
+            scorpio(circle);
+            break;
+        case ("Lib"):
+            libra(circle);
+            break;
+        case ("Vir"):
+            virgo(circle);
+            break;
+        case ("Leo"):
+            leo(circle);
+            break;
+        case ("Can"):
+            cancer(document.getElementById(original-circle))
+            break;
+        case ("Gem"):
+
+            break;
+        case ("Tau"):
+            taurus(document.getElementById('original-circle'));
+            break;
+        case ("Ari"):
+            
+            break;
+        case ("Pis"):
+
+            break;
+        case ("Aqu"):
+
+            break;
+
+        default:
+            console.log("astroSign not valid in switch statement. Received: \"" + astroSign + "\"");
+
+    }
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
 // TAURUS
 const taurus = (elem) => {
     hollowOutCircle(elem, strokeWidth);
@@ -135,18 +268,18 @@ const scorpio = (elem) => {
     }, animationInterval * 7 + 100);
 
     setTimeout(function () {
-         const final = copyNode(elem.parentElement);
+        const final = copyNode(elem.parentElement);
         final.style.marginTop = 500;
-    
+
         final.style.border = "1px solid #FFF";
-//        final.parentElement.style.gridRowStart = 2;
+        //        final.parentElement.style.gridRowStart = 2;
         elem.parentElement.parentElement.appendChild(final);
         final.style.gridColumnStart = 2;
-//        final.parentElement.style.backgroundColor = 'red';
+        //        final.parentElement.style.backgroundColor = 'red';
         console.log(final);
     }, animationInterval * 8 + 100);
 
-   
+
 
 
 
@@ -480,7 +613,7 @@ function pisces(elem) {
 // CANCER
 const cancer = (elem) => {
 
-    originalHeight = getHeight(elem);
+    const originalHeight = getHeight(elem);
 
     shrinkElement(elem, animationInterval);
 
@@ -1093,3 +1226,51 @@ function hollowOutTriangle(elem) {
 //
 //    elem.classList.add('hollow-flipped-triangle');
 //}
+
+
+
+
+////CLASSES
+//
+//
+//// SHAPE
+//class Shape extends HTMLElement { 
+//  constructor(name) {
+//    this.name = name;
+//  }
+//  
+//  speak() {
+//    console.log(this.name + ' makes a noise.');
+//  }
+//}
+//
+//// CIRCLE
+//class Circle extends Shape {
+//  constructor(name) {
+//    super(name); // call the super class constructor and pass in the name parameter
+//  }
+//
+//  speak() {
+//    console.log(this.name + ' is a circle');
+//  }
+//}
+//
+//// TRIANGLE
+//class Triangle extends Shape {
+//  constructor(name) {
+//    super(name); // call the super class constructor and pass in the name parameter
+//  }
+//
+//  speak() {
+//    console.log(this.name + ' is a triangle');
+//  }
+//}
+//
+//
+//
+//
+//
+//let d = new Circle('Mitzie');
+//d.speak(); 
+//let t = new Triangle('trippy');
+//t.speak();
