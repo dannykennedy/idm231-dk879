@@ -19,20 +19,20 @@ var btn = document.getElementById("myBtn");
 var span = document.getElementsByClassName("close")[0];
 
 // When the user clicks on the button, open the modal 
-btn.onclick = function() {
-  modal.style.display = "block";
+btn.onclick = function () {
+    modal.style.display = "block";
 }
 
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
+span.onclick = function () {
+    modal.style.display = "none";
 }
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
 }
 
 
@@ -41,7 +41,7 @@ window.onclick = function(event) {
 function computeStarSign(whichMonth, whichDayOfMonth) {
 
     let astroSign = "";
-    
+
     const circle = document.getElementById('original-circle');
     const triangle = document.getElementById('original-triangle');
 
@@ -98,95 +98,33 @@ function animateStarSign() {
 
     const astroSign = computeStarSign(month, day);
 
-    console.log("let's do this thankg " + astroSign);
-    
-//    animateElement(astroSign);
 }
-
-
-
-function animateElement(astroSign) {
-    
-    const circle = document.getElementById('original-circle');
-    const triangle = document.getElementById('original-triangle');
-    
-    switch (astroSign) {
-        case ("Cap"):
-            capricorn(triangle);
-            break;
-        case ("Sag"):
-            sagittarius(triangle);
-            break;
-        case ("Sco"):
-            scorpio(circle);
-            break;
-        case ("Lib"):
-            libra(circle);
-            break;
-        case ("Vir"):
-            virgo(circle);
-            break;
-        case ("Leo"):
-            leo(circle);
-            break;
-        case ("Can"):
-            cancer(document.getElementById(original-circle))
-            break;
-        case ("Gem"):
-
-            break;
-        case ("Tau"):
-            taurus(document.getElementById('original-circle'));
-            break;
-        case ("Ari"):
-            
-            break;
-        case ("Pis"):
-
-            break;
-        case ("Aqu"):
-
-            break;
-
-        default:
-            console.log("astroSign not valid in switch statement. Received: \"" + astroSign + "\"");
-
-    }
-
-
-
-
-
-
-
-
-
-}
-
-
-
-
 
 
 
 // TAURUS
-const taurus = (elem) => {
-    hollowOutCircle(elem, strokeWidth);
-    var topCircle = splitCellVertical(elem, -170, animationInterval);
+const taurus = (circle) => {
+    
+    fadeOutTriangle();
+
+    hollowOutCircle(circle, strokeWidth);
+    var topCircle = splitCellVertical(circle, -170, animationInterval);
     setTimeout(function () {
         maskPartOfCircle(topCircle, "top", 60);
     }, animationInterval);
 }
 
 // AQUARIUS
-const aquarius = (elem) => {
+const aquarius = (triangle) => {
+    
+    fadeOutCircle();
 
     let triangles = [];
 
-    shrinkElement(elem, animationInterval);
+    shrinkElement(triangle, animationInterval);
 
     setTimeout(function () {
-        triangles = fanOutHorizontal(elem, 3, strokeWidth, animationInterval);
+        triangles = fanOutHorizontal(triangle, 3, strokeWidth, animationInterval);
     }, animationInterval);
 
     setTimeout(function () {
@@ -204,6 +142,8 @@ const aquarius = (elem) => {
 
 
 const sagittarius = (triangle) => {
+    
+    fadeOutCircle();
 
     shrinkElement(triangle, animationInterval);
 
@@ -238,20 +178,18 @@ const sagittarius = (triangle) => {
 }
 
 
-
-
 // SCORPIO
-const scorpio = (elem) => {
+const scorpio = (circle) => {
 
     let topCircles = [];
     var fourthCircle;
     var triangle = document.getElementById('original-triangle');
 
-    shrinkElement(elem, animationInterval);
+    shrinkElement(circle, animationInterval);
 
     setTimeout(function () {
-        topCircles = fanOutHorizontal(elem, 3, strokeWidth, animationInterval);
-        fourthCircle = splitCellHorizontal(elem, getWidth(elem) * 2 + strokeWidth * (-3), animationInterval);
+        topCircles = fanOutHorizontal(circle, 3, strokeWidth, animationInterval);
+        fourthCircle = splitCellHorizontal(circle, getWidth(circle) * 2 + strokeWidth * (-3), animationInterval);
     }, animationInterval);
 
     setTimeout(function () {
@@ -269,7 +207,7 @@ const scorpio = (elem) => {
         topCircles.forEach(function (item) {
             maskPartOfCircle(item, 'bottom', 50);
         });
-        maskPartOfCircle(elem, 'left', 50);
+        maskPartOfCircle(circle, 'left', 50);
     }, animationInterval * 3 + 100);
 
     setTimeout(function () {
@@ -297,17 +235,17 @@ const scorpio = (elem) => {
         moveElement(triangle, getLeftDistance(fourthCircle) + getWidth(fourthCircle) - getWidth(triangle) * (3 / 4), getTopDistance(fourthCircle) + getHeight(fourthCircle) / 2 - getHeight(triangle) + 1, animationInterval);
     }, animationInterval * 7 + 100);
 
-//    setTimeout(function () {
-//        const final = copyNode(elem.parentElement);
-//        final.style.marginTop = 500;
-//
-//        final.style.border = "1px solid #FFF";
-//        //        final.parentElement.style.gridRowStart = 2;
-//        elem.parentElement.parentElement.appendChild(final);
-//        final.style.gridColumnStart = 2;
-//        //        final.parentElement.style.backgroundColor = 'red';
-//        console.log(final);
-//    }, animationInterval * 8 + 100);
+    //    setTimeout(function () {
+    //        const final = copyNode(elem.parentElement);
+    //        final.style.marginTop = 500;
+    //
+    //        final.style.border = "1px solid #FFF";
+    //        //        final.parentElement.style.gridRowStart = 2;
+    //        elem.parentElement.parentElement.appendChild(final);
+    //        final.style.gridColumnStart = 2;
+    //        //        final.parentElement.style.backgroundColor = 'red';
+    //        console.log(final);
+    //    }, animationInterval * 8 + 100);
 
 
 
@@ -317,17 +255,17 @@ const scorpio = (elem) => {
 }
 
 
-function virgo(elem) {
-
+const virgo = (circle) => {
+    
     let topCircles = [];
     let fourthCircle, fifthCircle;
     let triangle = document.getElementById('original-triangle');
 
-    shrinkElement(elem, animationInterval);
+    shrinkElement(circle, animationInterval);
 
     setTimeout(function () {
-        topCircles = fanOutHorizontal(elem, 3, strokeWidth, animationInterval);
-        fourthCircle = splitCellHorizontal(elem, getWidth(elem) * 2 + strokeWidth * (-3), animationInterval);
+        topCircles = fanOutHorizontal(circle, 3, strokeWidth, animationInterval);
+        fourthCircle = splitCellHorizontal(circle, getWidth(circle) * 2 + strokeWidth * (-3), animationInterval);
     }, animationInterval);
 
     setTimeout(function () {
@@ -347,7 +285,7 @@ function virgo(elem) {
         topCircles.forEach(function (item) {
             maskPartOfCircle(item, 'bottom', 50);
         });
-        maskPartOfCircle(elem, 'left', 50);
+        maskPartOfCircle(circle, 'left', 50);
 
         topCircles.forEach(function (item) {
             addCircleDescender(item, 50);
@@ -394,13 +332,15 @@ function virgo(elem) {
         mask.style.top = getTopDistance(fourthCircle) + getHeight(fourthCircle) / 2 + 1 + "px";
         mask.style.left = getLeftDistance(fourthCircle) + "px";
         mask.style.zIndex = 2001;
-        elem.parentElement.appendChild(mask);
+        circle.parentElement.appendChild(mask);
 
     }, animationInterval * 9 + 100);
 
 }
 
-function leo(circle) {
+const leo = (circle) => {
+    
+    fadeOutTriangle();
 
     let circles = [];
     shrinkElement(circle, animationInterval);
@@ -436,34 +376,32 @@ function leo(circle) {
 
 }
 
-
-
-function capricorn(elem) {
+const capricorn = (triangle) => {
 
     const circle = document.getElementById('original-circle');
     console.log(circle);
 
-    flipTriangle(elem);
+    flipTriangle(triangle);
     const secondCircle = splitCellVertical(circle, -170, animationInterval);
 
     setTimeout(function () {
         shrinkElement(circle, animationInterval);
-        hollowFlippedTriangle(elem, strokeWidth);
+        hollowFlippedTriangle(triangle, strokeWidth);
     }, animationInterval);
 
     setTimeout(function () {
-        hollowFlippedTriangle(elem, strokeWidth);
+        hollowFlippedTriangle(triangle, strokeWidth);
         var style = window.getComputedStyle(circle, null);
         circle.style.width = style.width;
         circle.style.height = style.height;
         circle.classList.remove('shrink-elem');
-        moveElement(circle, getRightDistance(elem) - getWidth(circle) - 7, getBottomDistance(elem) - getHeight(circle), animationInterval);
+        moveElement(circle, getRightDistance(triangle) - getWidth(circle) - 7, getBottomDistance(triangle) - getHeight(circle), animationInterval);
     }, animationInterval * 2);
 
     setTimeout(function () {
         hollowOutCircle(circle, strokeWidth);
         hollowOutCircle(secondCircle, strokeWidth);
-        elem.style.zIndex = 1000;
+        triangle.style.zIndex = 1000;
         circle.style.zIndex = 1002;
         circle.childNodes[0].style.zIndex = 1003;
     }, animationInterval * 3);
@@ -471,7 +409,7 @@ function capricorn(elem) {
     setTimeout(function () {
         secondCircle.classList.remove('move-down');
         console.log(secondCircle);
-        moveElement(secondCircle, getLeftDistance(elem), getBottomDistance(elem) - getHeight(circle) - 8, animationInterval);
+        moveElement(secondCircle, getLeftDistance(triangle), getBottomDistance(triangle) - getHeight(circle) - 8, animationInterval);
     }, animationInterval * 4);
 
     var mask = document.createElement('div');
@@ -481,29 +419,17 @@ function capricorn(elem) {
         maskPartOfCircle(secondCircle, 'bottom', 50);
         maskPartOfCircle(secondCircle, 'right', 88);
 
-        mask.style.width = getWidth(elem) / 3 + "px";
-        mask.style.height = getHeight(elem) / 3 + "px";
-        mask.style.top = getTopDistance(elem) + getHeight(elem) * (2 / 3) + 5 + "px";
-        mask.style.left = getLeftDistance(elem) + getWidth(elem) / 3 + "px";
+        mask.style.width = getWidth(triangle) / 3 + "px";
+        mask.style.height = getHeight(triangle) / 3 + "px";
+        mask.style.top = getTopDistance(triangle) + getHeight(triangle) * (2 / 3) + 5 + "px";
+        mask.style.left = getLeftDistance(triangle) + getWidth(triangle) / 3 + "px";
         mask.style.zIndex = 1001;
-        elem.parentElement.appendChild(mask);
+        triangle.parentElement.appendChild(mask);
     }, animationInterval * 5);
 
 
 
 }
-
-function flipTriangle(elem) {
-    elem.classList.add('flip-triangle');
-}
-
-
-
-
-
-
-
-
 
 const libra = (elem) => {
 
@@ -546,14 +472,16 @@ const libra = (elem) => {
 
 
 // ARIES
-const aries = (elem) => {
+const aries = (circle) => {
+    
+    fadeOutTriangle();
 
     var circles = [];
 
-    shrinkElement(elem, animationInterval);
+    shrinkElement(circle, animationInterval);
 
     setTimeout(function () {
-        circles = fanOutHorizontal(elem, 2, strokeWidth, animationInterval);
+        circles = fanOutHorizontal(circle, 2, strokeWidth, animationInterval);
     }, animationInterval)
 
     setTimeout(function () {
@@ -569,68 +497,65 @@ const aries = (elem) => {
     }, animationInterval * 3);
 
     setTimeout(function () {
-        addCircleDescender(elem, 50);
+        addCircleDescender(circle, 50);
     }, animationInterval * 4);
 }
 
-
-
-
-
-
-
-
 // GEMINI
-function gemini(originalCircle) {
+const gemini = (circle) => {
+    
+    fadeOutTriangle();
 
     var gapBetweenCircles = 35;
 
-    hollowOutCircle(originalCircle, strokeWidth);
-    var topCircle = splitCellVertical(originalCircle, -210);
+    hollowOutCircle(circle, strokeWidth);
+    var topCircle = splitCellVertical(circle, -210);
 
     setTimeout(function () {
         maskPartOfCircle(topCircle, 'top', 70);
     }, animationInterval);
 
     setTimeout(function () {
-        maskPartOfCircle(originalCircle, 'bottom', 70);
+        maskPartOfCircle(circle, 'bottom', 70);
     }, animationInterval);
 
     setTimeout(function () {
         var bar1 = createBar(gapBetweenCircles * 1.4, "vertical");
-        positionElement(bar1, getBottomDistance(topCircle) - 8, getLeftDistance(originalCircle) + getWidth(originalCircle) * 0.3);
-        originalCircle.parentElement.appendChild(bar1);
+        positionElement(bar1, getBottomDistance(topCircle) - 8, getLeftDistance(circle) + getWidth(circle) * 0.3);
+        circle.parentElement.appendChild(bar1);
 
         var bar2 = createBar(gapBetweenCircles * 1.4, "vertical");
-        positionElement(bar2, getBottomDistance(topCircle) - 8, getLeftDistance(originalCircle) + getWidth(originalCircle) * 0.6);
-        originalCircle.parentElement.appendChild(bar2);
+        positionElement(bar2, getBottomDistance(topCircle) - 8, getLeftDistance(circle) + getWidth(circle) * 0.6);
+        circle.parentElement.appendChild(bar2);
     }, animationInterval * 2);
 
 }
 
 
 // PISCES
-function pisces(elem) {
+const pisces = (circle) => {
+    
+    fadeOutTriangle();
 
     var gap = 20;
 
     var invisibleBox = document.getElementById("box");
 
-    hollowOutCircle(elem, strokeWidth);
-    var topCircle = splitCellVertical(elem, -200)
+    hollowOutCircle(circle, strokeWidth);
+    var topCircle = splitCellVertical(circle, -200)
 
     setTimeout(function () {
         maskPartOfCircle(topCircle, "top", 50);
     }, animationInterval);
 
     setTimeout(function () {
-        maskPartOfCircle(elem, 'bottom', 50);
+        maskPartOfCircle(circle, 'bottom', 50);
     }, animationInterval);
 
     setTimeout(function () {
-        var crossBar = createBar(getWidth(elem) + gap, "vertical");
-        var leftDistance = getLeftDistance(elem) + getWidth(elem) / 2 - 4;
-        var topDistance = getTopDistance(elem) - getWidth(elem) / 2 - gap;
+        var crossBar = createBar(getWidth(circle) + gap, "vertical");
+        var leftDistance = getLeftDistance(circle) + getWidth(circle) / 2 - 4;
+        var topDistance = getTopDistance(circle) - getWidth(circle) / 2 - gap;
         positionElement(crossBar, topDistance, leftDistance);
         invisibleBox.appendChild(crossBar);
     }, animationInterval * 2);
@@ -641,19 +566,21 @@ function pisces(elem) {
 }
 
 // CANCER
-const cancer = (elem) => {
+const cancer = (circle) => {
+    
+    fadeOutTriangle();
 
-    const originalHeight = getHeight(elem);
+    const originalHeight = getHeight(circle);
 
-    shrinkElement(elem, animationInterval);
+    shrinkElement(circle, animationInterval);
 
     var secondCircle;
     var thirdCircle;
 
-    elem.style.zIndex = 100;
+    circle.style.zIndex = 100;
 
     setTimeout(function () {
-        secondCircle = splitCellCancer(elem, strokeWidth * (-1), animationInterval);
+        secondCircle = splitCellCancer(circle, strokeWidth * (-1), animationInterval);
     }, animationInterval);
 
     setTimeout(function () {
@@ -661,7 +588,7 @@ const cancer = (elem) => {
     }, animationInterval * 2 + 50);
 
     setTimeout(function () {
-        hollowOutCircle(elem, strokeWidth);
+        hollowOutCircle(circle, strokeWidth);
         hollowOutCircle(thirdCircle, strokeWidth);
     }, animationInterval * 3);
 
@@ -696,24 +623,22 @@ const cancer = (elem) => {
         mask.style.left = getLeftDistance(thirdCircle) + "px";
         mask.style.height = getHeight(thirdCircle) / 2 + strokeWidth + "px";
 
-        elem.parentElement.appendChild(mask);
+        circle.parentElement.appendChild(mask);
 
         //Create mask
         var mask2 = document.createElement('div');
         mask2.setAttribute("class", "mask");
         //                mask2.style.backgroundColor = "red";
 
-        mask2.style.width = getWidth(elem) + 5 + "px";
-        mask2.style.top = getBottomDistance(elem) - getHeight(elem) / 2 + "px";
-        mask2.style.left = getLeftDistance(elem) + "px";
-        mask2.style.height = getHeight(elem) / 2 + strokeWidth + "px";
+        mask2.style.width = getWidth(circle) + 5 + "px";
+        mask2.style.top = getBottomDistance(circle) - getHeight(circle) / 2 + "px";
+        mask2.style.left = getLeftDistance(circle) + "px";
+        mask2.style.height = getHeight(circle) / 2 + strokeWidth + "px";
 
-        elem.parentElement.appendChild(mask2);
+        circle.parentElement.appendChild(mask2);
 
 
     }, animationInterval * 6);
-
-
 
 
 }
@@ -1228,6 +1153,22 @@ function hollowOutTriangle(elem) {
     root.style.setProperty('--prehollow-triangle-clip-path', preHollowPolygonString);
 
     elem.classList.add('hollow-triangle');
+}
+
+function fadeOutTriangle() {
+    //Fade out triangle
+    const triangle = document.getElementById("original-triangle");
+    triangle.classList.add('fade-out');
+}
+
+function fadeOutCircle() {
+    //Fade out triangle
+    const circle = document.getElementById("original-circle");
+    circle.classList.add('fade-out');
+}
+
+function flipTriangle(elem) {
+    elem.classList.add('flip-triangle');
 }
 
 
