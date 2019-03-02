@@ -7,6 +7,36 @@ var strokeWidth = window.getComputedStyle(document.documentElement).getPropertyV
 strokeWidth = parseInt(strokeWidth.slice(0, -2));
 
 
+// MODAL THINGS
+
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal 
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+
+
 
 function computeStarSign(whichMonth, whichDayOfMonth) {
 
@@ -267,17 +297,17 @@ const scorpio = (elem) => {
         moveElement(triangle, getLeftDistance(fourthCircle) + getWidth(fourthCircle) - getWidth(triangle) * (3 / 4), getTopDistance(fourthCircle) + getHeight(fourthCircle) / 2 - getHeight(triangle) + 1, animationInterval);
     }, animationInterval * 7 + 100);
 
-    setTimeout(function () {
-        const final = copyNode(elem.parentElement);
-        final.style.marginTop = 500;
-
-        final.style.border = "1px solid #FFF";
-        //        final.parentElement.style.gridRowStart = 2;
-        elem.parentElement.parentElement.appendChild(final);
-        final.style.gridColumnStart = 2;
-        //        final.parentElement.style.backgroundColor = 'red';
-        console.log(final);
-    }, animationInterval * 8 + 100);
+//    setTimeout(function () {
+//        const final = copyNode(elem.parentElement);
+//        final.style.marginTop = 500;
+//
+//        final.style.border = "1px solid #FFF";
+//        //        final.parentElement.style.gridRowStart = 2;
+//        elem.parentElement.parentElement.appendChild(final);
+//        final.style.gridColumnStart = 2;
+//        //        final.parentElement.style.backgroundColor = 'red';
+//        console.log(final);
+//    }, animationInterval * 8 + 100);
 
 
 
