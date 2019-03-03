@@ -6,6 +6,18 @@ var animationInterval = 1000;
 var strokeWidth = window.getComputedStyle(document.documentElement).getPropertyValue('--stroke-width');
 strokeWidth = parseInt(strokeWidth.slice(0, -2));
 
+
+
+//var x = document.getElementById("c-major");
+//
+//x.play();
+//
+//function playAudio() {
+//    x.play();
+//}
+
+
+
 // Credit to: https://www.allure.com/story/zodiac-sign-personality-traits-dates
 const starSignQualities = {
 
@@ -157,14 +169,17 @@ function removeOriginalIds() {
     box.setAttribute('id', 'changed-box');
 }
 
-
-
+function playChord(chordName) {
+    const chord = document.getElementById(chordName);
+    chord.play();
+}
 
 
 // TAURUS
 const taurus = (circle) => {
 
     fadeOutTriangle();
+    playChord("g");
 
     hollowOutCircle(circle, strokeWidth);
     var topCircle = splitCellVertical(circle, -170, animationInterval);
@@ -175,6 +190,7 @@ const taurus = (circle) => {
     //Raise up icon and add description
     setTimeout(function () {
         finishAnimation("taurus");
+        playChord("c");
     }, animationInterval * 2);
 
 }
@@ -212,6 +228,7 @@ const aquarius = (triangle) => {
     fadeOutCircle();
 
     let triangles = [];
+    playChord("am");
 
     shrinkElement(triangle, animationInterval);
 
@@ -220,6 +237,7 @@ const aquarius = (triangle) => {
     }, animationInterval);
 
     setTimeout(function () {
+        playChord("dm");
         triangles.forEach(function (item) {
             hollowOutTriangle(item, strokeWidth);
         });
@@ -233,6 +251,7 @@ const aquarius = (triangle) => {
 
     //Raise up icon and add description
     setTimeout(function () {
+        playChord("g");
         finishAnimation("aquarius");
     }, animationInterval * 4);
 }
@@ -242,12 +261,14 @@ const sagittarius = (triangle) => {
     fadeOutCircle();
 
     shrinkElement(triangle, animationInterval);
+    playChord("f");
 
     setTimeout(function () {
         hollowOutTriangle(triangle, strokeWidth);
     }, animationInterval);
 
     setTimeout(function () {
+        playChord("f-2");
         var crossBar = createBar(80, "vertical");
         var leftDistance = getLeftDistance(triangle) + getWidth(triangle) / 2 - strokeWidth / 2;
         var topDistance = getTopDistance(triangle) + strokeWidth;
@@ -266,6 +287,7 @@ const sagittarius = (triangle) => {
 
     var invisibleBox = document.getElementById('triangle-box');
     setTimeout(function () {
+        playChord("em");
         rotateElem(invisibleBox);
     }, animationInterval * 4);
 
@@ -287,6 +309,7 @@ const scorpio = (circle) => {
     var triangle = document.getElementById('original-triangle');
 
     shrinkElement(circle, animationInterval);
+    playChord("c");
 
     setTimeout(function () {
         topCircles = fanOutHorizontal(circle, 3, strokeWidth, animationInterval);
@@ -298,6 +321,7 @@ const scorpio = (circle) => {
             hollowOutCircle(item, strokeWidth);
         });
         hollowOutCircle(fourthCircle, strokeWidth);
+        playChord("am");
     }, animationInterval * 2);
 
     setTimeout(function () {
@@ -315,6 +339,7 @@ const scorpio = (circle) => {
         topCircles.forEach(function (item) {
             addCircleDescender(item, 50);
         });
+        playChord("em");
     }, animationInterval * 4 + 100);
 
     setTimeout(function () {
@@ -324,6 +349,7 @@ const scorpio = (circle) => {
     setTimeout(function () {
         console.log(triangle);
         shrinkElemFour(triangle, animationInterval);
+        playChord("g");
     }, animationInterval * 6 + 100);
 
     setTimeout(function () {
@@ -368,6 +394,7 @@ const virgo = (circle) => {
     let triangle = document.getElementById('original-triangle');
 
     shrinkElement(circle, animationInterval);
+    playChord("c");
 
     setTimeout(function () {
         topCircles = fanOutHorizontal(circle, 3, strokeWidth, animationInterval);
@@ -379,6 +406,7 @@ const virgo = (circle) => {
             hollowOutCircle(item, strokeWidth);
         });
         hollowOutCircle(fourthCircle, strokeWidth);
+        playChord("g");
     }, animationInterval * 2);
 
     setTimeout(function () {
@@ -396,6 +424,7 @@ const virgo = (circle) => {
         topCircles.forEach(function (item) {
             addCircleDescender(item, 50);
         });
+        playChord("am");
 
     }, animationInterval * 4 + 100);
 
@@ -408,6 +437,7 @@ const virgo = (circle) => {
         fixElement(fifthCircle);
         moveCellVertical(fourthCircle, 10, animationInterval);
         shrinkElementArbitrary(triangle, animationInterval, 69);
+        playChord("e");
     }, animationInterval * 6 + 100);
 
     setTimeout(function () {
@@ -427,6 +457,7 @@ const virgo = (circle) => {
         triangle.style.top = getBottomDistance(fourthCircle) - 20 + "px";
 
         moveElement(triangle, 0, 0, animationInterval);
+        playChord("f");
     }, animationInterval * 8 + 100);
 
     //Create mask
@@ -444,6 +475,7 @@ const virgo = (circle) => {
 
     //Raise up icon and add description
     setTimeout(function () {
+        playChord("fm");
         finishAnimation("virgo");
     }, animationInterval * 10 + 100);
 
@@ -455,6 +487,7 @@ const leo = (circle) => {
 
     let circles = [];
     shrinkElement(circle, animationInterval);
+    playChord("g");
 
     setTimeout(function () {
         circles = fanOutHorizontal(circle, 3, strokeWidth, animationInterval);
@@ -467,6 +500,7 @@ const leo = (circle) => {
         fixElement(circles[2]);
         fixElement(circles[1]);
         moveElement(circle, getLeftDistance(circle) + strokeWidth, getTopDistance(circle) + getHeight(circle) - 2 * strokeWidth, animationInterval);
+        playChord("g7");
     }, animationInterval * 2 + 200);
 
     setTimeout(function () {
@@ -477,6 +511,7 @@ const leo = (circle) => {
     setTimeout(function () {
         addCircleDescender(circles[1], 60);
         maskPartOfCircle(circles[2], 'top', 60);
+        playChord("c");
     }, animationInterval * 4);
 
     setTimeout(function () {
@@ -499,6 +534,7 @@ const capricorn = (triangle) => {
 
     flipTriangle(triangle);
     const secondCircle = splitCellVertical(circle, -170, animationInterval);
+    playChord("c");
 
     setTimeout(function () {
         shrinkElement(circle, animationInterval);
@@ -506,6 +542,7 @@ const capricorn = (triangle) => {
     }, animationInterval);
 
     setTimeout(function () {
+        playChord("dm");
         hollowFlippedTriangle(triangle, strokeWidth);
         var style = window.getComputedStyle(circle, null);
         circle.style.width = style.width;
@@ -523,6 +560,7 @@ const capricorn = (triangle) => {
     }, animationInterval * 3);
 
     setTimeout(function () {
+        playChord("g");
         secondCircle.classList.remove('move-down');
         console.log(secondCircle);
         moveElement(secondCircle, getLeftDistance(triangle), getBottomDistance(triangle) - getHeight(circle) - 8, animationInterval);
@@ -557,6 +595,7 @@ const libra = (elem) => {
     var originalCircleWidth = getWidth(elem);
     var originalCircleBottom = getBottomDistance(elem);
 
+    playChord("f");
     shrinkElement(elem, animationInterval);
 
     setTimeout(function () {
@@ -568,6 +607,7 @@ const libra = (elem) => {
     mask.setAttribute("class", "mask");
 
     setTimeout(function () {
+        playChord("g");
         mask.style.width = getWidth(elem) / 3 + "px";
         mask.style.height = getHeight(elem) / 3 + "px";
         mask.style.top = getTopDistance(elem) + getHeight(elem) * (2 / 3) + "px";
@@ -584,6 +624,7 @@ const libra = (elem) => {
     }, animationInterval * 3);
 
     setTimeout(function () {
+        playChord("c");
         var bar1 = createBar(originalCircleWidth, "horizontal");
         positionElement(bar1, originalCircleBottom - strokeWidth * 3, getLeftDistance(elem) - getWidth(elem) / 2);
         elem.parentElement.appendChild(bar1);
@@ -605,12 +646,14 @@ const aries = (circle) => {
     var circles = [];
 
     shrinkElement(circle, animationInterval);
+    playChord("f");
 
     setTimeout(function () {
         circles = fanOutHorizontal(circle, 2, strokeWidth, animationInterval);
     }, animationInterval)
 
     setTimeout(function () {
+        playChord("fm");
         circles.forEach(function (item) {
             hollowOutCircle(item, strokeWidth);
         });
@@ -623,6 +666,7 @@ const aries = (circle) => {
     }, animationInterval * 3);
 
     setTimeout(function () {
+        playChord("c");
         addCircleDescender(circle, 50);
     }, animationInterval * 4);
 
@@ -711,6 +755,8 @@ const pisces = (circle) => {
 // CANCER
 const cancer = (circle) => {
 
+    playChord("c");
+
     fadeOutTriangle();
 
     const originalHeight = getHeight(circle);
@@ -727,6 +773,7 @@ const cancer = (circle) => {
     }, animationInterval);
 
     setTimeout(function () {
+        playChord("e");
         thirdCircle = splitCellCancer(secondCircle, strokeWidth * (-1), animationInterval);
     }, animationInterval * 2 + 50);
 
@@ -736,6 +783,7 @@ const cancer = (circle) => {
     }, animationInterval * 3);
 
     setTimeout(function () {
+        playChord("f");
         secondCircle.style.zIndex = 0;
         growCircle(secondCircle, animationInterval);
     }, animationInterval * 4);
@@ -755,6 +803,8 @@ const cancer = (circle) => {
 
 
     setTimeout(function () {
+
+        playChord("fm")
 
         //Create mask
         var mask = document.createElement('div');
@@ -786,7 +836,7 @@ const cancer = (circle) => {
     //Raise up icon and add description
     setTimeout(function () {
         finishAnimation("cancer");
-    }, animationInterval * 5);
+    }, animationInterval * 7);
 
 
 }
@@ -1323,7 +1373,7 @@ function flipTriangle(elem) {
 function finishAnimation(astroSign) {
 
     const box = document.getElementById('box');
-//    box.classList.remove('fade-in');
+    //    box.classList.remove('fade-in');
 
     var header = document.getElementsByTagName("HEADER")[0];
     header.style.zIndex = 999999999999999999999;
@@ -1331,6 +1381,7 @@ function finishAnimation(astroSign) {
     box.classList.add('float-up');
 
     setTimeout(function () {
+
         removeOriginalIds();
         const newBox = document.createElement('div');
         newBox.setAttribute('id', 'box');
@@ -1349,6 +1400,12 @@ function finishAnimation(astroSign) {
 
         container.appendChild(newBox);
     }, animationInterval + 100);
+
+    setTimeout(function () {
+        if (astroSign == "virgo"){
+            playChord("c");
+        }
+    }, animationInterval * 2);
 
 }
 
