@@ -35,7 +35,7 @@
 
         <div id="date-picker" style="justify-self: center;">
 
-            <span>Your birthday: </span>
+            <span style="z-index: 3000000">Your birthday: </span>
 
             <select id="select-month" name="select-month">
                 <option value="1">January</option>
@@ -91,7 +91,7 @@
 
         </div>
 
-        <div id="myBtn" style="justify-self: right;"><i class="fas fa-question"></i></div>
+        <div id="help" style="justify-self: right;"><i class="fas fa-question"></i></div>
 
 
     </header>
@@ -104,24 +104,19 @@
             <span class="close">&times;</span>
             
             <p>Enter your birthday and press 'abracadabra'.</p>
+            <p>A zodiac symbol will then be generated using only HTML elements and CSS animations.</p>
+            <p>Click on the symbol to get your horoscope!</p>
             
-            <p>A zodiac symbol will be generated using only HTML elements and CSS animations. A little bit of JS magic helps space the animations and re-use CSS transformations.</p>
         </div>
 
     </div>
 
     <!-- invisible box -->
-
-
-
-
-    <div id="container" style="background-color: #EEE;">
-
-        <div id="zodiac-pigeonhole"></div>
-
-        <div id=box>
-            <div class="primary-shape circle" id="original-circle" style="top: 5px; left: 150px;"></div>
-            <div class="primary-shape triangle" id="original-triangle" style="top: 5px; left: 250px;"></div>
+    <div id="container">
+       
+        <div id="box">
+            <div class="primary-shape circle" id="original-circle" style="top: 25px; left: 15px;"></div>
+            <div class="primary-shape triangle" id="original-triangle" style="top: 25px; left: 150px;"></div>
         </div>
 
     </div>
