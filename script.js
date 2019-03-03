@@ -63,6 +63,11 @@ const starSignQualities = {
         name: "Scorpio",
         dates: "October 23 - November 21",
         description: "Scorpio is one of the most misunderstood signs of the zodiac. Because of its incredible passion and power, Scorpio is often mistaken for a fire sign. In fact, Scorpio is a water sign that derives its strength from the psychic, emotional realm."
+    },
+    cancer: {
+        name: "Cancer",
+        dates: "June 21 - July 22",
+        description: "Cancer is a cardinal water sign. Represented by the crab, this oceanic crustacean seamlessly weaves between the sea and shore, representing Cancer’s ability to exist in both emotional and material realms. Cancers are highly intuitive, and their psychic abilities manifest in tangible spaces: For instance, Cancers can effortlessly pick up the energies of a room."
     }
 };
 
@@ -1317,10 +1322,11 @@ function flipTriangle(elem) {
 
 function finishAnimation(astroSign) {
 
+    const box = document.getElementById('box');
+//    box.classList.remove('fade-in');
+
     var header = document.getElementsByTagName("HEADER")[0];
     header.style.zIndex = 999999999999999999999;
-
-    const box = document.getElementById('box');
     box.style.zIndex = 1;
     box.classList.add('float-up');
 
@@ -1335,10 +1341,10 @@ function finishAnimation(astroSign) {
         box.classList.remove('float-up');
 
         //Add text to box
-        const astroText = document.createElement('p');
+        const astroText = document.createElement('div');
         astroText.classList.add('astro-text');
         astroText.classList.add('fade-in');
-        astroText.innerHTML = starSignQualities[astroSign].description;
+        astroText.innerHTML = "<h4>" + starSignQualities[astroSign].name + " (" + starSignQualities[astroSign].dates + ")</h4>" + "<p>" + starSignQualities[astroSign].description + "</p>";
         newBox.appendChild(astroText);
 
         container.appendChild(newBox);

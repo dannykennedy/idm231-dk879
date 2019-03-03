@@ -60,9 +60,8 @@ body {
     line-height: 1.42857143;
     color: #333;
 }
-
 .astro-text {
-    font-size: 0.8em;
+    font-size: 0.7em;
 }
 
 /*MODAL (W3 SCHOOLS)*/
@@ -71,12 +70,12 @@ body {
 /* The Modal (background) */
 
 .modal {
-    font-size: 0.8em;
+    font-size: 0.7em;
     display: none;
     /* Hidden by default */
     position: fixed;
     /* Stay in place */
-    z-index: 3000;
+    z-index: 99999999;
     /* Sit on top */
     left: 0;
     top: 0;
@@ -128,7 +127,7 @@ body {
     background: var(--main-background-color);
     width: 250px;
     height: 140px;
-/*    background-color: antiquewhite;*/
+    /*    background-color: antiquewhite;*/
     align-self: center;
 }
 #changed-box {
@@ -137,12 +136,11 @@ body {
     background: var(--main-background-color);
     width: 250px;
     height: 140px;
-/*    background-color: antiquewhite;*/
+    /*    background-color: antiquewhite;*/
     align-self: start;
 }
-
 #container {
-/*    position: absolute;*/
+    /*    position: absolute;*/
     display: grid;
     justify-items: center;
     width: 100%;
@@ -156,18 +154,12 @@ body {
     height: var(--primary-circle-height);
     background: var(--background-image);
 }
-
-
-
 .inner-shape {
     margin: auto;
     display: block;
     background-color: var(--main-background-color);
     z-index: var(--inner-shape-zindex);
 }
-
-
-
 .circle {
     -webkit-clip-path: circle(50% at 50% 50%);
     clip-path: circle(50% at 50% 50%);
@@ -513,14 +505,3 @@ body {
         clip-path: var(--hollow-triangle-clip-path);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
