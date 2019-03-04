@@ -1,22 +1,11 @@
 "use strict";
 
+// Set the animation interval
 var animationInterval = 1000;
 
-//Get the stroke width from CSS, convert to an integer
+// Get the stroke width from CSS, convert to an integer
 var strokeWidth = window.getComputedStyle(document.documentElement).getPropertyValue('--stroke-width');
 strokeWidth = parseInt(strokeWidth.slice(0, -2));
-
-
-
-//var x = document.getElementById("c-major");
-//
-//x.play();
-//
-//function playAudio() {
-//    x.play();
-//}
-
-
 
 // Credit to: https://www.allure.com/story/zodiac-sign-personality-traits-dates
 const starSignQualities = {
@@ -116,6 +105,8 @@ function computeStarSign(whichMonth, whichDayOfMonth) {
 
     const circle = document.getElementById('original-circle');
     const triangle = document.getElementById('original-triangle');
+    const datePicker = document.getElementById('date-picker');
+    datePicker.classList.add('fade-out');
 
     if ((whichMonth == 12 && whichDayOfMonth >= 22) || (whichMonth == 1 && whichDayOfMonth <= 19)) {
         capricorn(triangle);
@@ -154,6 +145,7 @@ function animateStarSign() {
 
     const dayDropdown = document.getElementById("select-day");
     const day = dayDropdown.options[dayDropdown.selectedIndex].value;
+    console.log("the birthday is " + month + day);
 
     const astroSign = computeStarSign(month, day);
 
@@ -175,8 +167,20 @@ function playChord(chordName) {
 }
 
 
+function setup() {
+
+    setTimeout(function () {
+        const datePicker = document.getElementById('date-picker');
+        datePicker.style.display = "none";
+    }, animationInterval + 100);
+
+}
+
+
 // TAURUS
 const taurus = (circle) => {
+
+    setup();
 
     fadeOutTriangle();
     playChord("g");
@@ -225,6 +229,8 @@ const taurus2 = (circle) => {
 // AQUARIUS
 const aquarius = (triangle) => {
 
+    setup();
+
     fadeOutCircle();
 
     let triangles = [];
@@ -257,6 +263,8 @@ const aquarius = (triangle) => {
 }
 
 const sagittarius = (triangle) => {
+
+    setup();
 
     fadeOutCircle();
 
@@ -303,6 +311,8 @@ const sagittarius = (triangle) => {
 
 // SCORPIO
 const scorpio = (circle) => {
+
+    setup();
 
     let topCircles = [];
     var fourthCircle;
@@ -388,6 +398,8 @@ const scorpio = (circle) => {
 
 
 const virgo = (circle) => {
+
+    setup();
 
     let topCircles = [];
     let fourthCircle, fifthCircle;
@@ -483,6 +495,8 @@ const virgo = (circle) => {
 
 const leo = (circle) => {
 
+    setup();
+
     fadeOutTriangle();
 
     let circles = [];
@@ -528,6 +542,8 @@ const leo = (circle) => {
 }
 
 const capricorn = (triangle) => {
+
+    setup();
 
     const circle = document.getElementById('original-circle');
     console.log(circle);
@@ -592,6 +608,8 @@ const capricorn = (triangle) => {
 
 const libra = (elem) => {
 
+    setup();
+
     var originalCircleWidth = getWidth(elem);
     var originalCircleBottom = getBottomDistance(elem);
 
@@ -641,6 +659,8 @@ const libra = (elem) => {
 // ARIES
 const aries = (circle) => {
 
+    setup();
+
     fadeOutTriangle();
 
     var circles = [];
@@ -679,6 +699,8 @@ const aries = (circle) => {
 // GEMINI
 const gemini = (circle) => {
 
+    setup();
+
     fadeOutTriangle();
 
     var gapBetweenCircles = 35;
@@ -714,6 +736,8 @@ const gemini = (circle) => {
 
 // PISCES
 const pisces = (circle) => {
+
+    setup();
 
     fadeOutTriangle();
 
@@ -754,6 +778,8 @@ const pisces = (circle) => {
 
 // CANCER
 const cancer = (circle) => {
+
+    setup();
 
     playChord("c");
 
@@ -1370,6 +1396,11 @@ function flipTriangle(elem) {
 }
 
 
+
+
+// PAGE FUNCTIONS
+
+// Raise up star sign, display text below
 function finishAnimation(astroSign) {
 
     const box = document.getElementById('box');
@@ -1381,6 +1412,10 @@ function finishAnimation(astroSign) {
     box.classList.add('float-up');
 
     setTimeout(function () {
+
+        // Display refresh button
+        const refreshButton = document.getElementById('button-refresh');
+        refreshButton.style.display = 'block';
 
         removeOriginalIds();
         const newBox = document.createElement('div');
@@ -1400,13 +1435,43 @@ function finishAnimation(astroSign) {
 
         container.appendChild(newBox);
     }, animationInterval + 100);
+}
 
-    setTimeout(function () {
-        if (astroSign == "virgo"){
-            playChord("c");
-        }
-    }, animationInterval * 2);
+// Remove the star sign and start again from date selection
+function refresh() {
 
+    var child = document.getElementById('changed-box');
+    var box = document.getElementById('box');
+
+    // Only do the actions if child (icon) is actually there
+    // i.e. don't refresh twice
+    if (child) {
+        var parent = child.parentElement;
+        parent.removeChild(child);
+
+        var text = document.getElementsByClassName('astro-text')[0];
+        box.removeChild(text);
+
+        const triangle = document.createElement('div');
+        triangle.classList = 'primary-shape triangle position-two';
+        triangle.setAttribute('id', 'original-triangle');
+        const circle = document.createElement('div');
+        circle.classList = 'primary-shape circle position-one';
+        circle.setAttribute('id', 'original-circle');
+
+        box.appendChild(triangle);
+        box.appendChild(circle);
+    }
+
+    // Remove refresh button
+    var refreshButton = document.getElementById('button-refresh');
+    refreshButton.style.display = 'none';
+
+    // Add date picker back
+    var datePicker = document.getElementById('date-picker');
+    datePicker.classList.remove('fade-out');
+    datePicker.classList.add('fade-in');
+    datePicker.style.display = 'block';
 }
 
 

@@ -169,6 +169,16 @@ body {
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
 
+.position-one {
+    top: 25px; 
+    left: 15px;
+}
+
+.position-two {
+    top: 25px; 
+    left: 150px;
+}
+
 /*USE*/
 
 .grow-shape {
