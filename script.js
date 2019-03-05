@@ -7,6 +7,78 @@ var animationInterval = 1000;
 var strokeWidth = window.getComputedStyle(document.documentElement).getPropertyValue('--stroke-width');
 strokeWidth = parseInt(strokeWidth.slice(0, -2));
 
+
+
+function getHoroscope() {
+
+
+    //    //Approximate limit of summation series input before number overflows to "Infinity"
+    //    const SUMMATION_MAX = Math.pow(10, 150);
+    //
+    //    // Reset the HTML in the results div
+    //    $("#results-div").html("");
+    //
+    //    var method = $("#select-method").children("option:selected").val();
+    //    var value = $("#num-box").val();
+    //
+    //    if (value == "") {
+    //        alert("Please enter a number into the box");
+    //        return;
+    //    }
+    //
+    //    if (isNaN(value)) {
+    //        alert("The value entered must be a number");
+    //        return;
+    //    }
+    //
+    //    if (((value > 170) && (method == "n-factorial")) || (value > SUMMATION_MAX)) {
+    //        alert("That number is too high for our little system!");
+    //        return;
+    //    }
+    //
+    //    console.log(method);
+
+    const starSign = document.getElementById('starsign-name').innerHTML;
+
+    console.log("getting the horoscope for " + starSign);
+
+
+
+    //    fetch(URL)
+    //        .then(function (response) {
+    // 
+    //            return response.json();
+    //        })
+    //        .then(function (myJson) {
+    //            console.log(JSON.stringify(myJson));
+    //        });
+
+    //This API unofficially parses https://www.ganeshaspeaks.com/
+
+//    var URL = "http://horoscope-api.herokuapp.com/horoscope/today/" + starSign;
+//    $.ajax({
+//        url: URL,
+//        type: "GET",
+//        crossDomain: true,
+//        dataType: 'jsonp',
+//        success: function (msg) {
+//            console.log(msg);
+//            //$("#result").html(msg);
+//        },
+//        error: function () {
+//            alert("Error");
+//        }
+//    });
+}
+
+
+
+
+
+
+
+
+
 // Credit to: https://www.allure.com/story/zodiac-sign-personality-traits-dates
 const starSignQualities = {
 
@@ -167,15 +239,8 @@ function playChord(chordName) {
 }
 
 
-function setup() {
 
-    setTimeout(function () {
-        const datePicker = document.getElementById('date-picker');
-        datePicker.style.display = "none";
-    }, animationInterval + 100);
-
-}
-
+// STAR SIGN FUNCTIONS
 
 // TAURUS
 const taurus = (circle) => {
@@ -376,23 +441,6 @@ const scorpio = (circle) => {
     setTimeout(function () {
         finishAnimation("scorpio");
     }, animationInterval * 8 + 150);
-
-    //    setTimeout(function () {
-    //        const final = copyNode(elem.parentElement);
-    //        final.style.marginTop = 500;
-    //
-    //        final.style.border = "1px solid #FFF";
-    //        //        final.parentElement.style.gridRowStart = 2;
-    //        elem.parentElement.parentElement.appendChild(final);
-    //        final.style.gridColumnStart = 2;
-    //        //        final.parentElement.style.backgroundColor = 'red';
-    //        console.log(final);
-    //    }, animationInterval * 8 + 100);
-
-
-
-
-
 
 }
 
@@ -1411,6 +1459,9 @@ function finishAnimation(astroSign) {
     box.style.zIndex = 1;
     box.classList.add('float-up');
 
+    //Add onclick of horoscope function
+    box.addEventListener("click", getHoroscope, false);
+
     setTimeout(function () {
 
         // Display refresh button
@@ -1430,48 +1481,20 @@ function finishAnimation(astroSign) {
         const astroText = document.createElement('div');
         astroText.classList.add('astro-text');
         astroText.classList.add('fade-in');
-        astroText.innerHTML = "<h4>" + starSignQualities[astroSign].name + " (" + starSignQualities[astroSign].dates + ")</h4>" + "<p>" + starSignQualities[astroSign].description + "</p>";
+        astroText.innerHTML = "<h4>" + "<span id=\"starsign-name\">" + starSignQualities[astroSign].name + "</span>" + " (" + starSignQualities[astroSign].dates + ")</h4>" + "<p>" + starSignQualities[astroSign].description + "</p>";
         newBox.appendChild(astroText);
 
         container.appendChild(newBox);
     }, animationInterval + 100);
 }
 
-// Remove the star sign and start again from date selection
-function refresh() {
+function setup() {
 
-    var child = document.getElementById('changed-box');
-    var box = document.getElementById('box');
+    setTimeout(function () {
+        const datePicker = document.getElementById('date-picker');
+        datePicker.style.display = "none";
+    }, animationInterval + 100);
 
-    // Only do the actions if child (icon) is actually there
-    // i.e. don't refresh twice
-    if (child) {
-        var parent = child.parentElement;
-        parent.removeChild(child);
-
-        var text = document.getElementsByClassName('astro-text')[0];
-        box.removeChild(text);
-
-        const triangle = document.createElement('div');
-        triangle.classList = 'primary-shape triangle position-two';
-        triangle.setAttribute('id', 'original-triangle');
-        const circle = document.createElement('div');
-        circle.classList = 'primary-shape circle position-one';
-        circle.setAttribute('id', 'original-circle');
-
-        box.appendChild(triangle);
-        box.appendChild(circle);
-    }
-
-    // Remove refresh button
-    var refreshButton = document.getElementById('button-refresh');
-    refreshButton.style.display = 'none';
-
-    // Add date picker back
-    var datePicker = document.getElementById('date-picker');
-    datePicker.classList.remove('fade-out');
-    datePicker.classList.add('fade-in');
-    datePicker.style.display = 'block';
 }
 
 
