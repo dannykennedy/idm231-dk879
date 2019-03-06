@@ -8,77 +8,6 @@ var strokeWidth = window.getComputedStyle(document.documentElement).getPropertyV
 strokeWidth = parseInt(strokeWidth.slice(0, -2));
 
 
-
-function getHoroscope() {
-
-
-    //    //Approximate limit of summation series input before number overflows to "Infinity"
-    //    const SUMMATION_MAX = Math.pow(10, 150);
-    //
-    //    // Reset the HTML in the results div
-    //    $("#results-div").html("");
-    //
-    //    var method = $("#select-method").children("option:selected").val();
-    //    var value = $("#num-box").val();
-    //
-    //    if (value == "") {
-    //        alert("Please enter a number into the box");
-    //        return;
-    //    }
-    //
-    //    if (isNaN(value)) {
-    //        alert("The value entered must be a number");
-    //        return;
-    //    }
-    //
-    //    if (((value > 170) && (method == "n-factorial")) || (value > SUMMATION_MAX)) {
-    //        alert("That number is too high for our little system!");
-    //        return;
-    //    }
-    //
-    //    console.log(method);
-
-    const starSign = document.getElementById('starsign-name').innerHTML;
-
-    console.log("getting the horoscope for " + starSign);
-
-
-
-    //    fetch(URL)
-    //        .then(function (response) {
-    // 
-    //            return response.json();
-    //        })
-    //        .then(function (myJson) {
-    //            console.log(JSON.stringify(myJson));
-    //        });
-
-    //This API unofficially parses https://www.ganeshaspeaks.com/
-
-//    var URL = "http://horoscope-api.herokuapp.com/horoscope/today/" + starSign;
-//    $.ajax({
-//        url: URL,
-//        type: "GET",
-//        crossDomain: true,
-//        dataType: 'jsonp',
-//        success: function (msg) {
-//            console.log(msg);
-//            //$("#result").html(msg);
-//        },
-//        error: function () {
-//            alert("Error");
-//        }
-//    });
-}
-
-
-
-
-
-
-
-
-
 // Credit to: https://www.allure.com/story/zodiac-sign-personality-traits-dates
 const starSignQualities = {
 
@@ -144,34 +73,6 @@ const starSignQualities = {
     }
 };
 
-// MODAL THINGS
-
-// Get the modal
-var modal = document.getElementById('myModal');
-
-// Get the button that opens the modal
-var btn = document.getElementById("help");
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks on the button, open the modal 
-btn.onclick = function () {
-    modal.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function () {
-    modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
-
 
 function computeStarSign(whichMonth, whichDayOfMonth) {
 
@@ -205,7 +106,7 @@ function computeStarSign(whichMonth, whichDayOfMonth) {
     } else if ((whichMonth == 1 && whichDayOfMonth >= 20) || (whichMonth == 2 && whichDayOfMonth <= 18)) {
         aquarius(triangle);
     } else {
-        alert("30 days hath September, April, June, and November; All the rest have thirty-one Except February - That's the weird one. I imagine you have a calendar on your phone. Stop looking for edge cases and leave me alone.")
+        alert("30 days hath September, all the rest I don't remember.")
     }
 }
 
@@ -223,15 +124,9 @@ function animateStarSign() {
 
 }
 
-function removeOriginalIds() {
-    const circle = document.getElementById('original-circle');
-    const triangle = document.getElementById('original-triangle');
-    const box = document.getElementById('box');
 
-    circle.setAttribute('id', 'changed-circle');
-    triangle.setAttribute('id', 'changed-triangle');
-    box.setAttribute('id', 'changed-box');
-}
+
+// AUDIO 
 
 function playChord(chordName) {
     const chord = document.getElementById(chordName);
@@ -794,33 +689,25 @@ const pisces = (circle) => {
     var invisibleBox = document.getElementById("box");
 
     hollowOutCircle(circle, strokeWidth);
-    var topCircle = splitCellVertical(circle, -200)
+    var leftCircle = splitCellHorizontal(circle, gap, animationInterval);
 
     setTimeout(function () {
-        maskPartOfCircle(topCircle, "top", 50);
+        maskPartOfCircle(circle, "left", 50);
+        maskPartOfCircle(leftCircle, "right", 50);
     }, animationInterval);
 
     setTimeout(function () {
-        maskPartOfCircle(circle, 'bottom', 50);
-    }, animationInterval);
-
-    setTimeout(function () {
-        var crossBar = createBar(getWidth(circle) + gap, "vertical");
-        var leftDistance = getLeftDistance(circle) + getWidth(circle) / 2 - 4;
-        var topDistance = getTopDistance(circle) - getWidth(circle) / 2 - gap;
+        var crossBar = createBar(getWidth(circle) + gap, "horizontal");
+        var leftDistance = getLeftDistance(circle) + getWidth(circle) / 2;
+        var topDistance = getTopDistance(circle) + getWidth(circle) / 2 - (strokeWidth/2);
         positionElement(crossBar, topDistance, leftDistance);
         invisibleBox.appendChild(crossBar);
     }, animationInterval * 2);
 
-    setTimeout(function () {
-        rotateElem(invisibleBox);
-    }, animationInterval * 3);
-
-
     //Raise up icon and add description
     setTimeout(function () {
         finishAnimation("pisces");
-    }, animationInterval * 4);
+    }, animationInterval * 3);
 
 }
 
@@ -916,6 +803,7 @@ const cancer = (circle) => {
 }
 
 
+// ANIMATION FUNCTIONS
 
 function moveElement(elem, left, top, animationInterval) {
 
@@ -948,67 +836,6 @@ function growCircle(elem, animationInterval) {
     elem.classList.add('grow-circle');
 
 }
-
-function moveElemHorizontalTwo(elem, distance) {
-
-    var frameInterval = animationInterval / distance;
-    var pos = getLeftDistance(elem);
-    var end = pos + distance;
-
-
-    for (var i = 0, len = diff; i <= len; i++) {
-        (function (s) {
-            setTimeout(function () {
-                pos++;
-
-                //Don't go over the end
-                if (pos > end) {
-                    return;
-                }
-
-                elem.style.left = pos + 'px';
-            }, time);
-        })(i);
-
-        if (pos == end) {
-            break;
-        }
-
-        time = easeInQuad(i, minTime, maxTime, diff);
-        console.log(time);
-    }
-}
-
-function moveElemVerticalTwo(elem, distance) {
-
-    var frameInterval = animationInterval / distance;
-    var pos = getTopDistance(elem);
-    var end = pos + distance;
-
-
-    for (var i = 0, len = diff; i <= len; i++) {
-        (function (s) {
-            setTimeout(function () {
-                pos++;
-
-                //Don't go over the end
-                if (pos > end) {
-                    return;
-                }
-
-                elem.style.top = pos + 'px';
-            }, time);
-        })(i);
-
-        if (pos == end) {
-            break;
-        }
-
-        time = easeInQuad(i, minTime, maxTime, diff);
-        console.log(time);
-    }
-}
-
 
 function rotateElem(elem) {
 
@@ -1244,8 +1071,95 @@ const moveCellVertical = (elem, gap, animationInterval) => {
     elem.style.top = getTopDistance(elem) + gap + "px";
 }
 
+// "Fans out" the element and returns an array including the element and all the new fanned out nodes
+function fanOutHorizontal(elem, number, strokeWidth, animationInterval) {
+    let elems = [];
+    elems.push(elem);
+    for (var i = 1; i < number; i++) {
+        let newElem = splitCellHorizontal(elem, getWidth(elem) * (i - 1) + strokeWidth * (i * (-1)), animationInterval);
+        newElem.setAttribute('id', 'circle' + (i + 1));
+        elems.push(newElem);
+    }
+    return elems;
+}
 
-//Helper functions
+// Turn triangle into a line (left edge);
+function lineFromTriangle(elem, strokeWidth) {
+
+    // x is the base width of the line
+    // y - z = x/2
+    //                                    z       y          x           
+    //    -webkit - clip - path: polygon(50 % 0, 55 % 10 % , 10 % 100 % , 0 100 % );
+    //    clip - path: polygon(50 % 0, 55 % 10 % , 10 % 100 % , 0 100 % );
+
+    fixElement(elem);
+
+    const baseStrokeWidth = getTriangleBaseStrokeWidth(strokeWidth);
+    const baseStrokeWidthAsPercent = (100 / getWidth(elem)) * baseStrokeWidth;
+    const triangleHeight = (Math.sqrt(3) / 2) * baseStrokeWidthAsPercent;
+    const halfWidthPlus50 = 50 + baseStrokeWidthAsPercent / 2;
+
+    let root = document.documentElement;
+    root.style.setProperty('--triangle-line-clip-path', "polygon(50% 0, " + halfWidthPlus50 + "% " + triangleHeight + "%, " + baseStrokeWidthAsPercent + "% 100%, 0 100%)");
+
+    elem.classList.add('triangle-line');
+}
+
+function hollowFlippedTriangle(elem, strokeWidth) {
+
+    let topLeftDot = {};
+    let topRightDot = {};
+    let bottomDot = {};
+    const relativeStrokeWidth = asPercent(strokeWidth, getHeight(elem));
+
+    bottomDot.y = 100 - relativeStrokeWidth / Math.cos(degreesToRadians(36.87)) / Math.sqrt(3 / 2);
+    bottomDot.x = 50 - (relativeStrokeWidth / 2);
+    topRightDot.y = relativeStrokeWidth;
+    topRightDot.x = 100 - ((relativeStrokeWidth / 2)) - (relativeStrokeWidth / Math.cos(degreesToRadians(26.565)));
+    topLeftDot.y = relativeStrokeWidth;
+    topLeftDot.x = relativeStrokeWidth / 2;
+
+    const hollowPolygonString = `polygon(0 0, 100% 0, 50% 100%, ${bottomDot.x}% ${bottomDot.y}%, ${topRightDot.x}% ${topRightDot.y}%, ${topLeftDot.x}% ${topLeftDot.y}%)`;
+
+    const preHollowPolygonString = `polygon(0 0, 100% 0, 50% 100%, ${bottomDot.x}% ${bottomDot.y}%, 25% 50%, ${topLeftDot.x}% ${topLeftDot.y}%)`;
+
+    let root = document.documentElement;
+    root.style.setProperty('--flipped-hollow-triangle-clip-path', hollowPolygonString);
+    root.style.setProperty('--flipped-prehollow-triangle-clip-path', preHollowPolygonString);
+
+    elem.classList.add('hollow-flipped-triangle');
+}
+
+function hollowOutTriangle(elem) {
+
+    console.log(elem);
+
+    let topDot = {};
+    let bottomLeftDot = {};
+    let bottomRightDot = {};
+    const relativeStrokeWidth = asPercent(strokeWidth, getHeight(elem));
+
+    bottomLeftDot.x = getTriangleBaseStrokeWidth(relativeStrokeWidth);
+    bottomRightDot.x = 100 - getTriangleBaseStrokeWidth(relativeStrokeWidth);
+    topDot.y = relativeStrokeWidth / (Math.cos(degreesToRadians(63.435)));
+
+    const preHollowPolygonString = `polygon(100% 100%, ${bottomRightDot.x}% 100%, 50% 100%, ${bottomLeftDot.x}% 100%, 0 100%, 50% 0)`;
+
+    const hollowPolygonString = `polygon(100% 100%, ${bottomRightDot.x}% 100%, 50% ${topDot.y}%, ${bottomLeftDot.x}% 100%, 0 100%, 50% 0)`;
+
+    let root = document.documentElement;
+    root.style.setProperty('--hollow-triangle-clip-path', hollowPolygonString);
+    root.style.setProperty('--prehollow-triangle-clip-path', preHollowPolygonString);
+
+    elem.classList.add('hollow-triangle');
+}
+
+
+
+
+
+
+// ANIMATION HELPER FUNCTIONS
 
 function copyNode(elem) {
     const newNode = elem.cloneNode(true);
@@ -1307,9 +1221,7 @@ function partwayDown(elem, percent) {
 //Given the stroke width, get the horizontal strokewidth at base of triangle (pythagoras) 
 function getTriangleBaseStrokeWidth(strokeWidth) {
     return strokeWidth / (Math.sin(degreesToRadians(63.435)));
-    //    return Math.sqrt(Math.pow(strokeWidth, 2) + Math.pow((1 / 2) * strokeWidth, 2));
 }
-
 
 
 function triangleLongEdgeGivenHeight(height) {
@@ -1319,8 +1231,6 @@ function triangleLongEdgeGivenHeight(height) {
 function triangleHeightGivenLongEdge(longEdge) {
     return longEdge * (Math.sqrt(4 / 5));
 }
-
-
 
 // Remove slide and resize classes
 // Give the element these properties permanently
@@ -1336,39 +1246,6 @@ function fixElement(elem) {
     elem.classList.remove('move-left');
 }
 
-// "Fans out" the element and returns an array including the element and all the new fanned out nodes
-function fanOutHorizontal(elem, number, strokeWidth, animationInterval) {
-    let elems = [];
-    elems.push(elem);
-    for (var i = 1; i < number; i++) {
-        let newElem = splitCellHorizontal(elem, getWidth(elem) * (i - 1) + strokeWidth * (i * (-1)), animationInterval);
-        newElem.setAttribute('id', 'circle' + (i + 1));
-        elems.push(newElem);
-    }
-    return elems;
-}
-
-function lineFromTriangle(elem, strokeWidth) {
-
-    // x is the base width of the line
-    // y - z = x/2
-    //                                    z       y          x           
-    //    -webkit - clip - path: polygon(50 % 0, 55 % 10 % , 10 % 100 % , 0 100 % );
-    //    clip - path: polygon(50 % 0, 55 % 10 % , 10 % 100 % , 0 100 % );
-
-    fixElement(elem);
-
-    const baseStrokeWidth = getTriangleBaseStrokeWidth(strokeWidth);
-    const baseStrokeWidthAsPercent = (100 / getWidth(elem)) * baseStrokeWidth;
-    const triangleHeight = (Math.sqrt(3) / 2) * baseStrokeWidthAsPercent;
-    const halfWidthPlus50 = 50 + baseStrokeWidthAsPercent / 2;
-
-    let root = document.documentElement;
-    root.style.setProperty('--triangle-line-clip-path', "polygon(50% 0, " + halfWidthPlus50 + "% " + triangleHeight + "%, " + baseStrokeWidthAsPercent + "% 100%, 0 100%)");
-
-    elem.classList.add('triangle-line');
-}
-
 function asPercent(length, asPercentOfLength) {
     return (100 / asPercentOfLength) * length;
 }
@@ -1376,55 +1253,6 @@ function asPercent(length, asPercentOfLength) {
 //Angle in radians = Angle in degrees x PI / 180.
 function degreesToRadians(degrees) {
     return degrees * (Math.PI / 180);
-}
-
-function hollowFlippedTriangle(elem, strokeWidth) {
-
-    let topLeftDot = {};
-    let topRightDot = {};
-    let bottomDot = {};
-    const relativeStrokeWidth = asPercent(strokeWidth, getHeight(elem));
-
-    bottomDot.y = 100 - relativeStrokeWidth / Math.cos(degreesToRadians(36.87)) / Math.sqrt(3 / 2);
-    bottomDot.x = 50 - (relativeStrokeWidth / 2);
-    topRightDot.y = relativeStrokeWidth;
-    topRightDot.x = 100 - ((relativeStrokeWidth / 2)) - (relativeStrokeWidth / Math.cos(degreesToRadians(26.565)));
-    topLeftDot.y = relativeStrokeWidth;
-    topLeftDot.x = relativeStrokeWidth / 2;
-
-    const hollowPolygonString = `polygon(0 0, 100% 0, 50% 100%, ${bottomDot.x}% ${bottomDot.y}%, ${topRightDot.x}% ${topRightDot.y}%, ${topLeftDot.x}% ${topLeftDot.y}%)`;
-
-    const preHollowPolygonString = `polygon(0 0, 100% 0, 50% 100%, ${bottomDot.x}% ${bottomDot.y}%, 25% 50%, ${topLeftDot.x}% ${topLeftDot.y}%)`;
-
-    let root = document.documentElement;
-    root.style.setProperty('--flipped-hollow-triangle-clip-path', hollowPolygonString);
-    root.style.setProperty('--flipped-prehollow-triangle-clip-path', preHollowPolygonString);
-
-    elem.classList.add('hollow-flipped-triangle');
-}
-
-function hollowOutTriangle(elem) {
-
-    console.log(elem);
-
-    let topDot = {};
-    let bottomLeftDot = {};
-    let bottomRightDot = {};
-    const relativeStrokeWidth = asPercent(strokeWidth, getHeight(elem));
-
-    bottomLeftDot.x = getTriangleBaseStrokeWidth(relativeStrokeWidth);
-    bottomRightDot.x = 100 - getTriangleBaseStrokeWidth(relativeStrokeWidth);
-    topDot.y = relativeStrokeWidth / (Math.cos(degreesToRadians(63.435)));
-
-    const preHollowPolygonString = `polygon(100% 100%, ${bottomRightDot.x}% 100%, 50% 100%, ${bottomLeftDot.x}% 100%, 0 100%, 50% 0)`;
-
-    const hollowPolygonString = `polygon(100% 100%, ${bottomRightDot.x}% 100%, 50% ${topDot.y}%, ${bottomLeftDot.x}% 100%, 0 100%, 50% 0)`;
-
-    let root = document.documentElement;
-    root.style.setProperty('--hollow-triangle-clip-path', hollowPolygonString);
-    root.style.setProperty('--prehollow-triangle-clip-path', preHollowPolygonString);
-
-    elem.classList.add('hollow-triangle');
 }
 
 function fadeOutTriangle() {
@@ -1446,7 +1274,17 @@ function flipTriangle(elem) {
 
 
 
-// PAGE FUNCTIONS
+// PAGE HELPER FUNCTIONS
+
+function removeOriginalIds() {
+    const circle = document.getElementById('original-circle');
+    const triangle = document.getElementById('original-triangle');
+    const box = document.getElementById('box');
+
+    circle.setAttribute('id', 'changed-circle');
+    triangle.setAttribute('id', 'changed-triangle');
+    box.setAttribute('id', 'changed-box');
+}
 
 // Raise up star sign, display text below
 function finishAnimation(astroSign) {
@@ -1459,8 +1297,8 @@ function finishAnimation(astroSign) {
     box.style.zIndex = 1;
     box.classList.add('float-up');
 
-    //Add onclick of horoscope function
-    box.addEventListener("click", getHoroscope, false);
+//    //Add onclick of horoscope function
+//    box.addEventListener("click", getHoroscope, false);
 
     setTimeout(function () {
 
@@ -1497,6 +1335,14 @@ function setup() {
 
 }
 
+//https://stackoverflow.com/questions/24172963/jquery-change-method-in-vanilla-javascript
+function addEventHandler(elem, eventType, handler) {
+    if (elem.addEventListener)
+        elem.addEventListener(eventType, handler, false);
+    else if (elem.attachEvent)
+        elem.attachEvent('on' + eventType, handler);
+}
+
 
 
 //function clipHollowedTriangle(elem, strokeWidth) {
@@ -1523,51 +1369,3 @@ function setup() {
 //
 //    elem.classList.add('hollow-flipped-triangle');
 //}
-
-
-
-
-////CLASSES
-//
-//
-//// SHAPE
-//class Shape extends HTMLElement { 
-//  constructor(name) {
-//    this.name = name;
-//  }
-//  
-//  speak() {
-//    console.log(this.name + ' makes a noise.');
-//  }
-//}
-//
-//// CIRCLE
-//class Circle extends Shape {
-//  constructor(name) {
-//    super(name); // call the super class constructor and pass in the name parameter
-//  }
-//
-//  speak() {
-//    console.log(this.name + ' is a circle');
-//  }
-//}
-//
-//// TRIANGLE
-//class Triangle extends Shape {
-//  constructor(name) {
-//    super(name); // call the super class constructor and pass in the name parameter
-//  }
-//
-//  speak() {
-//    console.log(this.name + ' is a triangle');
-//  }
-//}
-//
-//
-//
-//
-//
-//let d = new Circle('Mitzie');
-//d.speak(); 
-//let t = new Triangle('trippy');
-//t.speak();
