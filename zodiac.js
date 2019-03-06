@@ -7,7 +7,6 @@ var animationInterval = 1000;
 var strokeWidth = window.getComputedStyle(document.documentElement).getPropertyValue('--stroke-width');
 strokeWidth = parseInt(strokeWidth.slice(0, -2));
 
-
 // Credit to: https://www.allure.com/story/zodiac-sign-personality-traits-dates
 const starSignQualities = {
 
@@ -21,42 +20,49 @@ const starSignQualities = {
     taurus: {
         name: "Taurus",
         dates: "April 20 - May 20",
+        image: 'taurus.png',
         description: "Taurus is an earth sign represented by the bull. Like their celestial spirit animal, Taureans enjoy relaxing in serene, bucolic environments, surrounded by soft sounds, soothing aromas, and succulent flavors.",
         chords: ["g", "c"]
     },
     gemini: {
         name: "Gemini",
         dates: "May 21 - June 20",
+        image: 'gemini.png',
         description: "Have you ever been so busy that you wished you could clone yourself just to get everything done? That’s the Gemini experience in a nutshell. Appropriately symbolized by the celestial twins, this air sign was interested in so many pursuits that it had to double itself.",
         chords: ["dm", "am"]
     },
     leo: {
         name: "Leo",
         dates: "July 23 - August 22",
+        image: 'leo.png',
         description: "Roll out the red carpet, because Leo has arrived. Leo is represented by the lion, and these spirited fire signs are the kings and queens of the celestial jungle. They’re delighted to embrace their royal status: Vivacious, theatrical, and passionate, Leos love to bask in the spotlight and celebrate themselves.",
         chords: ["g", "g7", "c"]
     },
     virgo: {
         name: "Virgo",
         dates: "August 23 - September 22",
+        image: 'virgo.png',
         description: "Virgo is an earth sign historically represented by the goddess of wheat and agriculture, an association that speaks to Virgo’s deep-rooted presence in the material world. Virgos are logical, practical, and systematic in their approach to life. This earth sign is a perfectionist at heart and isn’t afraid to improve skills through diligent and consistent practice.",
         chords: ["c", "g", "am", "e", "f", "fm"]
     },
     libra: {
         name: "Libra",
         dates: "September 23 - October 22",
+        image: 'libra.png',
         description: "Libra is an air sign represented by the scales (interestingly, the only inanimate object of the zodiac), an association that reflects Libra's fixation on balance and harmony. Libra is obsessed with symmetry and strives to create equilibrium in all areas of life.",
         chords: ["f", "g", "c"]
     },
     sagittarius: {
         name: "Sagittarius",
         dates: "November 22 - December 21",
+        image: 'sagittarius.png',
         description: "Represented by the archer, Sagittarians are always on a quest for knowledge. The last fire sign of the zodiac, Sagittarius launches its many pursuits like blazing arrows, chasing after geographical, intellectual, and spiritual adventures.",
         chords: ["f", "f-2", "em"]
     },
     capricorn: {
         name: "Capricorn",
         dates: "December 22 - January 19",
+        image: 'capricorn.png',
         description: "The last earth sign of the zodiac, Capricorn is represented by the sea goat, a mythological creature with the body of a goat and tail of a fish. Accordingly, Capricorns are skilled at navigating both the material and emotional realms.",
         chords: ["c", "dm", "g"]
         
@@ -64,28 +70,43 @@ const starSignQualities = {
     aquarius: {
         name: "Aquarius",
         dates: "January 20 - February 18",
+        image: 'aquarius.png',
         description: "Despite the “aqua” in its name, Aquarius is actually the last air sign of the zodiac. Aquarius is represented by the water bearer, the mystical healer who bestows water, or life, upon the land. Accordingly, Aquarius is the most humanitarian astrological sign.", 
         chords: ["am", "dm", "g"]
     },
     pisces: {
         name: "Pisces",
         dates: "February 19 - March 20",
+        image: 'pisces.png',
         description: "Pisces, a water sign, is the last constellation of the zodiac. It's symbolized by two fish swimming in opposite directions, representing the constant division of Pisces's attention between fantasy and reality. As the final sign, Pisces has absorbed every lesson — the joys and the pain, the hopes and the fears — learned by all of the other signs.",
         chords: ["bdim", "c"]
     },
     scorpio: {
         name: "Scorpio",
         dates: "October 23 - November 21",
+        image: 'scorpio.png',
         description: "Scorpio is one of the most misunderstood signs of the zodiac. Because of its incredible passion and power, Scorpio is often mistaken for a fire sign. In fact, Scorpio is a water sign that derives its strength from the psychic, emotional realm.",
         chords: ["c", "am", "em", "g"]
     },
     cancer: {
         name: "Cancer",
         dates: "June 21 - July 22",
+        image: 'cancer.png',
         description: "Cancer is a cardinal water sign. Represented by the crab, this oceanic crustacean seamlessly weaves between the sea and shore, representing Cancer’s ability to exist in both emotional and material realms. Cancers are highly intuitive, and their psychic abilities manifest in tangible spaces: For instance, Cancers can effortlessly pick up the energies of a room.",
         chords: ["c", "e", "f", "fm"]
     }
 };
+
+// Add images to page
+const allSigns = document.getElementById('all-signs');
+for (const key in starSignQualities) {
+	if (starSignQualities.hasOwnProperty(key)) {
+        let image = document.createElement('img');
+        image.setAttribute('src', "/images/" + starSignQualities[key].image);
+        image.setAttribute('onclick', key + "()");
+        allSigns.appendChild(image);
+	}
+}
 
 
 function computeStarSign(whichMonth, whichDayOfMonth) {
@@ -151,7 +172,9 @@ function playChord(chordName) {
 // STAR SIGN FUNCTIONS
 
 // TAURUS
-const taurus = (circle) => {
+const taurus = () => {
+    
+    const circle = document.getElementById('original-circle');
 
     setup();
 
@@ -173,7 +196,9 @@ const taurus = (circle) => {
 }
 
 
-const taurus2 = (circle) => {
+const taurus2 = () => {
+    
+    const circle = document.getElementById('original-circle');
 
     var topCircle;
     fadeOutTriangle();
@@ -200,7 +225,9 @@ const taurus2 = (circle) => {
 
 
 // AQUARIUS
-const aquarius = (triangle) => {
+const aquarius = () => {
+    
+    const triangle = document.getElementById('original-triangle');
 
     setup();
 
@@ -235,7 +262,9 @@ const aquarius = (triangle) => {
     }, animationInterval * 4);
 }
 
-const sagittarius = (triangle) => {
+const sagittarius = () => {
+    
+    const triangle = document.getElementById('original-triangle');
 
     setup();
 
@@ -283,7 +312,9 @@ const sagittarius = (triangle) => {
 
 
 // SCORPIO
-const scorpio = (circle) => {
+const scorpio = () => {
+    
+    const circle = document.getElementById('original-circle');
 
     setup();
 
@@ -351,7 +382,9 @@ const scorpio = (circle) => {
 }
 
 
-const virgo = (circle) => {
+const virgo = () => {
+    
+    const circle = document.getElementById('original-circle');
 
     setup();
 
@@ -447,7 +480,9 @@ const virgo = (circle) => {
 
 }
 
-const leo = (circle) => {
+const leo = () => {
+    
+    const circle = document.getElementById('original-circle');
 
     setup();
 
@@ -495,7 +530,9 @@ const leo = (circle) => {
 
 }
 
-const capricorn = (triangle) => {
+const capricorn = () => {
+    
+    const triangle = document.getElementById('original-triangle');
 
     setup();
 
@@ -557,20 +594,22 @@ const capricorn = (triangle) => {
     }, animationInterval * 6);
 }
 
-const libra = (elem) => {
+const libra = () => {
+    
+    const circle = document.getElementById('original-circle');
 
     setup();
     
     fadeOutTriangle();
 
-    var originalCircleWidth = getWidth(elem);
-    var originalCircleBottom = getBottomDistance(elem);
+    var originalCircleWidth = getWidth(circle);
+    var originalCircleBottom = getBottomDistance(circle);
 
     playChord(starSignQualities.libra.chords[0]);
-    shrinkElement(elem, animationInterval);
+    shrinkElement(circle, animationInterval);
 
     setTimeout(function () {
-        hollowOutCircle(elem, strokeWidth);
+        hollowOutCircle(circle, strokeWidth);
     }, animationInterval);
 
     //Create mask
@@ -579,26 +618,26 @@ const libra = (elem) => {
 
     setTimeout(function () {
         playChord(starSignQualities.libra.chords[1]);
-        mask.style.width = getWidth(elem) / 3 + "px";
-        mask.style.height = getHeight(elem) / 3 + "px";
-        mask.style.top = getTopDistance(elem) + getHeight(elem) * (2 / 3) + "px";
-        mask.style.left = getLeftDistance(elem) + getWidth(elem) / 3 + "px";
+        mask.style.width = getWidth(circle) / 3 + "px";
+        mask.style.height = getHeight(circle) / 3 + "px";
+        mask.style.top = getTopDistance(circle) + getHeight(circle) * (2 / 3) + "px";
+        mask.style.left = getLeftDistance(circle) + getWidth(circle) / 3 + "px";
         mask.style.zIndex = 2;
-        elem.parentElement.appendChild(mask);
+        circle.parentElement.appendChild(mask);
     }, animationInterval * 2);
 
     setTimeout(function () {
         var bar1 = createBar(originalCircleWidth, "horizontal");
         bar1.style.zIndex = 1;
-        positionElement(bar1, getBottomDistance(elem) - strokeWidth, getLeftDistance(elem) - getWidth(elem) / 2);
-        elem.parentElement.appendChild(bar1);
+        positionElement(bar1, getBottomDistance(circle) - strokeWidth, getLeftDistance(circle) - getWidth(circle) / 2);
+        circle.parentElement.appendChild(bar1);
     }, animationInterval * 3);
 
     setTimeout(function () {
         playChord(starSignQualities.libra.chords[2]);
         var bar1 = createBar(originalCircleWidth, "horizontal");
-        positionElement(bar1, originalCircleBottom - strokeWidth * 3, getLeftDistance(elem) - getWidth(elem) / 2);
-        elem.parentElement.appendChild(bar1);
+        positionElement(bar1, originalCircleBottom - strokeWidth * 3, getLeftDistance(circle) - getWidth(circle) / 2);
+        circle.parentElement.appendChild(bar1);
     }, animationInterval * 4);
 
     //Raise up icon and add description
@@ -610,7 +649,9 @@ const libra = (elem) => {
 
 
 // ARIES
-const aries = (circle) => {
+const aries = () => {
+    
+    const circle = document.getElementById('original-circle');
 
     setup();
 
@@ -620,7 +661,7 @@ const aries = (circle) => {
 
     shrinkElement(circle, animationInterval);
     playChord(starSignQualities.aries.chords[0]);
-
+    
     setTimeout(function () {
         circles = fanOutHorizontal(circle, 2, strokeWidth, animationInterval);
     }, animationInterval)
@@ -650,7 +691,9 @@ const aries = (circle) => {
 }
 
 // GEMINI
-const gemini = (circle) => {
+const gemini = () => {
+    
+    const circle = document.getElementById('original-circle');
 
     setup();
     fadeOutTriangle();
@@ -686,7 +729,9 @@ const gemini = (circle) => {
 
 
 // PISCES
-const pisces = (circle) => {
+const pisces = () => {
+    
+    const circle = document.getElementById('original-circle');
 
     setup();
     playChord(starSignQualities.pisces.chords[0]);
@@ -722,7 +767,9 @@ const pisces = (circle) => {
 }
 
 // CANCER
-const cancer = (circle) => {
+const cancer = () => {
+    
+    const circle = document.getElementById('original-circle');
 
     setup();
 

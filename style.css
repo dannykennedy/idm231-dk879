@@ -64,6 +64,17 @@ body {
     font-size: 0.7em;
 }
 
+#all-signs {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+}
+
+#all-signs img {
+    width: 100%;
+}
+
 /*MODAL (W3 SCHOOLS)*/
 
 
