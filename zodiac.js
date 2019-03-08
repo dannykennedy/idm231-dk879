@@ -863,22 +863,14 @@ const cancer = () => {
 // ANIMATION FUNCTIONS
 
 function moveElement(elem, left, top, animationInterval) {
-
-    console.log("the top is " + top);
-    console.log("the left is " + left);
-
+    
     var style = window.getComputedStyle(elem, null);
 
     //Minus 2*stroke width (8)
     let root = document.documentElement;
     root.style.setProperty('--left-final', left + "px");
     root.style.setProperty('--top-final', top + "px");
-
-
     elem.classList.add('move-elem');
-
-    //
-    console.log(elem);
 
     setTimeout(function () {
         elem.style.top = style.top;
