@@ -65,13 +65,13 @@ const starSignQualities = {
         image: 'capricorn.png',
         description: "The last earth sign of the zodiac, Capricorn is represented by the sea goat, a mythological creature with the body of a goat and tail of a fish. Accordingly, Capricorns are skilled at navigating both the material and emotional realms.",
         chords: ["c", "dm", "g"]
-        
+
     },
     aquarius: {
         name: "Aquarius",
         dates: "January 20 - February 18",
         image: 'aquarius.png',
-        description: "Despite the “aqua” in its name, Aquarius is actually the last air sign of the zodiac. Aquarius is represented by the water bearer, the mystical healer who bestows water, or life, upon the land. Accordingly, Aquarius is the most humanitarian astrological sign.", 
+        description: "Despite the “aqua” in its name, Aquarius is actually the last air sign of the zodiac. Aquarius is represented by the water bearer, the mystical healer who bestows water, or life, upon the land. Accordingly, Aquarius is the most humanitarian astrological sign.",
         chords: ["am", "dm", "g"]
     },
     pisces: {
@@ -100,48 +100,43 @@ const starSignQualities = {
 // Add images to page
 const allSigns = document.getElementById('all-signs');
 for (const key in starSignQualities) {
-	if (starSignQualities.hasOwnProperty(key)) {
+    if (starSignQualities.hasOwnProperty(key)) {
         let image = document.createElement('img');
-        image.setAttribute('src', "/images/" + starSignQualities[key].image);
+        image.setAttribute('src', "./images/" + starSignQualities[key].image);
         image.setAttribute('onclick', key + "()");
         allSigns.appendChild(image);
-	}
+    }
 }
 
 
 function computeStarSign(whichMonth, whichDayOfMonth) {
 
-    const circle = document.getElementById('original-circle');
-    const triangle = document.getElementById('original-triangle');
-    const datePicker = document.getElementById('date-picker');
-    datePicker.classList.add('fade-out');
-
     if ((whichMonth == 12 && whichDayOfMonth >= 22) || (whichMonth == 1 && whichDayOfMonth <= 19)) {
-        capricorn(triangle);
+        capricorn();
     } else if ((whichMonth == 11 && whichDayOfMonth >= 22) || (whichMonth == 12 && whichDayOfMonth <= 21)) {
-        sagittarius(triangle);
+        sagittarius();
     } else if ((whichMonth == 10 && whichDayOfMonth >= 24) || (whichMonth == 11 && whichDayOfMonth <= 21)) {
-        scorpio(circle);
+        scorpio();
     } else if ((whichMonth == 9 && whichDayOfMonth >= 23) || (whichMonth == 10 && whichDayOfMonth <= 23)) {
-        libra(circle);
+        libra();
     } else if ((whichMonth == 8 && whichDayOfMonth >= 23) || (whichMonth == 9 && whichDayOfMonth <= 22)) {
-        virgo(circle);
+        virgo();
     } else if ((whichMonth == 7 && whichDayOfMonth >= 23) || (whichMonth == 8 && whichDayOfMonth <= 22)) {
-        leo(circle);
+        leo();
     } else if ((whichMonth == 6 && whichDayOfMonth >= 22) || (whichMonth == 7 && whichDayOfMonth <= 22)) {
-        cancer(circle);
+        cancer();
     } else if ((whichMonth == 5 && whichDayOfMonth >= 21) || (whichMonth == 6 && whichDayOfMonth <= 21)) {
-        gemini(circle);
+        gemini();
     } else if ((whichMonth == 4 && whichDayOfMonth >= 20) || (whichMonth == 5 && whichDayOfMonth <= 20)) {
-        taurus(circle);
+        taurus();
     } else if ((whichMonth == 3 && whichDayOfMonth >= 21) || (whichMonth == 4 && whichDayOfMonth <= 19)) {
-        aries(circle);
+        aries();
     } else if ((whichMonth == 2 && whichDayOfMonth >= 19) || (whichMonth == 3 && whichDayOfMonth <= 20)) {
-        pisces(circle);
+        pisces();
     } else if ((whichMonth == 1 && whichDayOfMonth >= 20) || (whichMonth == 2 && whichDayOfMonth <= 18)) {
-        aquarius(triangle);
+        aquarius();
     } else {
-        alert("30 days hath September, all the rest I don't remember.")
+        alert("30 days hath September, all the rest I don't remember")
     }
 }
 
@@ -169,76 +164,78 @@ function playChord(chordName) {
 
 
 
+
+
 // STAR SIGN FUNCTIONS
 
 // TAURUS
 const taurus = () => {
-    
-    const circle = document.getElementById('original-circle');
 
-    setup();
+    const circle = document.getElementById('original-circle');
+    let topCircle;
+
+    //setup
+    const datePicker = document.getElementById('date-picker');
+    datePicker.classList.remove('fade-in');
+    datePicker.classList.add('fade-out');
+    const allSigns = document.getElementById("all-signs");
+    allSigns.classList.remove('fade-in');
+    allSigns.classList.add('fade-out');
+
 
     fadeOutTriangle();
     playChord(starSignQualities.taurus.chords[0]);
 
-    hollowOutCircle(circle, strokeWidth);
-    var topCircle = splitCellVertical(circle, -170, animationInterval);
+    shrinkElementToTwoThirds(circle, animationInterval);
+
+    setTimeout(function () {
+        datePicker.style.display = "none";
+        hollowOutCircle(circle, strokeWidth);
+
+    }, animationInterval);
+
+    setTimeout(function () {
+        const split = getHeight(circle) * (-2) + strokeWidth;
+        topCircle = splitCellVertical(circle, split, animationInterval);
+    }, animationInterval * 2);
+
     setTimeout(function () {
         maskPartOfCircle(topCircle, "top", 60);
-    }, animationInterval);
+    }, animationInterval * 3);
 
     //Raise up icon and add description
     setTimeout(function () {
         playChord(starSignQualities.taurus.chords[1]);
         finishAnimation("taurus");
-    }, animationInterval * 2);
-
-}
-
-
-const taurus2 = () => {
-    
-    const circle = document.getElementById('original-circle');
-
-    var topCircle;
-    fadeOutTriangle();
-    shrinkElementArbitrary(circle, animationInterval, 66);
-
-    setTimeout(function () {
-        hollowOutCircle(circle, strokeWidth);
-    }, animationInterval);
-
-    setTimeout(function () {
-        topCircle = splitCellVertical(circle, -100, animationInterval);
-    }, animationInterval * 2);
-
-    setTimeout(function () {
-        maskPartOfCircle(topCircle, "top", 50);
-    }, animationInterval * 3);
-
-    //Raise up icon and add description
-    setTimeout(function () {
-        finishAnimation("taurus");
     }, animationInterval * 4);
 
 }
 
-
 // AQUARIUS
 const aquarius = () => {
-    
+
     const triangle = document.getElementById('original-triangle');
 
-    setup();
+    //setup
+    const datePicker = document.getElementById('date-picker');
+    datePicker.classList.remove('fade-in');
+    datePicker.classList.add('fade-out');
+    const allSigns = document.getElementById("all-signs");
+    allSigns.classList.remove('fade-in');
+    allSigns.classList.add('fade-out');
 
     fadeOutCircle();
 
     let triangles = [];
     playChord(starSignQualities.aquarius.chords[0]);
 
-    shrinkElement(triangle, animationInterval);
+    shrinkElementToOneThird(triangle, animationInterval);
 
     setTimeout(function () {
+        //Remove elements
+        datePicker.style.display = "none";
+
+
         triangles = fanOutHorizontal(triangle, 3, strokeWidth, animationInterval);
     }, animationInterval);
 
@@ -263,17 +260,26 @@ const aquarius = () => {
 }
 
 const sagittarius = () => {
-    
+
     const triangle = document.getElementById('original-triangle');
 
-    setup();
+    //setup
+    const datePicker = document.getElementById('date-picker');
+    datePicker.classList.remove('fade-in');
+    datePicker.classList.add('fade-out');
+    const allSigns = document.getElementById("all-signs");
+    allSigns.classList.remove('fade-in');
+    allSigns.classList.add('fade-out');
 
     fadeOutCircle();
 
-    shrinkElement(triangle, animationInterval);
+    shrinkElementToOneThird(triangle, animationInterval);
     playChord(starSignQualities.sagittarius.chords[0]);
 
     setTimeout(function () {
+        //Remove elements
+        datePicker.style.display = "none";
+
         hollowOutTriangle(triangle, strokeWidth);
     }, animationInterval);
 
@@ -295,37 +301,38 @@ const sagittarius = () => {
     }, animationInterval * 3);
 
 
-    var invisibleBox = document.getElementById('triangle-box');
-    setTimeout(function () {
-        playChord(starSignQualities.sagittarius.chords[2]);
-        rotateElem(invisibleBox);
-    }, animationInterval * 4);
-
     //Raise up icon and add description
     setTimeout(function () {
+        playChord(starSignQualities.sagittarius.chords[2]);
         finishAnimation("sagittarius");
-    }, animationInterval * 5);
-
-
-
+    }, animationInterval * 4);
 }
 
 
 // SCORPIO
 const scorpio = () => {
-    
+
+    //setup
+    const datePicker = document.getElementById('date-picker');
+    datePicker.classList.remove('fade-in');
+    datePicker.classList.add('fade-out');
+    const allSigns = document.getElementById("all-signs");
+    allSigns.classList.remove('fade-in');
+    allSigns.classList.add('fade-out');
+
+    // Variables
     const circle = document.getElementById('original-circle');
-
-    setup();
-
+    var triangle = document.getElementById('original-triangle');
     let topCircles = [];
     var fourthCircle;
-    var triangle = document.getElementById('original-triangle');
 
-    shrinkElement(circle, animationInterval);
+    shrinkElementToOneThird(circle, animationInterval);
     playChord(starSignQualities.scorpio.chords[0]);
 
     setTimeout(function () {
+        //Remove elements
+        datePicker.style.display = "none";
+
         topCircles = fanOutHorizontal(circle, 3, strokeWidth, animationInterval);
         fourthCircle = splitCellHorizontal(circle, getWidth(circle) * 2 + strokeWidth * (-3), animationInterval);
     }, animationInterval);
@@ -367,15 +374,14 @@ const scorpio = () => {
 
     setTimeout(function () {
         var style = window.getComputedStyle(triangle, null);
-        triangle.style.width = style.width;
-        triangle.style.height = style.height;
-        triangle.classList.remove('shrink-elem-four');
+        fixElement(triangle);
         triangle.style.zIndex = 1000;
         moveElement(triangle, getLeftDistance(fourthCircle) + getWidth(fourthCircle) - getWidth(triangle) * (3 / 4), getTopDistance(fourthCircle) + getHeight(fourthCircle) / 2 - getHeight(triangle) + 1, animationInterval);
     }, animationInterval * 7 + 100);
 
     //Raise up icon and add description
     setTimeout(function () {
+        fixElement(triangle);
         finishAnimation("scorpio");
     }, animationInterval * 8 + 150);
 
@@ -383,19 +389,28 @@ const scorpio = () => {
 
 
 const virgo = () => {
-    
+
     const circle = document.getElementById('original-circle');
 
-    setup();
+    //setup
+    const datePicker = document.getElementById('date-picker');
+    datePicker.classList.remove('fade-in');
+    datePicker.classList.add('fade-out');
+    const allSigns = document.getElementById("all-signs");
+    allSigns.classList.remove('fade-in');
+    allSigns.classList.add('fade-out');
 
     let topCircles = [];
     let fourthCircle, fifthCircle;
     let triangle = document.getElementById('original-triangle');
 
-    shrinkElement(circle, animationInterval);
+    shrinkElementToOneThird(circle, animationInterval);
     playChord(starSignQualities.virgo.chords[0]);
 
     setTimeout(function () {
+        //Remove elements
+        datePicker.style.display = "none";
+
         topCircles = fanOutHorizontal(circle, 3, strokeWidth, animationInterval);
         fourthCircle = splitCellHorizontal(circle, getWidth(circle) * 2 + strokeWidth * (-3), animationInterval);
     }, animationInterval);
@@ -445,23 +460,19 @@ const virgo = () => {
 
     setTimeout(function () {
         var style = window.getComputedStyle(triangle, null);
-        triangle.style.width = style.width;
-        triangle.style.height = style.height;
-
-        triangle.classList.remove('shrink-elem-arbitrary');
+        fixElement(triangle);
 
         triangle.style.zIndex = 2002;
 
         triangle.style.left = getLeftDistance(fourthCircle) - 1 + "px";
         triangle.style.top = getBottomDistance(fourthCircle) - 20 + "px";
 
-        moveElement(triangle, 0, 0, animationInterval);
+        //        moveElement(triangle, 0, 0, animationInterval);
         playChord(starSignQualities.virgo.chords[4]);
     }, animationInterval * 8 + 100);
 
     //Create mask
-    var mask = document.createElement('div');
-    mask.setAttribute("class", "mask");
+    var mask = createMask();
     setTimeout(function () {
         mask.style.width = getWidth(fourthCircle) - 9 + "px";
         mask.style.height = getHeight(fourthCircle) / 2 + "px";
@@ -480,19 +491,29 @@ const virgo = () => {
 
 }
 
+// LEO
 const leo = () => {
-    
+
     const circle = document.getElementById('original-circle');
 
-    setup();
+    //setup
+    const datePicker = document.getElementById('date-picker');
+    datePicker.classList.remove('fade-in');
+    datePicker.classList.add('fade-out');
+    const allSigns = document.getElementById("all-signs");
+    allSigns.classList.remove('fade-in');
+    allSigns.classList.add('fade-out');
 
     fadeOutTriangle();
 
     let circles = [];
-    shrinkElement(circle, animationInterval);
+    shrinkElementToOneThird(circle, animationInterval);
     playChord(starSignQualities.leo.chords[0]);
 
     setTimeout(function () {
+        //Remove elements
+        datePicker.style.display = "none";
+
         circles = fanOutHorizontal(circle, 3, strokeWidth, animationInterval);
     }, animationInterval);
 
@@ -518,8 +539,13 @@ const leo = () => {
     }, animationInterval * 4);
 
     setTimeout(function () {
-        addMask(circle, getTopDistance(circle), getLeftDistance(circle), 20, 20);
-        addMask(circles[1], partwayDown(circles[1], 60), getLeftDistance(circles[1]) + 15, 15, 15);
+        circle.style.zIndex = 5;
+        let mask = createMask();
+        mask.style.width = getWidth(circle) - strokeWidth + "px";
+        mask.style.height = getHeight(circle) / 2 + 1 + "px";
+        mask.style.top = getVerticalCentre(circles[1]) + "px";
+        mask.style.left = getLeftDistance(circles[1]) + strokeWidth + 3 + "px";
+        circle.parentElement.appendChild(mask);
     }, animationInterval * 5);
 
     //Raise up icon and add description
@@ -531,20 +557,28 @@ const leo = () => {
 }
 
 const capricorn = () => {
-    
+
     const triangle = document.getElementById('original-triangle');
 
-    setup();
+    //setup
+    const datePicker = document.getElementById('date-picker');
+    datePicker.classList.remove('fade-in');
+    datePicker.classList.add('fade-out');
+    const allSigns = document.getElementById("all-signs");
+    allSigns.classList.remove('fade-in');
+    allSigns.classList.add('fade-out');
 
     const circle = document.getElementById('original-circle');
-    console.log(circle);
 
     flipTriangle(triangle);
     const secondCircle = splitCellVertical(circle, -170, animationInterval);
     playChord(starSignQualities.capricorn.chords[0]);
 
     setTimeout(function () {
-        shrinkElement(circle, animationInterval);
+        //Remove elements
+        datePicker.style.display = "none";
+
+        shrinkElementToOneThird(circle, animationInterval);
         hollowFlippedTriangle(triangle, strokeWidth);
     }, animationInterval);
 
@@ -555,7 +589,8 @@ const capricorn = () => {
         circle.style.width = style.width;
         circle.style.height = style.height;
         circle.classList.remove('shrink-elem');
-        moveElement(circle, getRightDistance(triangle) - getWidth(circle) - 7, getBottomDistance(triangle) - getHeight(circle), animationInterval);
+        moveElement(circle, getRightDistance(triangle) - getWidth(circle) - strokeWidth * 0.84, getBottomDistance(triangle) - getHeight(circle), animationInterval);
+
     }, animationInterval * 2);
 
     setTimeout(function () {
@@ -569,13 +604,10 @@ const capricorn = () => {
     setTimeout(function () {
         playChord(starSignQualities.capricorn.chords[2]);
         secondCircle.classList.remove('move-down');
-        console.log(secondCircle);
-        moveElement(secondCircle, getLeftDistance(triangle), getBottomDistance(triangle) - getHeight(circle) - 8, animationInterval);
+        moveElement(secondCircle, getLeftDistance(triangle), getBottomDistance(triangle) - getHeight(secondCircle) / 2, animationInterval);
     }, animationInterval * 4);
 
-    var mask = document.createElement('div');
-    mask.setAttribute("class", "mask");
-
+    let mask = createMask();
     setTimeout(function () {
         maskPartOfCircle(secondCircle, 'bottom', 50);
         maskPartOfCircle(secondCircle, 'right', 88);
@@ -586,6 +618,9 @@ const capricorn = () => {
         mask.style.left = getLeftDistance(triangle) + getWidth(triangle) / 3 + "px";
         mask.style.zIndex = 1001;
         triangle.parentElement.appendChild(mask);
+
+        //Fix inner circle
+        fixElement(circle.childNodes[0]);
     }, animationInterval * 5);
 
     //Raise up icon and add description
@@ -594,75 +629,94 @@ const capricorn = () => {
     }, animationInterval * 6);
 }
 
+// LIBRA //
 const libra = () => {
-    
-    const circle = document.getElementById('original-circle');
 
-    setup();
-    
+    //setup
+    const datePicker = document.getElementById('date-picker');
+    datePicker.classList.remove('fade-in');
+    datePicker.classList.add('fade-out');
+    const allSigns = document.getElementById("all-signs");
+    allSigns.classList.remove('fade-in');
+    allSigns.classList.add('fade-out');
+
     fadeOutTriangle();
 
-    var originalCircleWidth = getWidth(circle);
-    var originalCircleBottom = getBottomDistance(circle);
+    // Variables
+    const circle = document.getElementById('original-circle');
+    const originalCircleWidth = getWidth(circle);
+    const originalCircleBottom = getBottomDistance(circle);
+    let mask = createMask();
 
     playChord(starSignQualities.libra.chords[0]);
-    shrinkElement(circle, animationInterval);
+    shrinkElementToOneThird(circle, animationInterval);
 
     setTimeout(function () {
+        //Remove elements
+        datePicker.style.display = "none";
+
         hollowOutCircle(circle, strokeWidth);
     }, animationInterval);
 
-    //Create mask
-    var mask = document.createElement('div');
-    mask.setAttribute("class", "mask");
-
     setTimeout(function () {
+
         playChord(starSignQualities.libra.chords[1]);
         mask.style.width = getWidth(circle) / 3 + "px";
-        mask.style.height = getHeight(circle) / 3 + "px";
-        mask.style.top = getTopDistance(circle) + getHeight(circle) * (2 / 3) + "px";
+        mask.style.height = getHeight(circle) / 2 + 1 + "px";
+        mask.style.top = getVerticalCentre(circle) + "px";
         mask.style.left = getLeftDistance(circle) + getWidth(circle) / 3 + "px";
         mask.style.zIndex = 2;
         circle.parentElement.appendChild(mask);
     }, animationInterval * 2);
 
     setTimeout(function () {
-        var bar1 = createBar(originalCircleWidth, "horizontal");
-        bar1.style.zIndex = 1;
-        positionElement(bar1, getBottomDistance(circle) - strokeWidth, getLeftDistance(circle) - getWidth(circle) / 2);
-        circle.parentElement.appendChild(bar1);
-    }, animationInterval * 3);
 
-    setTimeout(function () {
-        playChord(starSignQualities.libra.chords[2]);
-        var bar1 = createBar(originalCircleWidth, "horizontal");
-        positionElement(bar1, originalCircleBottom - strokeWidth * 3, getLeftDistance(circle) - getWidth(circle) / 2);
-        circle.parentElement.appendChild(bar1);
-    }, animationInterval * 4);
+        //Top bar 
+        let bar = createBar(originalCircleWidth, "horizontal");
+        bar.style.zIndex = 1;
+        positionElement(bar, getBottomDistance(circle) - strokeWidth, getHorizontalCentre(circle) - originalCircleWidth / 2);
+        circle.parentElement.appendChild(bar);
+
+        // Lower bar
+        var bar2 = createBar(originalCircleWidth, "horizontal");
+        positionElement(bar2, getBottomDistance(circle) + getHeight(circle) - strokeWidth * 2, getHorizontalCentre(circle) - originalCircleWidth / 2);
+        circle.parentElement.appendChild(bar2);
+
+    }, animationInterval * 3);
 
     //Raise up icon and add description
     setTimeout(function () {
+        playChord(starSignQualities.libra.chords[2]);
         finishAnimation("libra");
-    }, animationInterval * 5);
+    }, animationInterval * 4);
 
 }
 
 
 // ARIES
 const aries = () => {
-    
+
     const circle = document.getElementById('original-circle');
 
-    setup();
+    //setup
+    const datePicker = document.getElementById('date-picker');
+    datePicker.classList.remove('fade-in');
+    datePicker.classList.add('fade-out');
+    const allSigns = document.getElementById("all-signs");
+    allSigns.classList.remove('fade-in');
+    allSigns.classList.add('fade-out');
 
     fadeOutTriangle();
 
     var circles = [];
 
-    shrinkElement(circle, animationInterval);
+    shrinkElementToOneThird(circle, animationInterval);
     playChord(starSignQualities.aries.chords[0]);
-    
+
     setTimeout(function () {
+        //Remove elements
+        datePicker.style.display = "none";
+
         circles = fanOutHorizontal(circle, 2, strokeWidth, animationInterval);
     }, animationInterval)
 
@@ -690,50 +744,73 @@ const aries = () => {
     }, animationInterval * 5);
 }
 
-// GEMINI
+// GEMINI //
 const gemini = () => {
-    
-    const circle = document.getElementById('original-circle');
 
-    setup();
+    const circle = document.getElementById('original-circle');
+    let topCircle;
+
+    //setup
+    const datePicker = document.getElementById('date-picker');
+    datePicker.classList.remove('fade-in');
+    datePicker.classList.add('fade-out');
+    const allSigns = document.getElementById("all-signs");
+    allSigns.classList.remove('fade-in');
+    allSigns.classList.add('fade-out');
+
     fadeOutTriangle();
     playChord(starSignQualities.gemini.chords[0]);
 
-    var gapBetweenCircles = 35;
+    var gapBetweenCircles = getHeight(circle) * (0.4);
 
     hollowOutCircle(circle, strokeWidth);
-    var topCircle = splitCellVertical(circle, -210);
+    moveCellVertical(circle, getHeight(circle) / 2 + gapBetweenCircles / 2, animationInterval);
+
+    setTimeout(function () {
+        //Remove elements
+        datePicker.style.display = "none";
+
+        topCircle = splitCellVertical(circle, -210);
+    }, animationInterval);
+
 
     setTimeout(function () {
         maskPartOfCircle(topCircle, 'top', 70);
         maskPartOfCircle(circle, 'bottom', 70);
-    }, animationInterval);
+    }, animationInterval * 2);
 
     setTimeout(function () {
         var bar1 = createBar(gapBetweenCircles * 1.4, "vertical");
-        positionElement(bar1, getBottomDistance(topCircle) - 8, getLeftDistance(circle) + getWidth(circle) * 0.3);
+        positionElement(bar1, getBottomDistance(topCircle) - strokeWidth, getLeftDistance(circle) + getWidth(circle) * 0.3);
         circle.parentElement.appendChild(bar1);
 
         var bar2 = createBar(gapBetweenCircles * 1.4, "vertical");
-        positionElement(bar2, getBottomDistance(topCircle) - 8, getLeftDistance(circle) + getWidth(circle) * 0.6);
+        positionElement(bar2, getBottomDistance(topCircle) - strokeWidth, getLeftDistance(circle) + getWidth(circle) * 0.6);
         circle.parentElement.appendChild(bar2);
         playChord(starSignQualities.gemini.chords[1]);
-    }, animationInterval * 2);
+    }, animationInterval * 3);
 
     //Raise up icon and add description
     setTimeout(function () {
         finishAnimation("gemini");
-    }, animationInterval * 3);
+    }, animationInterval * 4);
 
 }
 
 
 // PISCES
 const pisces = () => {
-    
+
     const circle = document.getElementById('original-circle');
 
-    setup();
+    //setup
+    const datePicker = document.getElementById('date-picker');
+    datePicker.classList.remove('fade-in');
+    datePicker.classList.add('fade-out');
+    const allSigns = document.getElementById("all-signs");
+    allSigns.classList.remove('fade-in');
+    allSigns.classList.add('fade-out');
+
     playChord(starSignQualities.pisces.chords[0]);
 
     fadeOutTriangle();
@@ -746,6 +823,9 @@ const pisces = () => {
     var leftCircle = splitCellHorizontal(circle, gap, animationInterval);
 
     setTimeout(function () {
+        //Remove elements
+        datePicker.style.display = "none";
+
         maskPartOfCircle(circle, "left", 50);
         maskPartOfCircle(leftCircle, "right", 50);
     }, animationInterval);
@@ -753,7 +833,7 @@ const pisces = () => {
     setTimeout(function () {
         var crossBar = createBar(getWidth(circle) + gap, "horizontal");
         var leftDistance = getLeftDistance(circle) + getWidth(circle) / 2;
-        var topDistance = getTopDistance(circle) + getWidth(circle) / 2 - (strokeWidth/2);
+        var topDistance = getTopDistance(circle) + getWidth(circle) / 2 - (strokeWidth / 2);
         positionElement(crossBar, topDistance, leftDistance);
         invisibleBox.appendChild(crossBar);
         playChord(starSignQualities.pisces.chords[1]);
@@ -768,10 +848,16 @@ const pisces = () => {
 
 // CANCER
 const cancer = () => {
-    
+
     const circle = document.getElementById('original-circle');
 
-    setup();
+    //setup
+    const datePicker = document.getElementById('date-picker');
+    datePicker.classList.remove('fade-in');
+    datePicker.classList.add('fade-out');
+    const allSigns = document.getElementById("all-signs");
+    allSigns.classList.remove('fade-in');
+    allSigns.classList.add('fade-out');
 
     playChord(starSignQualities.cancer.chords[0]);
 
@@ -779,7 +865,7 @@ const cancer = () => {
 
     const originalHeight = getHeight(circle);
 
-    shrinkElement(circle, animationInterval);
+    shrinkElementToOneThird(circle, animationInterval);
 
     var secondCircle;
     var thirdCircle;
@@ -787,6 +873,9 @@ const cancer = () => {
     circle.style.zIndex = 100;
 
     setTimeout(function () {
+        //Remove elements
+        datePicker.style.display = "none";
+
         secondCircle = splitCellCancer(circle, strokeWidth * (-1), animationInterval);
     }, animationInterval);
 
@@ -825,9 +914,7 @@ const cancer = () => {
         playChord(starSignQualities.cancer.chords[3]);
 
         //Create mask
-        var mask = document.createElement('div');
-        mask.setAttribute("class", "mask");
-        //                mask.style.backgroundColor = "red";
+        let mask = createMask();
 
         mask.style.width = getWidth(thirdCircle) + 5 + "px";
         mask.style.top = getTopDistance(thirdCircle) - strokeWidth + "px";
@@ -837,9 +924,7 @@ const cancer = () => {
         circle.parentElement.appendChild(mask);
 
         //Create mask
-        var mask2 = document.createElement('div');
-        mask2.setAttribute("class", "mask");
-        //                mask2.style.backgroundColor = "red";
+        let mask2 = createMask();
 
         mask2.style.width = getWidth(circle) + 5 + "px";
         mask2.style.top = getBottomDistance(circle) - getHeight(circle) / 2 + "px";
@@ -863,7 +948,9 @@ const cancer = () => {
 // ANIMATION FUNCTIONS
 
 function moveElement(elem, left, top, animationInterval) {
-    
+
+    fixElement(elem);
+
     var style = window.getComputedStyle(elem, null);
 
     //Minus 2*stroke width (8)
@@ -893,7 +980,7 @@ function rotateElem(elem) {
 
 }
 
-const shrinkElement = (elem, animationInterval) => {
+const shrinkElementToOneThird = (elem, animationInterval) => {
 
     elem.classList.add('shrink-circle');
     var style = window.getComputedStyle(elem, null);
@@ -904,6 +991,22 @@ const shrinkElement = (elem, animationInterval) => {
         elem.classList.remove('shrink-circle');
     }, animationInterval);
 }
+
+
+const shrinkElementToTwoThirds = (elem, animationInterval) => {
+
+    elem.classList.add('shrink-circle-secondary');
+    var style = window.getComputedStyle(elem, null);
+
+    setTimeout(function () {
+        elem.style.width = style.width;
+        elem.style.height = style.height;
+        elem.classList.remove('shrink-circle-secondary');
+    }, animationInterval);
+}
+
+
+
 
 
 function shrinkElementArbitrary(elem, animationInterval, percent) {
@@ -917,7 +1020,18 @@ function shrinkElementArbitrary(elem, animationInterval, percent) {
     root.style.setProperty('--final-diameter', newWidth + "px");
 
     elem.classList.add('shrink-elem-arbitrary');
+}
 
+function shrinkElementToSize(elem, newWidth) {
+
+    //    var style = window.getComputedStyle(elem, null);
+    var elemWidth = getWidth(elem);
+
+    //Minus 2*stroke width (8)
+    let root = document.documentElement;
+    root.style.setProperty('--final-diameter', newWidth + "px");
+
+    elem.classList.add('shrink-elem-arbitrary');
 }
 
 
@@ -945,7 +1059,6 @@ const addCircleDescender = (elem, length) => {
     positionElement(descenderBar, verticalPosition, leftPosition);
     descenderBar.classList.add('grow-descender');
     elem.parentElement.appendChild(descenderBar);
-    console.log(descenderBar);
 }
 
 // "Hollow out" a circle
@@ -965,8 +1078,7 @@ function hollowOutCircle(elem, strokeWidth) {
 
 function addMask(elem, top, left, width, height) {
 
-    const mask = document.createElement('div');
-    mask.setAttribute("class", "mask");
+    let mask = createMask();
 
     mask.style.width = width + "px";
     mask.style.top = top + "px";
@@ -988,8 +1100,7 @@ function maskPartOfCircle(element, side, percentToMask) {
     var elemTopValue = getTopDistance(element);
 
     //Create mask
-    var mask = document.createElement('div');
-    mask.setAttribute("class", "mask");
+    let mask = createMask();
 
     //Mask either top or bottom 
     switch (side) {
@@ -1036,13 +1147,19 @@ function createBar(size, orientation) {
     if (orientation == "vertical") {
         crossBar.style.height = size + "px";
     } else if (orientation == "horizontal") {
-        console.log("hi there");
         crossBar.style.width = size + "px";
     } else {
         console.log("Please enter vertical or horizontal");
     }
-    console.log("width: " + getWidth(crossBar));
     return crossBar;
+}
+
+//Create mask element to hide other elements. 
+//This is just a div with the same colour as the background. 
+const createMask = () => {
+    let mask = document.createElement('div');
+    mask.setAttribute("class", "mask");
+    return mask;
 }
 
 const splitCellCancer = (elem, gap, animationInterval) => {
@@ -1179,9 +1296,15 @@ function hollowFlippedTriangle(elem, strokeWidth) {
     elem.classList.add('hollow-flipped-triangle');
 }
 
-function hollowOutTriangle(elem) {
 
-    console.log(elem);
+//Diameter of a circle which nestles in the corner of a square, bounded by a triangle
+function sizeOfCapricornCircleGivenTriangleWidth(triangleWidth) {
+    return triangleWidth * Math.sin(degreesToRadians(63.435)) / ((Math.sin(degreesToRadians(63.435))) + 2 * (Math.sin(degreesToRadians(53.13))) * (Math.cos(degreesToRadians(26.565))));
+}
+
+
+
+function hollowOutTriangle(elem) {
 
     let topDot = {};
     let bottomLeftDot = {};
@@ -1223,10 +1346,16 @@ function positionElement(element, top, left) {
 
 // Set diameter of shape 
 function setDiameter(elem, diameter) {
-
     elem.style.height = diameter + "px";
     elem.style.width = diameter + "px";
 
+}
+
+// Set dimensions of shape 
+function setDimensions(elem, height, width) {
+    elem.style.height = height + "px";
+    elem.style.width = width + "px";
+    return elem;
 }
 
 // Return pixel width of element as an integer, removing "px"
@@ -1253,14 +1382,29 @@ function getRightDistance(elem) {
     return getLeftDistance(elem) + getWidth(elem);
 }
 
+//function setRightDistance(elem, rightDistance) {
+//    elem.style.left = rightDistance - getWidth(elem) + "px";
+//}
+
 // Return top Value of element as an integer, removing "px"
 function getTopDistance(elem) {
     var style = window.getComputedStyle(elem, null);
     return parseInt(style.top.slice(0, -2));
 }
 
+// Return bottom Value of element as an integer, without "px"
 function getBottomDistance(elem) {
     return getTopDistance(elem) + getHeight(elem);
+}
+
+//Get the centre of the element
+function getHorizontalCentre(elem) {
+    return getLeftDistance(elem) + (getWidth(elem) / 2);
+}
+
+//Get the centre of the element
+function getVerticalCentre(elem) {
+    return getTopDistance(elem) + (getHeight(elem) / 2);
 }
 
 function partwayDown(elem, percent) {
@@ -1293,7 +1437,13 @@ function fixElement(elem) {
     elem.classList.remove('slide-horizontal');
     elem.classList.remove('move-elem');
     elem.classList.remove('move-left');
+    elem.classList.remove('shrink-elem-four');
+    elem.classList.remove('shrink-elem-arbitrary');
 }
+
+
+
+
 
 function asPercent(length, asPercentOfLength) {
     return (100 / asPercentOfLength) * length;
@@ -1342,12 +1492,47 @@ function finishAnimation(astroSign) {
     //    box.classList.remove('fade-in');
 
     var header = document.getElementsByTagName("HEADER")[0];
-    header.style.zIndex = 999999999999999999999;
+    header.style.zIndex = 9999;
     box.style.zIndex = 1;
-    box.classList.add('float-up');
 
-//    //Add onclick of horoscope function
-//    box.addEventListener("click", getHoroscope, false);
+
+    const leftAmount = {
+        aries: 78,
+        taurus: 78,
+        gemini: 65,
+        leo: 65,
+        libra: 93,
+        virgo: 48,
+        scorpio: -68,
+        capricorn: -68,
+        aquarius: -68,
+        pisces: 10,
+        scorpio: 55,
+        cancer: 65,
+        sagittarius: -43
+    }
+
+    const topAmount = {
+        aries: -50,
+        taurus: -40,
+        gemini: -60,
+        leo: -50,
+        libra: -50,
+        virgo: -55,
+        scorpio: -55,
+        capricorn: -60,
+        aquarius: -50,
+        pisces: -60,
+        cancer: -40,
+        sagittarius: -60
+    }
+
+
+
+    moveElement(box, leftAmount[astroSign], topAmount[astroSign], animationInterval);
+
+    //    box.classList.add('float-up');
+
 
     setTimeout(function () {
 
@@ -1372,15 +1557,28 @@ function finishAnimation(astroSign) {
         newBox.appendChild(astroText);
 
         container.appendChild(newBox);
+        box.style.top = 70 + topAmount[astroSign] + "px";
     }, animationInterval + 100);
 }
 
-function setup() {
+const setup = () => {
 
-    setTimeout(function () {
-        const datePicker = document.getElementById('date-picker');
-        datePicker.style.display = "none";
-    }, animationInterval + 100);
+    //        const datePicker document.getElementById('date-picker');
+    //        datePicker.classList.remove('fade-in');
+    //        datePicker.classList.add('fade-out');
+    //    
+    //        const allSigns = document.getElementById('date-picker');
+    //        allSigns.classList.add('fade-out');
+
+
+    //    setTimeout(function () {
+    ////        const datePicker = document.getElementById('date-picker');
+    //        datePicker.style.display = "none";
+    //
+    ////        const allSigns = document.getElementById("all-signs");
+    //        allSigns.style.display = "none";
+    //
+    //    }, animationInterval + 100);
 
 }
 

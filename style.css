@@ -10,8 +10,8 @@
     --primary-circle-width: 89px;
     --primary-circle-height: 89px;
     /*Half shape sizes*/
-    --secondary-circle-width: 45px;
-    --secondary-circle-height: 45px;
+    --secondary-circle-width: 63px;
+    --secondary-circle-height: 63px;
     --final-diameter: 100px;
     --tertiary-circle-width: 35px;
     --tertiary-circle-height: 35px;
@@ -62,6 +62,12 @@ body {
 }
 .astro-text {
     font-size: 0.7em;
+    text-align: justify;
+}
+
+/* Heading of star sign description*/
+.astro-text h4 {
+    text-align: center;
 }
 
 #all-signs {
@@ -136,18 +142,18 @@ body {
     position: relative;
     display: block;
     background: var(--main-background-color);
-    width: 250px;
+    width: 400px;
     height: 140px;
-    /*    background-color: antiquewhite;*/
+/*    background-color: antiquewhite;*/
     align-self: center;
 }
 #changed-box {
     position: relative;
     display: block;
     background: var(--main-background-color);
-    width: 250px;
+    width: 400px;
     height: 140px;
-    /*    background-color: antiquewhite;*/
+/*    background-color: aquamarine;*/
     align-self: start;
 }
 #container {
@@ -156,7 +162,8 @@ body {
     justify-items: center;
     width: 100%;
     height: 280px;
-    background-color: var(--main-background-color);
+/*    background-color: var(--main-background-color);*/
+/*    background-color: azure;*/
 }
 .primary-shape {
     display: grid;
@@ -182,12 +189,12 @@ body {
 
 .position-one {
     top: 25px; 
-    left: 15px;
+    left: 90px;
 }
-
+/*400-2*89=222   */
 .position-two {
     top: 25px; 
-    left: 150px;
+    left: 225px;
 }
 
 /*USE*/
@@ -266,6 +273,11 @@ body {
     animation-name: shrinkCircle;
     animation-fill-mode: forwards;
 }
+.shrink-circle-secondary {
+    animation-duration: var(--interval);
+    animation-name: shrinkCircleSecondary;
+    animation-fill-mode: forwards;
+}
 .shrink-elem-four {
     animation-duration: var(--interval);
     animation-name: shrinkElemFour;
@@ -317,6 +329,19 @@ body {
         height: var(--tertiary-circle-height);
     }
 }
+@keyframes shrinkCircleSecondary {
+    from {
+        width: var(--primary-circle-width);
+        height: var(--primary-circle-height);
+    }
+    to {
+        width: var(--secondary-circle-width);
+        height: var(--secondary-circle-height);
+    }
+}
+
+
+
 @keyframes shrinkElemFour {
     from {
         width: var(--primary-circle-width);

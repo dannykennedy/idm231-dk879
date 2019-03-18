@@ -35,9 +35,15 @@ function refresh() {
     datePicker.classList.remove('fade-out');
     datePicker.classList.add('fade-in');
     datePicker.style.display = 'block';
+
+    // Add star signs back
+    var allSigns = document.getElementById('all-signs');
+    allSigns.classList.remove('fade-out');
+    allSigns.classList.add('fade-in');
+    allSigns.style.display = 'grid';
 }
 
-// MODAL
+// HELP MODAL
 
 // Get the modal
 var modal = document.getElementById('myModal');
