@@ -56,7 +56,8 @@ header {
 }
 body {
     background-color: var(--main-background-color);
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: 'Crimson Text', serif;
+/*    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;*/
     font-size: 1em;
     line-height: 1.42857143;
     color: #333;
@@ -115,10 +116,11 @@ body {
     background-color: #fefefe;
     margin: 15% auto;
     /* 15% from the top and centered */
-    padding: 20px;
+    padding: 10px 25px 10px 25px;
     border: 1px solid #888;
     width: 80%;
     /* Could be more or less, depending on screen size */
+    border-radius: 5px;
 }
 
 /* The Close Button */
