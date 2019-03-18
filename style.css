@@ -39,7 +39,8 @@
     --hollow-triangle-clip-path: polygon(0 0, 100% 0, 50% 100%, 44% 88%, 84% 10%, 6% 10%);
     --prehollow-triangle-clip-path: polygon(0 0, 100% 0, 50% 100%, 44% 88%, 84% 10%, 6% 10%);
     /*IMAGES*/
-    --background-image: url(starry-universe-james-bo-insogna.jpg);
+    --background-image-one: url(images/galaxy1.jpg);
+    --background-image-two: url(images/galaxy2.jpg);
 }
 html {
     box-sizing: border-box;
@@ -170,8 +171,20 @@ body {
     position: absolute;
     width: var(--primary-circle-width);
     height: var(--primary-circle-height);
-    background: var(--background-image);
+    background-size: 89px 89px;
 }
+
+.background-image-one {
+    background: var(--background-image-one);
+    background-size: 89px 89px;
+}
+
+.background-image-two {
+    background: var(--background-image-two);
+    background-size: 89px 89px;
+}
+
+
 .inner-shape {
     margin: auto;
     display: block;
@@ -240,11 +253,12 @@ body {
     position: absolute;
     width: var(--stroke-width);
     height: var(--stroke-width);
-    background: var(--background-image);
     z-index: var(--bar-zindex);
     animation-duration: var(--interval);
     animation-name: fadeIn;
     animation-fill-mode: forwards;
+    background: var(--background-image-one);
+    background-size: 89px 89px;
 }
 .mask {
     position: absolute;

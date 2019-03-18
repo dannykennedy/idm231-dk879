@@ -16,10 +16,10 @@ function refresh() {
         box.removeChild(text);
 
         const triangle = document.createElement('div');
-        triangle.classList = 'primary-shape triangle position-two';
+        triangle.classList = 'primary-shape triangle position-two background-image-one';
         triangle.setAttribute('id', 'original-triangle');
         const circle = document.createElement('div');
-        circle.classList = 'primary-shape circle position-one';
+        circle.classList = 'primary-shape circle position-one background-image-two';
         circle.setAttribute('id', 'original-circle');
 
         box.appendChild(triangle);
