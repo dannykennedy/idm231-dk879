@@ -9,18 +9,22 @@
     --primary-circle-diameter: 89px;
     --primary-circle-width: 89px;
     --primary-circle-height: 89px;
-    /*Half shape sizes*/
-    --secondary-circle-width: 63px;
-    --secondary-circle-height: 63px;
+    /*third shape sizes - tertiary plus tertiary minus stroke width, approx*/
+    --secondary-circle-width: 68px;
+    --secondary-circle-height: 68px;
     --final-diameter: 100px;
     --tertiary-circle-width: 35px;
     --tertiary-circle-height: 35px;
+    --fourth-circle-diameter: 45px;
     --inner-circle-width: 80%;
     --inner-circle-height: 80%;
     --inner-circle-diameter-primary: 73px;
     --stroke-width: 8px;
-    --descender-length: 50px;
-    --fourth-circle-diameter: 15px;
+/*    Primary - half of half-circle = 89-24 = 65 */
+    --descender-length: 65px;
+/*    Primary minus tertiary */
+    --secondary-descender-length: 54px;
+    --small-elem-diameter: 15px;
     /*Translations*/
     --translate-small: 27px;
     /*COLORS*/
@@ -53,6 +57,7 @@ header {
     grid-template-columns: 25% 50% 25%;
     margin-bottom: 10px;
     z-index: 3000;
+    font-size: 1.1em;
 }
 body {
     background-color: var(--main-background-color);
@@ -61,7 +66,11 @@ body {
     font-size: 1em;
     line-height: 1.42857143;
     color: #333;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 10px;
 }
+
 .astro-text {
     font-size: 0.7em;
     text-align: justify;
@@ -106,7 +115,7 @@ body {
     /* Enable scroll if needed */
     background-color: rgb(0, 0, 0);
     /* Fallback color */
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.7);
     /* Black w/ opacity */
 }
 
@@ -299,6 +308,13 @@ body {
     animation-name: shrinkElemFour;
     animation-fill-mode: forwards;
 }
+.half-elem {
+        animation-duration: var(--interval);
+    animation-name: halfCircle;
+    animation-fill-mode: forwards;
+    
+}
+
 .grow-circle {
     animation-duration: var(--interval);
     animation-name: growCircle;
@@ -307,6 +323,11 @@ body {
 .grow-descender {
     animation-duration: var(--interval);
     animation-name: growDescender;
+    animation-fill-mode: forwards;
+}
+.grow-secondary-descender {
+    animation-duration: var(--interval);
+    animation-name: growSecondaryDescender;
     animation-fill-mode: forwards;
 }
 .fade-out {
@@ -345,6 +366,16 @@ body {
         height: var(--tertiary-circle-height);
     }
 }
+@keyframes halfCircle {
+    from {
+        width: var(--primary-circle-width);
+        height: var(--primary-circle-height);
+    }
+    to {
+        width: var(--fourth-circle-diameter);
+        height: var(--fourth-circle-diameter);
+    }
+}
 @keyframes shrinkCircleSecondary {
     from {
         width: var(--primary-circle-width);
@@ -364,8 +395,8 @@ body {
         height: var(--primary-circle-height);
     }
     to {
-        width: var(--fourth-circle-diameter);
-        height: var(--fourth-circle-diameter);
+        width: var(--small-elem-diameter);
+        height: var(--small-elem-diameter);
     }
 }
 @keyframes growCircle {
@@ -410,6 +441,14 @@ body {
     }
     to {
         height: var(--descender-length);
+    }
+}
+@keyframes growSecondaryDescender {
+    from {
+        height: 0px;
+    }
+    to {
+        height: var(--secondary-descender-length);
     }
 }
 @keyframes slideShapeVertical {

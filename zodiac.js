@@ -248,7 +248,7 @@ const aquarius = () => {
 
     setTimeout(function () {
         triangles.forEach(function (item) {
-            splitCellVertical(item, 0, animationInterval);
+            splitCellVertical(item, strokeWidth, animationInterval);
         });
     }, animationInterval * 3);
 
@@ -346,7 +346,7 @@ const scorpio = () => {
     }, animationInterval * 2);
 
     setTimeout(function () {
-        moveCellVertical(fourthCircle, 50, animationInterval);
+        moveCellVertical(fourthCircle, 54, animationInterval);
     }, animationInterval * 3);
 
     setTimeout(function () {
@@ -358,7 +358,7 @@ const scorpio = () => {
 
     setTimeout(function () {
         topCircles.forEach(function (item) {
-            addCircleDescender(item, 50);
+            addSecondaryCircleDescender(item, 50);
         });
         playChord(starSignQualities.scorpio.chords[2]);
     }, animationInterval * 4 + 100);
@@ -424,7 +424,7 @@ const virgo = () => {
     }, animationInterval * 2);
 
     setTimeout(function () {
-        fifthCircle = splitCellVertical(fourthCircle, 15, animationInterval);
+        fifthCircle = splitCellVertical(fourthCircle, 19, animationInterval);
         //        fifthCircle.style.zIndex = 2;
     }, animationInterval * 3);
 
@@ -436,7 +436,7 @@ const virgo = () => {
         maskPartOfCircle(circle, 'left', 50);
 
         topCircles.forEach(function (item) {
-            addCircleDescender(item, 50);
+            addSecondaryCircleDescender(item);
         });
         playChord(starSignQualities.virgo.chords[2]);
 
@@ -450,12 +450,12 @@ const virgo = () => {
     setTimeout(function () {
         fixElement(fifthCircle);
         moveCellVertical(fourthCircle, 10, animationInterval);
-        shrinkElementArbitrary(triangle, animationInterval, 69);
+        shrinkElementArbitrary(triangle, animationInterval, 72);
         playChord(starSignQualities.virgo.chords[3]);
     }, animationInterval * 6 + 100);
 
     setTimeout(function () {
-        lineFromTriangle(triangle, strokeWidth);
+        lineFromTriangle(triangle, strokeWidth+1);
     }, animationInterval * 7 + 100);
 
     setTimeout(function () {
@@ -464,7 +464,7 @@ const virgo = () => {
 
         triangle.style.zIndex = 2002;
 
-        triangle.style.left = getLeftDistance(fourthCircle) - 1 + "px";
+        triangle.style.left = getLeftDistance(fourthCircle) - 3 + "px";
         triangle.style.top = getBottomDistance(fourthCircle) - 20 + "px";
 
         //        moveElement(triangle, 0, 0, animationInterval);
@@ -529,11 +529,11 @@ const leo = () => {
 
     setTimeout(function () {
         fixElement(circle);
-        moveElement(circles[2], getLeftDistance(circles[2]), getTopDistance(circles[2]) + (2 * getHeight(circle)) - (3 * strokeWidth), animationInterval);
+        moveElement(circles[2], getLeftDistance(circles[2]), getTopDistance(circles[2]) + (2 * getHeight(circle)) - (2 * strokeWidth), animationInterval);
     }, animationInterval * 3 + 300);
 
     setTimeout(function () {
-        addCircleDescender(circles[1], 60);
+        addSecondaryCircleDescender(circles[1], 60);
         maskPartOfCircle(circles[2], 'top', 60);
         playChord(starSignQualities.leo.chords[2]);
     }, animationInterval * 4);
@@ -649,7 +649,7 @@ const libra = () => {
     let mask = createMask();
 
     playChord(starSignQualities.libra.chords[0]);
-    shrinkElementToOneThird(circle, animationInterval);
+    shrinkElementToHalf(circle, animationInterval);
 
     setTimeout(function () {
         //Remove elements
@@ -679,7 +679,7 @@ const libra = () => {
 
         // Lower bar
         var bar2 = createBar(originalCircleWidth, "horizontal");
-        positionElement(bar2, getBottomDistance(circle) + getHeight(circle) - strokeWidth * 2, getHorizontalCentre(circle) - originalCircleWidth / 2);
+        positionElement(bar2, getBottomDistance(circle) + getHeight(circle) - strokeWidth * 2.5, getHorizontalCentre(circle) - originalCircleWidth / 2);
         circle.parentElement.appendChild(bar2);
 
     }, animationInterval * 3);
@@ -710,7 +710,7 @@ const aries = () => {
 
     var circles = [];
 
-    shrinkElementToOneThird(circle, animationInterval);
+    shrinkElementToHalf(circle, animationInterval);
     playChord(starSignQualities.aries.chords[0]);
 
     setTimeout(function () {
@@ -761,7 +761,7 @@ const gemini = () => {
     fadeOutTriangle();
     playChord(starSignQualities.gemini.chords[0]);
 
-    var gapBetweenCircles = getHeight(circle) * (0.4);
+    var gapBetweenCircles = getHeight(circle) * (0.42);
 
     hollowOutCircle(circle, strokeWidth);
     moveCellVertical(circle, getHeight(circle) / 2 + gapBetweenCircles / 2, animationInterval);
@@ -780,11 +780,11 @@ const gemini = () => {
     }, animationInterval * 2);
 
     setTimeout(function () {
-        var bar1 = createBar(gapBetweenCircles * 1.4, "vertical");
+        var bar1 = createBar(gapBetweenCircles * 1.3, "vertical");
         positionElement(bar1, getBottomDistance(topCircle) - strokeWidth, getLeftDistance(circle) + getWidth(circle) * 0.3);
         circle.parentElement.appendChild(bar1);
 
-        var bar2 = createBar(gapBetweenCircles * 1.4, "vertical");
+        var bar2 = createBar(gapBetweenCircles * 1.3, "vertical");
         positionElement(bar2, getBottomDistance(topCircle) - strokeWidth, getLeftDistance(circle) + getWidth(circle) * 0.6);
         circle.parentElement.appendChild(bar2);
         playChord(starSignQualities.gemini.chords[1]);
@@ -815,7 +815,8 @@ const pisces = () => {
 
     fadeOutTriangle();
 
-    var gap = 20;
+    // Tertiary width - 2* strokewidth
+    var gap = 19;
 
     var invisibleBox = document.getElementById("box");
 
@@ -826,13 +827,13 @@ const pisces = () => {
         //Remove elements
         datePicker.style.display = "none";
 
-        maskPartOfCircle(circle, "left", 50);
-        maskPartOfCircle(leftCircle, "right", 50);
+        maskPartOfCircle(circle, "left", 60);
+        maskPartOfCircle(leftCircle, "right", 40);
     }, animationInterval);
 
     setTimeout(function () {
-        var crossBar = createBar(getWidth(circle) + gap, "horizontal");
-        var leftDistance = getLeftDistance(circle) + getWidth(circle) / 2;
+        var crossBar = createBar(getWidth(circle)+1, "horizontal");
+        var leftDistance = getLeftDistance(circle) + getWidth(circle)*(0.6);
         var topDistance = getTopDistance(circle) + getWidth(circle) / 2 - (strokeWidth / 2);
         positionElement(crossBar, topDistance, leftDistance);
         invisibleBox.appendChild(crossBar);
@@ -992,6 +993,18 @@ const shrinkElementToOneThird = (elem, animationInterval) => {
     }, animationInterval);
 }
 
+const shrinkElementToHalf = (elem, animationInterval) => {
+
+    elem.classList.add('half-elem');
+    var style = window.getComputedStyle(elem, null);
+
+    setTimeout(function () {
+        elem.style.width = style.width;
+        elem.style.height = style.height;
+        elem.classList.remove('half-elem');
+    }, animationInterval);
+}
+
 
 const shrinkElementToTwoThirds = (elem, animationInterval) => {
 
@@ -1061,6 +1074,18 @@ const addCircleDescender = (elem, length) => {
     elem.parentElement.appendChild(descenderBar);
 }
 
+const addSecondaryCircleDescender = (elem) => {
+    
+    var descenderBar = createBar(54, "vertical");
+    var verticalPosition = getTopDistance(elem) + (getHeight(elem) / 2);
+    var leftPosition = getLeftDistance(elem) + getWidth(elem) - strokeWidth;
+
+    positionElement(descenderBar, verticalPosition, leftPosition);
+    descenderBar.classList.add('grow-secondary-descender');
+    elem.parentElement.appendChild(descenderBar);
+}
+
+
 // "Hollow out" a circle
 // i.e. create an inner circle with background colour
 function hollowOutCircle(elem, strokeWidth) {
@@ -1123,7 +1148,7 @@ function maskPartOfCircle(element, side, percentToMask) {
             mask.style.height = elemHeight + "px";
             break;
         case ("right"):
-            mask.style.width = elemWidth * (percentToMask / 100) + "px";
+            mask.style.width = elemWidth * (1- percentToMask / 100) + "px";
             mask.style.top = elemTopValue + "px";
             mask.style.left = elemLeftValue + elemWidth * (percentToMask / 100) + "px";
             mask.style.height = elemHeight + 5 + "px";
