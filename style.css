@@ -46,6 +46,9 @@
     --background-image-one: url(images/galaxy1.jpg);
     --background-image-two: url(images/galaxy2.jpg);
 }
+
+
+
 html {
     box-sizing: border-box;
     box-sizing: border-box;
@@ -69,7 +72,10 @@ body {
     margin-left: 20px;
     margin-right: 20px;
     margin-top: 10px;
+    min-width: 440px;    
 }
+
+
 
 .astro-text {
     font-size: 0.7em;
@@ -83,13 +89,19 @@ body {
 
 #all-signs {
     width: 100%;
-    height: auto;
+    height: 89px;
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
+    grid-template-columns: repeat(12, 7%);
+    grid-column-gap: 1%;
+    grid-template-rows: 60px;
+    justify-content: center;
 }
 
 #all-signs img {
-    width: 100%;
+/*    object-fit: contain;*/
+    height: 100%;
+    display: block;
+    justify-self: center;
 }
 
 /*MODAL (W3 SCHOOLS)*/
@@ -174,8 +186,14 @@ body {
     justify-items: center;
     width: 100%;
     height: 280px;
-/*    background-color: var(--main-background-color);*/
+    background-color: var(--main-background-color);
 /*    background-color: azure;*/
+}
+#button-refresh {
+    border-radius: 5px;
+    background-color: var(--main-background-color);
+    color: black;
+    height: 2em;
 }
 .primary-shape {
     display: grid;
@@ -278,6 +296,73 @@ body {
     animation-name: fadeIn;
     animation-fill-mode: forwards;
 }
+
+
+/*@MEDIA*/
+
+@media (max-width: 1000px) {
+
+    
+    #all-signs {
+    grid-template-columns: repeat(6, 1fr);
+    grid-column-gap: 5%;
+    grid-template-rows: repeat(2, 60px);
+    grid-row-gap: 20px;
+    justify-content: center;
+}
+    
+    
+}
+
+@media (max-width: 650px) {
+    
+    header {
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 40px 40px;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+    
+    #site-name{
+        
+    }
+    
+    #control-box{
+        display: grid;
+        grid-row-start: 2;
+        grid-column-start: 1;
+        grid-column-end: 3;
+        
+        
+    }
+    
+    #help{
+        grid-row-start: 1;
+        grid-column-start: 2;
+        
+    }
+
+    
+    #all-signs {
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 5%;
+    grid-template-rows: repeat(3, 60px);
+    grid-row-gap: 20px;
+    justify-content: center;
+}
+    
+    
+}
+
+
+
+
+
+
+
+
+
+/*ANIMATIONS*/
 .slide-vertical {
     animation-duration: var(--interval);
     animation-name: slideShapeVertical;
