@@ -195,6 +195,7 @@ const taurus = () => {
     }, animationInterval);
 
     setTimeout(function () {
+        playChord(starSignQualities.taurus.chords[1]);
         const split = getHeight(circle) * (-2) + strokeWidth;
         topCircle = splitCellVertical(circle, split, animationInterval);
     }, animationInterval * 2);
@@ -205,7 +206,6 @@ const taurus = () => {
 
     //Raise up icon and add description
     setTimeout(function () {
-        playChord(starSignQualities.taurus.chords[1]);
         finishAnimation("taurus");
     }, animationInterval * 4);
 
@@ -777,6 +777,7 @@ const gemini = () => {
     setTimeout(function () {
         maskPartOfCircle(topCircle, 'top', 70);
         maskPartOfCircle(circle, 'bottom', 70);
+        playChord(starSignQualities.gemini.chords[1]);
     }, animationInterval * 2);
 
     setTimeout(function () {
@@ -787,7 +788,7 @@ const gemini = () => {
         var bar2 = createBar(gapBetweenCircles * 1.3, "vertical");
         positionElement(bar2, getBottomDistance(topCircle) - strokeWidth, getLeftDistance(circle) + getWidth(circle) * 0.6);
         circle.parentElement.appendChild(bar2);
-        playChord(starSignQualities.gemini.chords[1]);
+        
     }, animationInterval * 3);
 
     //Raise up icon and add description
@@ -1131,7 +1132,7 @@ function maskPartOfCircle(element, side, percentToMask) {
     switch (side) {
         case ("top"):
             mask.style.width = elemWidth + "px";
-            mask.style.top = elemTopValue + "px";
+            mask.style.top = elemTopValue -1 + "px";
             mask.style.left = elemLeftValue + "px";
             mask.style.height = elemHeight * (percentToMask / 100) + "px";
             break;
@@ -1526,7 +1527,7 @@ function finishAnimation(astroSign) {
         taurus: 78,
         gemini: 65,
         leo: 65,
-        libra: 93,
+        libra: 85,
         virgo: 48,
         scorpio: -68,
         capricorn: -68,
