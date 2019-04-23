@@ -46,6 +46,8 @@
     --background-image-one: url(images/galaxy1.jpg);
     --background-image-two: url(images/galaxy2.jpg);
 }
+
+/*GENERAL STYLES*/
 html {
     box-sizing: border-box;
     box-sizing: border-box;
@@ -59,10 +61,6 @@ header {
     z-index: 3000;
     font-size: 1.1em;
 }
-#help{
-    justify-self: right;
-}
-
 body {
     background-color: var(--main-background-color);
     font-family: 'Crimson Text', serif;
@@ -75,22 +73,41 @@ body {
     margin-top: 10px;
     min-width: 440px;
 }
+
+/*HEADER ELEMENTS*/
 #control-box {
     display: grid;
+}
+#help{
+    justify-self: right;
 }
 #date-picker {
     justify-self: center;"
 }
+#animate-button {
+    border-radius: 3px;
+    border-color: #AAA;
+}
+#button-refresh {
+    border-radius: 5px;
+    background-color: var(--main-background-color);
+    color: black;
+    height: 2em;
+    align-self: center;
+    justify-self: center;
+}
+
+/*TEXT*/
 .astro-text {
     font-size: 0.7em;
     text-align: justify;
 }
-
 /* Heading of star sign description*/
-
 .astro-text h4 {
     text-align: center;
 }
+
+/*STAR SIGN LIST*/
 #all-signs {
     width: 100%;
     height: 89px;
@@ -131,7 +148,6 @@ body {
 }
 
 /* Modal Content/Box */
-
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto;
@@ -144,7 +160,6 @@ body {
 }
 
 /* The Close Button */
-
 .close {
     color: #aaa;
     float: right;
@@ -157,10 +172,8 @@ body {
     text-decoration: none;
     cursor: pointer;
 }
-#animate-button {
-    border-radius: 3px;
-    border-color: #AAA;
-}
+
+/*INVISIBLE CONTAINERS*/
 #box {
     position: relative;
     display: block;
@@ -185,14 +198,8 @@ body {
     height: 280px;
     background-color: var(--main-background-color);
 }
-#button-refresh {
-    border-radius: 5px;
-    background-color: var(--main-background-color);
-    color: black;
-    height: 2em;
-    align-self: center;
-    justify-self: center;
-}
+
+/*SHAPES*/
 .primary-shape {
     display: grid;
     position: absolute;
@@ -226,39 +233,10 @@ body {
     top: 25px;
     left: 90px;
 }
-
 /*400-2*89=222   */
 .position-two {
     top: 25px;
     left: 225px;
-}
-
-
-.grow-shape {
-    animation-duration: var(--interval);
-    animation-name: grow;
-    animation-fill-mode: forwards;
-}
-
-/*USE*/
-
-.grow-inner-shape {
-    animation-duration: var(--interval);
-    animation-name: growInnerShape;
-    animation-fill-mode: forwards;
-}
-
-/*USE*/
-
-.inner-circle-custom {
-    animation-duration: var(--interval);
-    animation-name: growInnerCircle;
-    animation-fill-mode: forwards;
-}
-.inner-circle-primary {
-    animation-duration: var(--interval);
-    animation-name: growInnerCirclePrimary;
-    animation-fill-mode: forwards;
 }
 .inner-triangle {
     grid-row-end: -1;
@@ -290,8 +268,8 @@ body {
     animation-fill-mode: forwards;
 }
 
-/*@MEDIA*/
 
+/*@MEDIA*/
 @media (max-width: 1000px) {
     #all-signs {
         grid-template-columns: repeat(6, 1fr);
@@ -327,8 +305,27 @@ body {
     }
 }
 
-/*ANIMATIONS*/
-
+/*ANIMTION CLASSES*/
+.grow-shape {
+    animation-duration: var(--interval);
+    animation-name: grow;
+    animation-fill-mode: forwards;
+}
+.grow-inner-shape {
+    animation-duration: var(--interval);
+    animation-name: growInnerShape;
+    animation-fill-mode: forwards;
+}
+.inner-circle-custom {
+    animation-duration: var(--interval);
+    animation-name: growInnerCircle;
+    animation-fill-mode: forwards;
+}
+.inner-circle-primary {
+    animation-duration: var(--interval);
+    animation-name: growInnerCirclePrimary;
+    animation-fill-mode: forwards;
+}
 .slide-vertical {
     animation-duration: var(--interval);
     animation-name: slideShapeVertical;
@@ -389,6 +386,8 @@ body {
     animation-name: fadeIn;
     animation-fill-mode: forwards;
 }
+
+/*KEYFRAMES*/
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -532,6 +531,8 @@ body {
         /* Standard syntax */
     }
 }
+
+/*ANIMATIONS WITH KEYFRAMES*/
 .move-elem {
     animation-duration: var(--interval);
     animation-name: moveElem;
