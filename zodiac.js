@@ -108,7 +108,6 @@ for (const key in starSignQualities) {
     }
 }
 
-
 function computeStarSign(whichMonth, whichDayOfMonth) {
 
     if ((whichMonth == 12 && whichDayOfMonth >= 22) || (whichMonth == 1 && whichDayOfMonth <= 19)) {
@@ -145,15 +144,11 @@ function animateStarSign() {
 
     const monthDropdown = document.getElementById("select-month");
     const month = monthDropdown.options[monthDropdown.selectedIndex].value;
-
     const dayDropdown = document.getElementById("select-day");
     const day = dayDropdown.options[dayDropdown.selectedIndex].value;
-
     const astroSign = computeStarSign(month, day);
 
 }
-
-
 
 // AUDIO 
 
@@ -161,10 +156,6 @@ function playChord(chordName) {
     const chord = document.getElementById(chordName);
     chord.play();
 }
-
-
-
-
 
 // STAR SIGN FUNCTIONS
 
@@ -234,8 +225,6 @@ const aquarius = () => {
     setTimeout(function () {
         //Remove elements
         datePicker.style.display = "none";
-
-
         triangles = fanOutHorizontal(triangle, 3, strokeWidth, animationInterval);
     }, animationInterval);
 
@@ -259,6 +248,7 @@ const aquarius = () => {
     }, animationInterval * 4);
 }
 
+// SAGITTARIUS
 const sagittarius = () => {
 
     const triangle = document.getElementById('original-triangle');
@@ -299,7 +289,6 @@ const sagittarius = () => {
         positionElement(crossBar, topDistance, leftDistance);
         triangle.parentElement.appendChild(crossBar);
     }, animationInterval * 3);
-
 
     //Raise up icon and add description
     setTimeout(function () {
@@ -387,7 +376,7 @@ const scorpio = () => {
 
 }
 
-
+// VIRGO
 const virgo = () => {
 
     const circle = document.getElementById('original-circle');
@@ -425,7 +414,6 @@ const virgo = () => {
 
     setTimeout(function () {
         fifthCircle = splitCellVertical(fourthCircle, 19, animationInterval);
-        //        fifthCircle.style.zIndex = 2;
     }, animationInterval * 3);
 
     setTimeout(function () {
@@ -466,8 +454,6 @@ const virgo = () => {
 
         triangle.style.left = getLeftDistance(fourthCircle) - 3 + "px";
         triangle.style.top = getBottomDistance(fourthCircle) - 20 + "px";
-
-        //        moveElement(triangle, 0, 0, animationInterval);
         playChord(starSignQualities.virgo.chords[4]);
     }, animationInterval * 8 + 100);
 
@@ -556,6 +542,7 @@ const leo = () => {
 
 }
 
+// CAPRICORN
 const capricorn = () => {
 
     const triangle = document.getElementById('original-triangle');
@@ -629,7 +616,7 @@ const capricorn = () => {
     }, animationInterval * 6);
 }
 
-// LIBRA //
+// LIBRA 
 const libra = () => {
 
     //setup
@@ -692,7 +679,6 @@ const libra = () => {
 
 }
 
-
 // ARIES
 const aries = () => {
 
@@ -744,7 +730,7 @@ const aries = () => {
     }, animationInterval * 5);
 }
 
-// GEMINI //
+// GEMINI
 const gemini = () => {
 
     const circle = document.getElementById('original-circle');
@@ -797,7 +783,6 @@ const gemini = () => {
     }, animationInterval * 4);
 
 }
-
 
 // PISCES
 const pisces = () => {
@@ -935,7 +920,6 @@ const cancer = () => {
 
         circle.parentElement.appendChild(mask2);
 
-
     }, animationInterval * 6);
 
     //Raise up icon and add description
@@ -948,7 +932,6 @@ const cancer = () => {
 
 
 // ANIMATION FUNCTIONS
-
 function moveElement(elem, left, top, animationInterval) {
 
     fixElement(elem);
@@ -970,16 +953,11 @@ function moveElement(elem, left, top, animationInterval) {
 
 
 function growCircle(elem, animationInterval) {
-
     elem.classList.add('grow-circle');
-
 }
 
 function rotateElem(elem) {
-
     elem.classList.add("rotate-ninety");
-
-
 }
 
 const shrinkElementToOneThird = (elem, animationInterval) => {
@@ -1019,10 +997,6 @@ const shrinkElementToTwoThirds = (elem, animationInterval) => {
     }, animationInterval);
 }
 
-
-
-
-
 function shrinkElementArbitrary(elem, animationInterval, percent) {
 
     var style = window.getComputedStyle(elem, null);
@@ -1048,9 +1022,6 @@ function shrinkElementToSize(elem, newWidth) {
     elem.classList.add('shrink-elem-arbitrary');
 }
 
-
-
-
 const shrinkElemFour = (elem, animationInterval) => {
 
     elem.classList.add('shrink-elem-four');
@@ -1062,7 +1033,6 @@ const shrinkElemFour = (elem, animationInterval) => {
         elem.classList.remove('shrink-elem-four');
     }, animationInterval + 10);
 }
-
 
 const addCircleDescender = (elem, length) => {
 
@@ -1085,7 +1055,6 @@ const addSecondaryCircleDescender = (elem) => {
     descenderBar.classList.add('grow-secondary-descender');
     elem.parentElement.appendChild(descenderBar);
 }
-
 
 // "Hollow out" a circle
 // i.e. create an inner circle with background colour
@@ -1115,7 +1084,6 @@ function addMask(elem, top, left, width, height) {
 
     return mask;
 }
-
 
 function maskPartOfCircle(element, side, percentToMask) {
 
@@ -1159,7 +1127,6 @@ function maskPartOfCircle(element, side, percentToMask) {
             console.log("Please enter top, bottom, left or right. You entered: " + side);
 
     }
-    //    mask.style.backgroundColor = 'red';
 
     element.parentElement.appendChild(mask);
 }
@@ -1203,7 +1170,6 @@ const splitCellCancer = (elem, gap, animationInterval) => {
     setTimeout(function () {
         fixElement(dupNode);
     }, animationInterval);
-
 
     return dupNode;
 }
@@ -1322,13 +1288,10 @@ function hollowFlippedTriangle(elem, strokeWidth) {
     elem.classList.add('hollow-flipped-triangle');
 }
 
-
 //Diameter of a circle which nestles in the corner of a square, bounded by a triangle
 function sizeOfCapricornCircleGivenTriangleWidth(triangleWidth) {
     return triangleWidth * Math.sin(degreesToRadians(63.435)) / ((Math.sin(degreesToRadians(63.435))) + 2 * (Math.sin(degreesToRadians(53.13))) * (Math.cos(degreesToRadians(26.565))));
 }
-
-
 
 function hollowOutTriangle(elem) {
 
@@ -1351,11 +1314,6 @@ function hollowOutTriangle(elem) {
 
     elem.classList.add('hollow-triangle');
 }
-
-
-
-
-
 
 // ANIMATION HELPER FUNCTIONS
 
@@ -1468,9 +1426,6 @@ function fixElement(elem) {
 }
 
 
-
-
-
 function asPercent(length, asPercentOfLength) {
     return (100 / asPercentOfLength) * length;
 }
@@ -1495,9 +1450,6 @@ function fadeOutCircle() {
 function flipTriangle(elem) {
     elem.classList.add('flip-triangle');
 }
-
-
-
 
 // PAGE HELPER FUNCTIONS
 
@@ -1553,12 +1505,7 @@ function finishAnimation(astroSign) {
         sagittarius: -60
     }
 
-
-
     moveElement(box, leftAmount[astroSign], topAmount[astroSign], animationInterval);
-
-    //    box.classList.add('float-up');
-
 
     setTimeout(function () {
 
@@ -1587,27 +1534,6 @@ function finishAnimation(astroSign) {
     }, animationInterval + 100);
 }
 
-const setup = () => {
-
-    //        const datePicker document.getElementById('date-picker');
-    //        datePicker.classList.remove('fade-in');
-    //        datePicker.classList.add('fade-out');
-    //    
-    //        const allSigns = document.getElementById('date-picker');
-    //        allSigns.classList.add('fade-out');
-
-
-    //    setTimeout(function () {
-    ////        const datePicker = document.getElementById('date-picker');
-    //        datePicker.style.display = "none";
-    //
-    ////        const allSigns = document.getElementById("all-signs");
-    //        allSigns.style.display = "none";
-    //
-    //    }, animationInterval + 100);
-
-}
-
 //https://stackoverflow.com/questions/24172963/jquery-change-method-in-vanilla-javascript
 function addEventHandler(elem, eventType, handler) {
     if (elem.addEventListener)
@@ -1615,30 +1541,3 @@ function addEventHandler(elem, eventType, handler) {
     else if (elem.attachEvent)
         elem.attachEvent('on' + eventType, handler);
 }
-
-
-
-//function clipHollowedTriangle(elem, strokeWidth) {
-//
-//    let topLeftDot = {};
-//    let topRightDot = {};
-//    let bottomDot = {};
-//    const relativeStrokeWidth = asPercent(strokeWidth, getHeight(elem));
-//
-//    bottomDot.y = 100 - relativeStrokeWidth / Math.cos(radiansToDegrees(36.87)) / Math.sqrt(3 / 2);
-//    bottomDot.x = 50 - (relativeStrokeWidth / 2);
-//    topRightDot.y = relativeStrokeWidth;
-//    topRightDot.x = 100 - ((relativeStrokeWidth / 2)) - (relativeStrokeWidth / Math.cos(radiansToDegrees(26.565)));
-//    topLeftDot.y = relativeStrokeWidth;
-//    topLeftDot.x = relativeStrokeWidth / 2;
-//
-//    const newPolygonString = `polygon(0 0, 100% 0, 50% 100%, ${bottomDot.x}% ${bottomDot.y}%, ${topRightDot.x}% ${topRightDot.y}%, ${topLeftDot.x}% ${topLeftDot.y}%)`;
-//
-//    const originalPolygonString = `polygon(0 0, 100% 0, 50% 100%, ${bottomDot.x}% ${bottomDot.y}%, ${topRightDot.x}% ${topRightDot.y}%, ${topLeftDot.x}% ${topLeftDot.y}%)`;
-//
-//    let root = document.documentElement;
-//    root.style.setProperty('--flipped-hollow-triangle-clip-path', newPolygonString);
-//    root.style.setProperty('--flipped-prehollow-triangle-clip-path', originalPolygonString);
-//
-//    elem.classList.add('hollow-flipped-triangle');
-//}
