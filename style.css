@@ -9,7 +9,6 @@
     --primary-circle-diameter: 89px;
     --primary-circle-width: 89px;
     --primary-circle-height: 89px;
-    /*third shape sizes - tertiary plus tertiary minus stroke width, approx*/
     --secondary-circle-width: 68px;
     --secondary-circle-height: 68px;
     --final-diameter: 100px;
@@ -20,9 +19,9 @@
     --inner-circle-height: 80%;
     --inner-circle-diameter-primary: 73px;
     --stroke-width: 8px;
-/*    Primary - half of half-circle = 89-24 = 65 */
+    /*    Primary - half of half-circle = 89-24 = 65 */
     --descender-length: 65px;
-/*    Primary minus tertiary */
+    /*    Primary minus tertiary */
     --secondary-descender-length: 54px;
     --small-elem-diameter: 15px;
     /*Translations*/
@@ -46,9 +45,6 @@
     --background-image-one: url(images/galaxy1.jpg);
     --background-image-two: url(images/galaxy2.jpg);
 }
-
-
-
 html {
     box-sizing: border-box;
     box-sizing: border-box;
@@ -60,33 +56,37 @@ header {
     grid-template-columns: 25% 50% 25%;
     margin-bottom: 10px;
     z-index: 3000;
-    font-size: 1.1em;
+}
+#help {
+    justify-self: right;
 }
 body {
     background-color: var(--main-background-color);
     font-family: 'Crimson Text', serif;
-/*    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;*/
     font-size: 1.2em;
     line-height: 1.42857143;
     color: #333;
     margin-left: 20px;
     margin-right: 20px;
     margin-top: 10px;
-    min-width: 440px;    
+    min-width: 440px;
 }
-
-
-
+#control-box {
+    display: grid;
+}
+#date-picker {
+    justify-self: center;
+}
 .astro-text {
     font-size: 0.7em;
     text-align: justify;
 }
 
 /* Heading of star sign description*/
+
 .astro-text h4 {
     text-align: center;
 }
-
 #all-signs {
     width: 100%;
     height: 89px;
@@ -96,9 +96,8 @@ body {
     grid-template-rows: 60px;
     justify-content: center;
 }
-
 #all-signs img {
-/*    object-fit: contain;*/
+    /*    object-fit: contain;*/
     height: 100%;
     display: block;
     justify-self: center;
@@ -167,8 +166,6 @@ body {
     display: block;
     background: var(--main-background-color);
     width: 400px;
-    height: 140px;
-/*    background-color: antiquewhite;*/
     align-self: center;
 }
 #changed-box {
@@ -177,7 +174,6 @@ body {
     background: var(--main-background-color);
     width: 400px;
     height: 140px;
-/*    background-color: aquamarine;*/
     align-self: start;
 }
 #container {
@@ -187,13 +183,15 @@ body {
     width: 100%;
     height: 280px;
     background-color: var(--main-background-color);
-/*    background-color: azure;*/
 }
 #button-refresh {
     border-radius: 5px;
     background-color: var(--main-background-color);
     color: black;
     height: 2em;
+    display: none;
+    justify-self: center;
+    align-self: center;
 }
 .primary-shape {
     display: grid;
@@ -202,18 +200,14 @@ body {
     height: var(--primary-circle-height);
     background-size: 89px 89px;
 }
-
 .background-image-one {
     background: var(--background-image-one);
     background-size: 89px 89px;
 }
-
 .background-image-two {
     background: var(--background-image-two);
     background-size: 89px 89px;
 }
-
-
 .inner-shape {
     margin: auto;
     display: block;
@@ -228,14 +222,15 @@ body {
     -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
-
 .position-one {
-    top: 25px; 
+    top: 25px;
     left: 90px;
 }
+
 /*400-2*89=222   */
+
 .position-two {
-    top: 25px; 
+    top: 25px;
     left: 225px;
 }
 
@@ -297,72 +292,45 @@ body {
     animation-fill-mode: forwards;
 }
 
-
 /*@MEDIA*/
 
 @media (max-width: 1000px) {
-
-    
     #all-signs {
-    grid-template-columns: repeat(6, 1fr);
-    grid-column-gap: 5%;
-    grid-template-rows: repeat(2, 60px);
-    grid-row-gap: 20px;
-    justify-content: center;
-}
-    
-    
-}
-
-@media (max-width: 650px) {
-    
-    header {
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 40px 40px;
-    margin-bottom: 10px;
-    font-size: 1.1em;
-}
-    
-    #site-name{
-        
+        grid-template-columns: repeat(6, 1fr);
+        grid-column-gap: 5%;
+        grid-template-rows: repeat(2, 60px);
+        grid-row-gap: 20px;
+        justify-content: center;
     }
-    
-    #control-box{
-        display: grid;
+}
+@media (max-width: 650px) {
+    header {
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 40px 40px;
+        margin-bottom: 10px;
+        font-size: 1.1em;
+    }
+    #site-name {}
+    #control-box {
         grid-row-start: 2;
         grid-column-start: 1;
         grid-column-end: 3;
-        
-        
     }
-    
-    #help{
+    #help {
         grid-row-start: 1;
         grid-column-start: 2;
-        
     }
-
-    
     #all-signs {
-    grid-template-columns: repeat(4, 1fr);
-    grid-column-gap: 5%;
-    grid-template-rows: repeat(3, 60px);
-    grid-row-gap: 20px;
-    justify-content: center;
+        grid-template-columns: repeat(4, 1fr);
+        grid-column-gap: 5%;
+        grid-template-rows: repeat(3, 60px);
+        grid-row-gap: 20px;
+        justify-content: center;
+    }
 }
-    
-    
-}
-
-
-
-
-
-
-
-
 
 /*ANIMATIONS*/
+
 .slide-vertical {
     animation-duration: var(--interval);
     animation-name: slideShapeVertical;
@@ -394,12 +362,10 @@ body {
     animation-fill-mode: forwards;
 }
 .half-elem {
-        animation-duration: var(--interval);
+    animation-duration: var(--interval);
     animation-name: halfCircle;
     animation-fill-mode: forwards;
-    
 }
-
 .grow-circle {
     animation-duration: var(--interval);
     animation-name: growCircle;
@@ -471,9 +437,6 @@ body {
         height: var(--secondary-circle-height);
     }
 }
-
-
-
 @keyframes shrinkElemFour {
     from {
         width: var(--primary-circle-width);

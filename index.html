@@ -5,10 +5,8 @@
     <meta charset="UTF-8">
     <title>Zodiac builder</title>
     <link rel="stylesheet" href="style.css">
-    <!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Crimson+Text" rel="stylesheet">
-
 </head>
 
 <body>
@@ -53,11 +51,11 @@
     <header class="fade-in">
         <div id="site-name">Zodiac design system</div>
 
-        <div id="control-box" style="display: grid">
+        <div id="control-box">
 
-            <div id="date-picker" style="justify-self: center;">
+            <div id="date-picker">
 
-                <span style="z-index: 3000000">Birthday: </span>
+                <span>Birthday: </span>
 
                 <select id="select-month" name="select-month">
                     <option value="1">January</option>
@@ -112,14 +110,11 @@
 
             </div>
 
-            <button id="button-refresh" style="display: none; justify-self: center;" class="fade-in" onclick="refresh()"><i class="fas fa-sync-alt"></i></button>
+            <button id="button-refresh" class="fade-in" onclick="refresh()"><i class="fas fa-sync-alt"></i></button>
 
         </div>
         
-        
-        <div id="help" style="justify-self: right;"><i class="fas fa-question"></i></div>
-
-
+        <div id="help"><i class="fas fa-question"></i></div>
 
     </header>
 
