@@ -1,5 +1,5 @@
 # idm231-dk879
-idm231 project
+Zodiac signs using HTML elements, CSS animations and JavaScript for timing.  
 
 ## Zodiac graphic system
 
